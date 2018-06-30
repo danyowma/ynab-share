@@ -13824,7 +13824,7 @@ module.exports = self.fetch.bind(self);
 /* harmony default export */ __webpack_exports__["a"] = ({
   clientId: "a51fbc3f0117cb4163fca3ecdb80749eba91b35c6fae3457590354fa47a64c63",
   redirectUri:
-    Object({"NODE_ENV":"production"}) === "production"
+     true
       ? "https://danyowma.github.io/ynab-share/"
       : "https://localhost:8080"
 });
