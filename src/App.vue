@@ -94,8 +94,6 @@ export default {
         .getCategories(id)
         .then(res => {
           this.categories = res.data.category_groups;
-          console.log("budgetId", this.budgetId);
-          console.log("this.categories", this.categories);
         })
         .catch(err => {
           this.error = err.error.detail;
