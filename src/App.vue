@@ -17,12 +17,10 @@
           </div>
         </form>
 
-        <!-- Otherwise if we have a token, show the budget select -->
         <Budgets v-else-if="!budgetId" :budgets="budgets" :selectBudget="selectBudget" />
 
-        <!-- If a budget has been selected, display transactions from that budget -->
         <div v-else-if="!loading">
-          <Categories :categories="categories" />
+          <Budget :budget="budget" />
           <button class="btn btn-info" @click="budgetId = null">&lt; Select Another Budget</button>
         </div>
 
@@ -39,7 +37,7 @@ import config from "./config";
 import Nav from "./components/Nav.vue";
 import Footer from "./components/Footer.vue";
 import Budgets from "./components/Budgets.vue";
-import Categories from "./components/Categories.vue";
+import Budget from "./components/Budget.vue";
 
 export default {
   data() {
@@ -55,7 +53,7 @@ export default {
       budgetId: null,
       budgets: [],
       transactions: [],
-      categories: []
+      budget: null
     };
   },
   created() {
@@ -89,11 +87,11 @@ export default {
       this.loading = true;
       this.error = null;
       this.budgetId = id;
-      this.categories = [];
-      this.api.categories
-        .getCategories(id)
+      this.budget = null;
+      this.api.budgets
+        .getBudgetById(id)
         .then(res => {
-          this.categories = res.data.category_groups;
+          this.budget = res.data.budget;
         })
         .catch(err => {
           this.error = err.error.detail;
@@ -139,7 +137,7 @@ export default {
     Nav,
     Footer,
     Budgets,
-    Categories
+    Budget
   }
 };
 </script>
