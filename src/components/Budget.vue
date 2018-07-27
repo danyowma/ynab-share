@@ -27,7 +27,8 @@ import {
   startOfMonth,
   endOfMonth,
   addMonths,
-  isWithinRange
+  isWithinRange,
+  compareAsc
 } from "date-fns";
 import { utils } from "ynab";
 
@@ -106,15 +107,31 @@ export default {
         };
       }
       let totalBudgeted = 0;
-      // const startDate = compareAsc(startOfYear, firstMonth) === 1 ? startOfYear : firstMonth;
-      // const endDate = isThisYear(lastMonth) ? lastMonth : endOfYear;
-      const startDate = this.dateRange.startDate;
-      const endDate = this.dateRange.endDate;
+      // getLastYear() doesn't work because forces dates to be this year
+      // need to check that start/end date are the same year as first/last month
+      // return not enough data if can't do last year?
+      const startDate =
+        compareAsc(this.dateRange.startDate, firstMonth) > -1
+          ? this.dateRange.startDate
+          : firstMonth;
+      const endDate =
+        compareAsc(this.dateRange.endDate, lastMonth) < 1
+          ? lastMonth
+          : this.dateRange.endDate;
+      //const startDate = this.dateRange.startDate;
+      //const endDate = this.dateRange.endDate;
       for (let i = 0; i < months.length; i++) {
         const month = months[i];
         if (isWithinRange(month.month, startDate, endDate)) {
-          for (let j = 0; j < month.categories.length; j++) {
-            const category = month.categories[j];
+          //for (let j = 0; j < month.categories.length; j++) {
+          for (let j = 0; j < categories.length; j++) {
+            //const category = month.categories[j];
+            const category = month.categories.find(
+              x => x.id === categories[j].id
+            );
+            if (!category) {
+              console.log("!cateogry", categories[j], month);
+            }
             const existingCategoryIndex = mappedBudget[
               category.category_group_id
             ].categories.findIndex(x => Object.keys(x)[0] === category.id);
