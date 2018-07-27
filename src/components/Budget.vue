@@ -1,12 +1,17 @@
 <template>
   <div>
     {{this.budget.name}}
+    <a href="#" @click="selectDateRange(getThisMonth())">This Month</a>
+    <a href="#" @click="selectDateRange(getLatest3Months())">Latest 3 Months</a>
+    <a href="#" @click="selectDateRange(getThisYear())">This Year</a>
+    <a href="#" @click="selectDateRange(getLastYear())">Last Year</a>
     <div v-for="categoryGroupId in Object.keys(mappedBudget)" v-bind:key="categoryGroupId">
       <span class="bold">{{mappedBudget[categoryGroupId].name}}</span>
+      <span>{{convertMilliUnitsToCurrencyAmount(mappedBudget[categoryGroupId].budgeted).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2})}}</span>
       <span>{{(mappedBudget[categoryGroupId].budgeted / mappedBudget.totalBudgeted * 100).toFixed(2)}}%</span>
       <div v-for="category in mappedBudget[categoryGroupId].categories" v-bind:key="Object.keys(category)[0]">
           <span>{{category[Object.keys(category)[0]].name}}</span>
-          <span>{{convertMilliUnitsToCurrencyAmount(category[Object.keys(category)[0]].budgeted).toFixed(2)}}</span>
+          <span>{{convertMilliUnitsToCurrencyAmount(category[Object.keys(category)[0]].budgeted).toFixed(2).toLocaleString()}}</span>
           <span>{{(category[Object.keys(category)[0]].budgeted / mappedBudget.totalBudgeted * 100).toFixed(2)}}%</span>
       </div>
     </div>
@@ -17,27 +22,72 @@
 import {
   format,
   startOfYear,
+  endOfYear,
+  addYears,
+  startOfMonth,
+  endOfMonth,
   addMonths,
-  isWithinRange,
-  compareAsc,
-  isThisYear
+  isWithinRange
 } from "date-fns";
 import { utils } from "ynab";
 
+const dateRangeNames = {
+  thisMonth: "thisMonth",
+  latest3Months: "latest3Months",
+  thisYear: "thisYear",
+  lastYear: "lastYear"
+};
+
 export default {
   props: ["budget"],
+  data() {
+    return {
+      dateRange: this.getThisMonth()
+    };
+  },
   methods: {
     convertMilliUnitsToCurrencyAmount: utils.convertMilliUnitsToCurrencyAmount,
+    selectDateRange(dateRange) {
+      this.dateRange = dateRange;
+    },
+    formatAsYnabDate(date) {
+      return format(date, "YYYY-MM-DD");
+    },
+    getThisMonth() {
+      const startDate = this.formatAsYnabDate(startOfMonth(new Date()));
+      return {
+        name: dateRangeNames.thisMonth,
+        startDate,
+        endDate: startDate
+      };
+    },
+    getLatest3Months() {
+      const endDate = this.formatAsYnabDate(startOfMonth(new Date()));
+      const startDate = this.formatAsYnabDate(addMonths(endDate, -2));
+      return {
+        name: dateRangeNames.latest3Months,
+        startDate,
+        endDate
+      };
+    },
     getThisYear() {
-      const yearStart = format(startOfYear(this.today), this.ynabDateFormat);
-      const yearEnd = format(addMonths(this.today, -1), this.ynabDateFormat);
-
-      return { yearStart, yearEnd };
+      const startDate = this.formatAsYnabDate(startOfYear(new Date()));
+      const endDate = this.formatAsYnabDate(
+        startOfMonth(endOfYear(new Date()))
+      );
+      return { name: dateRangeNames.thisYear, startDate, endDate };
+    },
+    getLastYear() {
+      const startDate = this.formatAsYnabDate(
+        startOfYear(addYears(new Date(), -1))
+      );
+      const endDate = this.formatAsYnabDate(startOfMonth(endOfYear(startDate)));
+      return { name: dateRangeNames.lastYear, startDate, endDate };
     }
   },
   computed: {
     mappedBudget: function() {
-      const { yearStart, yearEnd } = this.getThisYear();
+      //const { yearStart, yearEnd } = this.getThisYear();
       const {
         first_month: firstMonth,
         last_month: lastMonth,
@@ -46,6 +96,7 @@ export default {
         categories
       } = this.budget;
       const mappedBudget = {};
+      // move this out because it should only need to be done once
       for (let i = 0; i < categoryGroups.length; i++) {
         const categoryGroup = categoryGroups[i];
         mappedBudget[categoryGroup.id] = {
@@ -55,10 +106,10 @@ export default {
         };
       }
       let totalBudgeted = 0;
-      const startDate =
-        compareAsc(startOfYear, firstMonth) === 1 ? startOfYear : firstMonth;
-      const endDate = isThisYear(lastMonth) ? lastMonth : endOfYear;
-
+      // const startDate = compareAsc(startOfYear, firstMonth) === 1 ? startOfYear : firstMonth;
+      // const endDate = isThisYear(lastMonth) ? lastMonth : endOfYear;
+      const startDate = this.dateRange.startDate;
+      const endDate = this.dateRange.endDate;
       for (let i = 0; i < months.length; i++) {
         const month = months[i];
         if (isWithinRange(month.month, startDate, endDate)) {
@@ -88,12 +139,6 @@ export default {
       }
       mappedBudget.totalBudgeted = totalBudgeted;
       return mappedBudget;
-    },
-    today: function() {
-      return new Date();
-    },
-    ynabDateFormat: function() {
-      return "YYYY-MM-DD";
     }
   }
 };

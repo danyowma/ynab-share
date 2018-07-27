@@ -3,29 +3,28 @@
     <h5>Select A Budget</h5>
     <div v-for="budget in budgets" class="row" v-bind:key="budget.id">
       <a class="col" href="#" @click="selectBudget(budget.id, $event)">{{budget.name}}</a>
+      <!--<span @click="selectBudget(budget.id, $event)">{{budget.name}}</span>-->
     </div>
   </div>
 </template>
 
 <script>
-import { format, startOfYear, addMonths, isWithinRange } from "date-fns";
+import {
+  format,
+  startOfYear,
+  startOfMonth,
+  endOfMonth,
+  addMonths,
+  isWithinRange,
+  endOfYear
+} from "date-fns";
 
 export default {
   props: ["budgets", "selectBudget"],
-  methods: {
-    getThisYear() {
-      const startDate = format(startOfYear(this.today), this.ynabDateFormat);
-      const endDate = format(addMonths(this.today, -1), this.ynabDateFormat);
-
-      return;
-    }
-  },
+  methods: {},
   computed: {
     today: function() {
       return new Date();
-    },
-    ynabDateFormat: function() {
-      return "YYYY-MM-DD";
     }
   }
 };
