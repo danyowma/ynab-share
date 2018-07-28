@@ -1,27 +1,27 @@
 <template>
-  <div id="app">
-    <Nav />
+  <div>
+    <h1>YNAB Share</h1>
     <div>
       <h1 v-if="loading">Loading...</h1>
       <div v-if="error">
-        <h1 class="display-4">Oops!</h1>
-        <p class="lead">{{error}}</p>
-        <button class="btn btn-primary" @click="resetToken">Try Again &gt;</button>
+        <h1>Oops!</h1>
+        <p>{{error}}</p>
+        <button @click="resetToken">Try Again &gt;</button>
       </div>
       <div v-else>
         <form v-if="!ynab.token">
-          <div class="form-group">
-            <h1 class="display-5">Hello!</h1>
-            <p class="lead">If you would like to use this App, please authorize with YNAB!</p>
-            <button @click="authorizeWithYNAB" class="btn btn-primary">Authorize This App With YNAB &gt;</button>
+          <div>
+            <h1>Hello!</h1>
+            <p>If you would like to use this App, please authorize with YNAB!</p>
+            <button @click="authorizeWithYNAB">Authorize This App With YNAB &gt;</button>
           </div>
         </form>
 
-        <Budgets v-else-if="!budgetId" :budgets="budgets" :selectBudget="selectBudget" />
+        <Budgets v-else-if="!budgetId && !loading" :budgets="budgets" :selectBudget="selectBudget" />
 
         <div v-else-if="!loading">
           <Budget :budget="budget" />
-          <button class="btn btn-info" @click="budgetId = null">&lt; Select Another Budget</button>
+          <button @click="budgetId = null">&lt; Select Another Budget</button>
         </div>
 
       </div>
@@ -34,8 +34,6 @@
 <script>
 import * as ynab from "ynab";
 import config from "./config";
-import Nav from "./components/Nav.vue";
-import Footer from "./components/Footer.vue";
 import Budgets from "./components/Budgets.vue";
 import Budget from "./components/Budget.vue";
 
@@ -135,8 +133,6 @@ export default {
     }
   },
   components: {
-    Nav,
-    Footer,
     Budgets,
     Budget
   }
