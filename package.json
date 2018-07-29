@@ -14,6 +14,10 @@
   },
   "description": "Share your YNAB budget",
   "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.5",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
     "css-loader": "^0.28.11",
     "vue-loader": "^14.2.1",
     "vue-template-compiler": "2.5.15",
@@ -27,5 +31,13 @@
     "build": "NODE_ENV='production' webpack --progress --hide-modules",
     "start": "webpack-dev-server --open --hot"
   },
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "babel": {
+    "presets": [
+      "env"
+    ],
+    "plugins": [
+      "transform-object-rest-spread"
+    ]
+  }
 }
