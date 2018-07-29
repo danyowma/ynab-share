@@ -62,7 +62,9 @@ export default {
   created() {
     let params = new URLSearchParams(window.location.search.substring(1));
     let q = params.get("budget");
-    this.hash = JSON.parse(this.decode(q));
+    if (q) {
+      this.hash = JSON.parse(this.decode(q));
+    }
     this.ynab.token = this.findYNABToken();
     if (this.ynab.token) {
       this.api = new ynab.api(this.ynab.token);
