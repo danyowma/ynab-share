@@ -10,16 +10,16 @@
     </div>
 
     <div v-else v-for="categoryGroupId in Object.keys(mappedBudget)" v-bind:key="categoryGroupId">
-      <span class="bold">{{mappedBudget[categoryGroupId].name}}</span>
-      <span>{{convertMilliUnitsToCurrencyAmount(mappedBudget[categoryGroupId].budgeted).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2})}}</span>
-      <span>{{(mappedBudget[categoryGroupId].budgeted / mappedBudget.totalBudgeted * 100).toFixed(2)}}%</span>
-      <div v-for="category in mappedBudget[categoryGroupId].categories" v-bind:key="Object.keys(category)[0]">
-          <span>{{category[Object.keys(category)[0]].name}}</span>
-          <span>{{convertMilliUnitsToCurrencyAmount(category[Object.keys(category)[0]].budgeted).toFixed(2).toLocaleString()}}</span>
-          <span>{{(category[Object.keys(category)[0]].budgeted / mappedBudget.totalBudgeted * 100).toFixed(2)}}%</span>
+        <span class="bold">{{mappedBudget[categoryGroupId].name}}</span>
+        <span>{{convertMilliUnitsToCurrencyAmount(mappedBudget[categoryGroupId].budgeted).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2})}}</span>
+        <span>{{mappedBudget[categoryGroupId].budgetedPercentage}}%</span>
+        <div v-for="category in mappedBudget[categoryGroupId].categories" v-bind:key="Object.keys(category)[0]">
+            <span>{{category[Object.keys(category)[0]].name}}</span>
+            <span>{{convertMilliUnitsToCurrencyAmount(category[Object.keys(category)[0]].budgeted).toFixed(2).toLocaleString()}}</span>
+            <span>{{category[Object.keys(category)[0]].budgetedPercentage}}%</span>
+        </div>
       </div>
     </div>
-  </div>
 </template>
 
 <script>
@@ -161,7 +161,24 @@ export default {
           }
         }
       }
-      mappedBudget.totalBudgeted = totalBudgeted;
+
+      for (let categoryGroup of Object.values(mappedBudget)) {
+        categoryGroup.budgetedPercentage = (
+          categoryGroup.budgeted /
+          totalBudgeted *
+          100
+        ).toFixed(2);
+        for (let category of categoryGroup.categories) {
+          category[Object.keys(category)[0]].budgetedPercentage = (
+            category[Object.keys(category)[0]].budgeted /
+            totalBudgeted *
+            100
+          ).toFixed(2);
+        }
+      }
+
+      console.log("mappedbudget", mappedBudget);
+
       return mappedBudget;
     }
   }
