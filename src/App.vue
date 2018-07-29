@@ -9,7 +9,10 @@
         <button @click="resetToken">Try Again &gt;</button>
       </div>
       <div v-else>
-        <form v-if="!ynab.token">
+        <div v-if="hash">
+          <SharedBudget :budget="hash" />
+        </div>
+        <form v-else-if="!ynab.token">
           <div>
             <h1>Hello!</h1>
             <p>If you would like to use this App, please authorize with YNAB!</p>
@@ -36,6 +39,7 @@ import * as ynab from "ynab";
 import config from "./config";
 import Budgets from "./components/Budgets.vue";
 import Budget from "./components/Budget.vue";
+import SharedBudget from "./components/SharedBudget.vue";
 
 export default {
   data() {
@@ -51,10 +55,14 @@ export default {
       budgetId: null,
       budgets: [],
       transactions: [],
-      budget: null
+      budget: null,
+      hash: null
     };
   },
   created() {
+    let params = new URLSearchParams(window.location.search.substring(1));
+    let q = params.get("budget");
+    this.hash = JSON.parse(this.decode(q));
     this.ynab.token = this.findYNABToken();
     if (this.ynab.token) {
       this.api = new ynab.api(this.ynab.token);
@@ -66,6 +74,18 @@ export default {
     }
   },
   methods: {
+    // https://developer.mozilla.org/en-US/docs/Web/API/WindowBase64/Base64_encoding_and_decoding#The_Unicode_Problem
+    decode(str) {
+      // Going backwards: from bytestream, to percent-encoding, to original string.
+      return decodeURIComponent(
+        atob(str)
+          .split("")
+          .map(function(c) {
+            return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+          })
+          .join("")
+      );
+    },
     getBudgets() {
       this.loading = true;
       this.error = null;
@@ -134,7 +154,8 @@ export default {
   },
   components: {
     Budgets,
-    Budget
+    Budget,
+    SharedBudget
   }
 };
 </script>

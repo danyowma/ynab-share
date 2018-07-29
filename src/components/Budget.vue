@@ -9,14 +9,17 @@
       Not enough data
     </div>
 
-    <div v-else v-for="categoryGroupId in Object.keys(mappedBudget)" v-bind:key="categoryGroupId">
-        <span class="bold">{{mappedBudget[categoryGroupId].name}}</span>
-        <span>{{convertMilliUnitsToCurrencyAmount(mappedBudget[categoryGroupId].budgeted).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2})}}</span>
-        <span>{{mappedBudget[categoryGroupId].budgetedPercentage}}%</span>
-        <div v-for="category in mappedBudget[categoryGroupId].categories" v-bind:key="Object.keys(category)[0]">
-            <span>{{category[Object.keys(category)[0]].name}}</span>
-            <span>{{convertMilliUnitsToCurrencyAmount(category[Object.keys(category)[0]].budgeted).toFixed(2).toLocaleString()}}</span>
-            <span>{{category[Object.keys(category)[0]].budgetedPercentage}}%</span>
+    <div v-else>
+      <div>Share: <input type="text" :value="hash" /></div>
+      <div v-for="categoryGroupId in Object.keys(mappedBudget)" v-bind:key="categoryGroupId">
+          <span class="bold">{{mappedBudget[categoryGroupId].name}}</span>
+          <span>{{convertMilliUnitsToCurrencyAmount(mappedBudget[categoryGroupId].budgeted).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2})}}</span>
+          <span>{{mappedBudget[categoryGroupId].budgetedPercentage}}%</span>
+          <div v-for="category in mappedBudget[categoryGroupId].categories" v-bind:key="Object.keys(category)[0]">
+              <span>{{category[Object.keys(category)[0]].name}}</span>
+              <span>{{convertMilliUnitsToCurrencyAmount(category[Object.keys(category)[0]].budgeted).toFixed(2).toLocaleString()}}</span>
+              <span>{{category[Object.keys(category)[0]].budgetedPercentage}}%</span>
+          </div>
         </div>
       </div>
     </div>
@@ -48,7 +51,8 @@ export default {
   props: ["budget"],
   data() {
     return {
-      dateRange: this.getThisMonth()
+      dateRange: this.getThisMonth(),
+      hash: ""
     };
   },
   methods: {
@@ -89,6 +93,20 @@ export default {
       );
       const endDate = this.formatAsYnabDate(startOfMonth(endOfYear(startDate)));
       return { name: dateRangeNames.lastYear, startDate, endDate };
+    },
+    // https://developer.mozilla.org/en-US/docs/Web/API/WindowBase64/Base64_encoding_and_decoding#The_Unicode_Problem
+    encode(str) {
+      // first we use encodeURIComponent to get percent-encoded UTF-8,
+      // then we convert the percent encodings into raw bytes which
+      // can be fed into btoa.
+      return btoa(
+        encodeURIComponent(str).replace(
+          /%([0-9A-F]{2})/g,
+          function toSolidBytes(match, p1) {
+            return String.fromCharCode("0x" + p1);
+          }
+        )
+      );
     }
   },
   computed: {
@@ -178,6 +196,10 @@ export default {
       }
 
       console.log("mappedbudget", mappedBudget);
+
+      this.hash = `https://localhost:8080/?budget=${this.encode(
+        JSON.stringify(mappedBudget)
+      )}`;
 
       return mappedBudget;
     }
