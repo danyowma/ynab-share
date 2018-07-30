@@ -12,7 +12,7 @@
     <div v-else>
       <div>Share: <input type="text" :value="budgetUrl" /></div>
       <div v-for="categoryGroupId in Object.keys(mappedBudget)" v-bind:key="categoryGroupId">
-          <span class="bold">{{mappedBudget[categoryGroupId].name}}</span>
+          <span>{{mappedBudget[categoryGroupId].name}}</span>
           <span>{{convertMilliUnitsToCurrencyAmount(mappedBudget[categoryGroupId].budgeted).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2})}}</span>
           <span>{{(mappedBudget[categoryGroupId].budgeted / totalBudgeted * 100).toFixed(2)}}%</span>
           <div v-for="category in mappedBudget[categoryGroupId].categories" v-bind:key="Object.keys(category)[0]">
@@ -32,7 +32,6 @@ import {
   endOfYear,
   addYears,
   startOfMonth,
-  endOfMonth,
   addMonths,
   isWithinRange,
   compareAsc,
@@ -106,17 +105,11 @@ export default {
         category_groups: categoryGroups,
         categories
       } = this.budget;
+      const { startDate, endDate } = this.dateRange;
       const mappedBudget = {};
       let totalBudgeted = 0;
 
-      if (
-        !areRangesOverlapping(
-          this.dateRange.startDate,
-          this.dateRange.endDate,
-          firstMonth,
-          lastMonth
-        )
-      ) {
+      if (!areRangesOverlapping(startDate, endDate, firstMonth, lastMonth)) {
         return mappedBudget;
       }
 
@@ -129,18 +122,13 @@ export default {
         };
       }
 
-      const startDate =
-        compareAsc(this.dateRange.startDate, firstMonth) > -1
-          ? this.dateRange.startDate
-          : firstMonth;
-      const endDate =
-        compareAsc(this.dateRange.endDate, lastMonth) < 1
-          ? this.dateRange.endDate
-          : lastMonth;
+      const start =
+        compareAsc(startDate, firstMonth) > -1 ? startDate : firstMonth;
+      const end = compareAsc(endDate, lastMonth) < 1 ? endDate : lastMonth;
 
       for (let i = 0; i < months.length; i++) {
         const month = months[i];
-        if (isWithinRange(month.month, startDate, endDate)) {
+        if (isWithinRange(month.month, start, end)) {
           for (let j = 0; j < categories.length; j++) {
             const category = month.categories.find(
               x => x.id === categories[j].id
