@@ -10,15 +10,15 @@
     </div>
 
     <div v-else>
-      <div>Share: <input type="text" :value="hash" /></div>
+      <div>Share: <input type="text" :value="budgetUrl" /></div>
       <div v-for="categoryGroupId in Object.keys(mappedBudget)" v-bind:key="categoryGroupId">
           <span class="bold">{{mappedBudget[categoryGroupId].name}}</span>
           <span>{{convertMilliUnitsToCurrencyAmount(mappedBudget[categoryGroupId].budgeted).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2})}}</span>
-          <span>{{(mappedBudget[categoryGroupId].budgeted / mappedBudget.totalBudgeted * 100).toFixed(2)}}%</span>
+          <span>{{(mappedBudget[categoryGroupId].budgeted / totalBudgeted * 100).toFixed(2)}}%</span>
           <div v-for="category in mappedBudget[categoryGroupId].categories" v-bind:key="Object.keys(category)[0]">
               <span>{{category[Object.keys(category)[0]].name}}</span>
               <span>{{convertMilliUnitsToCurrencyAmount(category[Object.keys(category)[0]].budgeted).toFixed(2).toLocaleString()}}</span>
-              <span>{{(category[Object.keys(category)[0]].budgeted / mappedBudget.totalBudgeted * 100).toFixed(2)}}%</span>
+              <span>{{(category[Object.keys(category)[0]].budgeted / totalBudgeted * 100).toFixed(2)}}%</span>
           </div>
         </div>
       </div>
@@ -39,6 +39,7 @@ import {
   areRangesOverlapping
 } from "date-fns";
 import { utils } from "ynab";
+import config from "../config";
 import lzString from "lz-string";
 
 const dateRangeNames = {
@@ -53,7 +54,7 @@ export default {
   data() {
     return {
       dateRange: this.getThisMonth(),
-      hash: ""
+      totalBudgeted: 0
     };
   },
   methods: {
@@ -118,7 +119,7 @@ export default {
       ) {
         return mappedBudget;
       }
-      // move this out because it should only need to be done once
+
       for (let i = 0; i < categoryGroups.length; i++) {
         const categoryGroup = categoryGroups[i];
         mappedBudget[categoryGroup.id] = {
@@ -166,36 +167,42 @@ export default {
           }
         }
       }
-      mappedBudget.totalBudgeted = totalBudgeted;
+      this.totalBudgeted = totalBudgeted;
 
-      let hashBudget = [];
-      const { totalBudgeted: total, ...rest } = { ...mappedBudget };
-      for (let categoryGroup of Object.values({ ...rest })) {
+      return mappedBudget;
+    },
+    budgetUrl: function() {
+      if (!Object.keys(this.mappedBudget).length) {
+        return null;
+      }
+
+      let budget = [];
+      for (let categoryGroup of Object.values({ ...this.mappedBudget })) {
         let categories = [];
         for (let category of categoryGroup.categories) {
           categories.push({
             name: category[Object.keys(category)[0]].name,
             budgeted: (
               category[Object.keys(category)[0]].budgeted /
-              totalBudgeted *
+              this.totalBudgeted *
               100
             ).toFixed(2)
           });
         }
-        hashBudget.push({
+        budget.push({
           name: categoryGroup.name,
-          budgeted: (categoryGroup.budgeted / totalBudgeted * 100).toFixed(2),
+          budgeted: (categoryGroup.budgeted / this.totalBudgeted * 100).toFixed(
+            2
+          ),
           categories
         });
       }
 
-      const lzEncoded = lzString.compressToEncodedURIComponent(
-        JSON.stringify(hashBudget)
+      const lzEncodedBudget = lzString.compressToEncodedURIComponent(
+        JSON.stringify(budget)
       );
 
-      this.hash = `https://localhost:8080/?budget=${lzEncoded}`;
-
-      return mappedBudget;
+      return `${config.redirectUri}?budget=${lzEncodedBudget}`;
     }
   }
 };
