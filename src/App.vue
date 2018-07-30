@@ -10,7 +10,7 @@
       </div>
       <div v-else>
         <div v-if="hash">
-          <SharedBudget :budget="hash" />
+          <SharedBudget :budget="hash" :clearHash="clearHash" />
         </div>
         <form v-else-if="!ynab.token">
           <div>
@@ -144,6 +144,15 @@ export default {
       sessionStorage.removeItem("ynab_access_token");
       this.ynab.token = null;
       this.error = null;
+    },
+    clearHash() {
+      this.hash = null;
+      window.location = [
+        location.protocol,
+        "//",
+        location.host,
+        location.pathname
+      ].join("");
     }
   },
   components: {
