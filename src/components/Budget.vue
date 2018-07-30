@@ -39,6 +39,7 @@ import {
   areRangesOverlapping
 } from "date-fns";
 import { utils } from "ynab";
+import lzString from "lz-string";
 
 const dateRangeNames = {
   thisMonth: "thisMonth",
@@ -93,20 +94,6 @@ export default {
       );
       const endDate = this.formatAsYnabDate(startOfMonth(endOfYear(startDate)));
       return { name: dateRangeNames.lastYear, startDate, endDate };
-    },
-    // https://developer.mozilla.org/en-US/docs/Web/API/WindowBase64/Base64_encoding_and_decoding#The_Unicode_Problem
-    encode(str) {
-      // first we use encodeURIComponent to get percent-encoded UTF-8,
-      // then we convert the percent encodings into raw bytes which
-      // can be fed into btoa.
-      return btoa(
-        encodeURIComponent(str).replace(
-          /%([0-9A-F]{2})/g,
-          function toSolidBytes(match, p1) {
-            return String.fromCharCode("0x" + p1);
-          }
-        )
-      );
     }
   },
   computed: {
@@ -202,9 +189,11 @@ export default {
         });
       }
 
-      this.hash = `https://localhost:8080/?budget=${this.encode(
+      const lzEncoded = lzString.compressToEncodedURIComponent(
         JSON.stringify(hashBudget)
-      )}`;
+      );
+
+      this.hash = `https://localhost:8080/?budget=${lzEncoded}`;
 
       return mappedBudget;
     }

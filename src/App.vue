@@ -40,6 +40,7 @@ import config from "./config";
 import Budgets from "./components/Budgets.vue";
 import Budget from "./components/Budget.vue";
 import SharedBudget from "./components/SharedBudget.vue";
+import lzString from "lz-string";
 
 export default {
   data() {
@@ -63,8 +64,11 @@ export default {
     let params = new URLSearchParams(window.location.search.substring(1));
     let q = params.get("budget");
     if (q) {
-      this.hash = JSON.parse(this.decode(q));
+      const lzDecoded = lzString.decompressFromEncodedURIComponent(q);
+      this.hash = JSON.parse(lzDecoded);
+      console.log("this.hash", this.hash);
     }
+
     this.ynab.token = this.findYNABToken();
     if (this.ynab.token) {
       this.api = new ynab.api(this.ynab.token);
@@ -76,18 +80,6 @@ export default {
     }
   },
   methods: {
-    // https://developer.mozilla.org/en-US/docs/Web/API/WindowBase64/Base64_encoding_and_decoding#The_Unicode_Problem
-    decode(str) {
-      // Going backwards: from bytestream, to percent-encoding, to original string.
-      return decodeURIComponent(
-        atob(str)
-          .split("")
-          .map(function(c) {
-            return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
-          })
-          .join("")
-      );
-    },
     getBudgets() {
       this.loading = true;
       this.error = null;

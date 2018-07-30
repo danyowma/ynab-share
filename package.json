@@ -6,6 +6,7 @@
     "chalk": "^2.3.2",
     "cpr": "^3.0.1",
     "date-fns": "^1.29.0",
+    "lz-string": "^1.4.4",
     "vue": "2.5.15",
     "vue-server-renderer": "2.5.15",
     "vuejs-datepicker": "^1.5.2",
