@@ -1,35 +1,27 @@
 <template>
-  <div>
-    <h1>YNAB Share</h1>
-    <div>
-      <h1 v-if="loading">Loading...</h1>
-      <div v-if="error">
-        <h1>Oops!</h1>
-        <p>{{error}}</p>
-        <button @click="resetToken">Try Again &gt;</button>
-      </div>
-      <div v-else>
-        <div v-if="sharedBudget && sharedBudget.length">
-          <SharedBudget :budget="sharedBudget" :clearSharedBudget="clearSharedBudget" />
+  <div class="container">
+    <div class="logo">YNAB Share<span class="period">.</span></div>
+    <div v-if="loading">Loading...</div>
+    <div v-if="error">
+      <h1>Oops!</h1>
+      <p>{{error}}</p>
+      <button @click="resetToken">Try Again &gt;</button>
+    </div>
+    <SharedBudget v-if="sharedBudget && sharedBudget.length" :budget="sharedBudget" :clearSharedBudget="clearSharedBudget" />
+    <div v-else-if="!ynab.token" class="hero">
+      <div>
+        <div class="hero-header">Let's talk about budgets</div>
+        <div class="hero-description">
+          We'll hide the amounts so you can share your budget and geek out over categories
         </div>
-        <form v-else-if="!ynab.token">
-          <div>
-            <h1>Hello!</h1>
-            <p>If you would like to use this App, please authorize with YNAB!</p>
-            <button @click="authorizeWithYNAB">Authorize This App With YNAB &gt;</button>
-          </div>
-        </form>
-
-        <Budgets v-else-if="!budgetId && !loading" :budgets="budgets" :selectBudget="selectBudget" />
-
-        <div v-else-if="!loading">
-          <Budget :budget="budget" />
-          <button @click="budgetId = null">&lt; Select Another Budget</button>
-        </div>
-
       </div>
+      <button @click="authorizeWithYNAB" class="button">Sign in with YNAB</button>
+    </div>
+    <Budgets v-else-if="!budgetId && !loading" :budgets="budgets" :selectBudget="selectBudget" />
 
-      <Footer />
+    <div v-else-if="!loading">
+      <Budget :budget="budget" />
+      <button @click="budgetId = null">&lt; Select Another Budget</button>
     </div>
   </div>
 </template>
@@ -161,3 +153,79 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.container {
+  height: 100%;
+}
+
+.logo {
+  color: #12323d;
+  font: 900 40px Helvetica, Arial, sans-serif;
+  line-height: 1em;
+  padding: 12px 20px;
+}
+
+.period {
+  color: #85c3e9;
+}
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  height: calc(100% - 64px);
+  padding: 54px 20px;
+  background: #85c3e9;
+  color: white;
+  text-align: center;
+}
+
+.hero-header {
+  padding: 0 24px 24px;
+  font: 900 60px Helvetica, Arial, sans-serif;
+  text-transform: capitalize;
+  line-height: 1em;
+}
+
+.hero-description {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 75%;
+  margin: 0 auto;
+  padding: 0 24px 24px;
+  font: 400 24px Helvetica, Arial, sans-serif;
+  line-height: 1.5em;
+}
+
+.button {
+  width: 220px;
+  padding: 24px;
+  border: none;
+  border-radius: 5px;
+  background: #f3783c;
+  font: 400 18px Helvetica, Arial, sans-serif;
+  color: white;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.button:focus {
+  outline: none;
+}
+</style>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+</style>
