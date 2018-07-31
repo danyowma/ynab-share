@@ -1,6 +1,6 @@
 <template>
   <div>
-    <button @click="clearHash">Share your own budget!</button>
+    <button @click="clearSharedBudget">Share your own budget!</button>
     <div v-for="categoryGroup in budget" v-bind:key="categoryGroup.name">
       <span>{{categoryGroup.name}}</span>
       <span>{{categoryGroup.budgeted}}%</span>
@@ -14,6 +14,6 @@
 
 <script>
 export default {
-  props: ["budget", "clearHash"]
+  props: ["budget", "clearSharedBudget"]
 };
 </script>

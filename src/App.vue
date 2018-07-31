@@ -9,8 +9,8 @@
         <button @click="resetToken">Try Again &gt;</button>
       </div>
       <div v-else>
-        <div v-if="hash">
-          <SharedBudget :budget="hash" :clearHash="clearHash" />
+        <div v-if="sharedBudget && sharedBudget.length">
+          <SharedBudget :budget="sharedBudget" :clearSharedBudget="clearSharedBudget" />
         </div>
         <form v-else-if="!ynab.token">
           <div>
@@ -57,25 +57,24 @@ export default {
       budgets: [],
       transactions: [],
       budget: null,
-      hash: null
+      sharedBudget: null
     };
   },
   created() {
-    let params = new URLSearchParams(window.location.search.substring(1));
-    let q = params.get("budget");
-    if (q) {
-      const lzDecoded = lzString.decompressFromEncodedURIComponent(q);
-      this.hash = JSON.parse(lzDecoded);
-      console.log("this.hash", this.hash);
-    }
-
-    this.ynab.token = this.findYNABToken();
-    if (this.ynab.token) {
-      this.api = new ynab.api(this.ynab.token);
-      if (!this.budgetId) {
-        this.getBudgets();
-      } else {
-        this.selectBudget(this.budgetId);
+    let querystring = new URLSearchParams(window.location.search.substring(1));
+    const budget = querystring.get("budget");
+    if (budget) {
+      const sharedBudget = lzString.decompressFromEncodedURIComponent(budget);
+      this.sharedBudget = JSON.parse(sharedBudget);
+    } else {
+      this.ynab.token = this.findYNABToken();
+      if (this.ynab.token) {
+        this.api = new ynab.api(this.ynab.token);
+        if (!this.budgetId) {
+          this.getBudgets();
+        } else {
+          this.selectBudget(this.budgetId);
+        }
       }
     }
   },
@@ -145,9 +144,9 @@ export default {
       this.ynab.token = null;
       this.error = null;
     },
-    clearHash() {
-      this.hash = null;
-      window.location = [
+    clearSharedBudget() {
+      this.sharedBudget = null;
+      location = [
         location.protocol,
         "//",
         location.host,
