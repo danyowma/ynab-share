@@ -60,14 +60,14 @@
 /******/ 	__webpack_require__.p = "/dist/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 65);
+/******/ 	return __webpack_require__(__webpack_require__.s = 69);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isDate = __webpack_require__(13)
+var isDate = __webpack_require__(14)
 
 var MILLISECONDS_IN_HOUR = 3600000
 var MILLISECONDS_IN_MINUTE = 60000
@@ -444,7 +444,7 @@ module.exports = getISOYear
 /* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var startOfWeek = __webpack_require__(9)
+var startOfWeek = __webpack_require__(10)
 
 /**
  * @category ISO Week Helpers
@@ -689,533 +689,6 @@ module.exports = g;
 
 /***/ }),
 /* 9 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var parse = __webpack_require__(0)
-
-/**
- * @category Week Helpers
- * @summary Return the start of a week for the given date.
- *
- * @description
- * Return the start of a week for the given date.
- * The result will be in the local timezone.
- *
- * @param {Date|String|Number} date - the original date
- * @param {Object} [options] - the object with options
- * @param {Number} [options.weekStartsOn=0] - the index of the first day of the week (0 - Sunday)
- * @returns {Date} the start of a week
- *
- * @example
- * // The start of a week for 2 September 2014 11:55:00:
- * var result = startOfWeek(new Date(2014, 8, 2, 11, 55, 0))
- * //=> Sun Aug 31 2014 00:00:00
- *
- * @example
- * // If the week starts on Monday, the start of the week for 2 September 2014 11:55:00:
- * var result = startOfWeek(new Date(2014, 8, 2, 11, 55, 0), {weekStartsOn: 1})
- * //=> Mon Sep 01 2014 00:00:00
- */
-function startOfWeek (dirtyDate, dirtyOptions) {
-  var weekStartsOn = dirtyOptions ? (Number(dirtyOptions.weekStartsOn) || 0) : 0
-
-  var date = parse(dirtyDate)
-  var day = date.getDay()
-  var diff = (day < weekStartsOn ? 7 : 0) + day - weekStartsOn
-
-  date.setDate(date.getDate() - diff)
-  date.setHours(0, 0, 0, 0)
-  return date
-}
-
-module.exports = startOfWeek
-
-
-/***/ }),
-/* 10 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var startOfDay = __webpack_require__(3)
-
-var MILLISECONDS_IN_MINUTE = 60000
-var MILLISECONDS_IN_DAY = 86400000
-
-/**
- * @category Day Helpers
- * @summary Get the number of calendar days between the given dates.
- *
- * @description
- * Get the number of calendar days between the given dates.
- *
- * @param {Date|String|Number} dateLeft - the later date
- * @param {Date|String|Number} dateRight - the earlier date
- * @returns {Number} the number of calendar days
- *
- * @example
- * // How many calendar days are between
- * // 2 July 2011 23:00:00 and 2 July 2012 00:00:00?
- * var result = differenceInCalendarDays(
- *   new Date(2012, 6, 2, 0, 0),
- *   new Date(2011, 6, 2, 23, 0)
- * )
- * //=> 366
- */
-function differenceInCalendarDays (dirtyDateLeft, dirtyDateRight) {
-  var startOfDayLeft = startOfDay(dirtyDateLeft)
-  var startOfDayRight = startOfDay(dirtyDateRight)
-
-  var timestampLeft = startOfDayLeft.getTime() -
-    startOfDayLeft.getTimezoneOffset() * MILLISECONDS_IN_MINUTE
-  var timestampRight = startOfDayRight.getTime() -
-    startOfDayRight.getTimezoneOffset() * MILLISECONDS_IN_MINUTE
-
-  // Round the number of days to the nearest integer
-  // because the number of milliseconds in a day is not constant
-  // (e.g. it's different in the day of the daylight saving time clock shift)
-  return Math.round((timestampLeft - timestampRight) / MILLISECONDS_IN_DAY)
-}
-
-module.exports = differenceInCalendarDays
-
-
-/***/ }),
-/* 11 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var parse = __webpack_require__(0)
-var getDaysInMonth = __webpack_require__(14)
-
-/**
- * @category Month Helpers
- * @summary Add the specified number of months to the given date.
- *
- * @description
- * Add the specified number of months to the given date.
- *
- * @param {Date|String|Number} date - the date to be changed
- * @param {Number} amount - the amount of months to be added
- * @returns {Date} the new date with the months added
- *
- * @example
- * // Add 5 months to 1 September 2014:
- * var result = addMonths(new Date(2014, 8, 1), 5)
- * //=> Sun Feb 01 2015 00:00:00
- */
-function addMonths (dirtyDate, dirtyAmount) {
-  var date = parse(dirtyDate)
-  var amount = Number(dirtyAmount)
-  var desiredMonth = date.getMonth() + amount
-  var dateWithDesiredMonth = new Date(0)
-  dateWithDesiredMonth.setFullYear(date.getFullYear(), desiredMonth, 1)
-  dateWithDesiredMonth.setHours(0, 0, 0, 0)
-  var daysInMonth = getDaysInMonth(dateWithDesiredMonth)
-  // Set the last day of the new month
-  // if the original date was the last day of the longer month
-  date.setMonth(desiredMonth, Math.min(daysInMonth, date.getDate()))
-  return date
-}
-
-module.exports = addMonths
-
-
-/***/ }),
-/* 12 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var parse = __webpack_require__(0)
-
-/**
- * @category Millisecond Helpers
- * @summary Get the number of milliseconds between the given dates.
- *
- * @description
- * Get the number of milliseconds between the given dates.
- *
- * @param {Date|String|Number} dateLeft - the later date
- * @param {Date|String|Number} dateRight - the earlier date
- * @returns {Number} the number of milliseconds
- *
- * @example
- * // How many milliseconds are between
- * // 2 July 2014 12:30:20.600 and 2 July 2014 12:30:21.700?
- * var result = differenceInMilliseconds(
- *   new Date(2014, 6, 2, 12, 30, 21, 700),
- *   new Date(2014, 6, 2, 12, 30, 20, 600)
- * )
- * //=> 1100
- */
-function differenceInMilliseconds (dirtyDateLeft, dirtyDateRight) {
-  var dateLeft = parse(dirtyDateLeft)
-  var dateRight = parse(dirtyDateRight)
-  return dateLeft.getTime() - dateRight.getTime()
-}
-
-module.exports = differenceInMilliseconds
-
-
-/***/ }),
-/* 13 */
-/***/ (function(module, exports) {
-
-/**
- * @category Common Helpers
- * @summary Is the given argument an instance of Date?
- *
- * @description
- * Is the given argument an instance of Date?
- *
- * @param {*} argument - the argument to check
- * @returns {Boolean} the given argument is an instance of Date
- *
- * @example
- * // Is 'mayonnaise' a Date?
- * var result = isDate('mayonnaise')
- * //=> false
- */
-function isDate (argument) {
-  return argument instanceof Date
-}
-
-module.exports = isDate
-
-
-/***/ }),
-/* 14 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var parse = __webpack_require__(0)
-
-/**
- * @category Month Helpers
- * @summary Get the number of days in a month of the given date.
- *
- * @description
- * Get the number of days in a month of the given date.
- *
- * @param {Date|String|Number} date - the given date
- * @returns {Number} the number of days in a month
- *
- * @example
- * // How many days are in February 2000?
- * var result = getDaysInMonth(new Date(2000, 1))
- * //=> 29
- */
-function getDaysInMonth (dirtyDate) {
-  var date = parse(dirtyDate)
-  var year = date.getFullYear()
-  var monthIndex = date.getMonth()
-  var lastDayOfMonth = new Date(0)
-  lastDayOfMonth.setFullYear(year, monthIndex + 1, 0)
-  lastDayOfMonth.setHours(0, 0, 0, 0)
-  return lastDayOfMonth.getDate()
-}
-
-module.exports = getDaysInMonth
-
-
-/***/ }),
-/* 15 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var addDays = __webpack_require__(4)
-
-/**
- * @category Week Helpers
- * @summary Add the specified number of weeks to the given date.
- *
- * @description
- * Add the specified number of week to the given date.
- *
- * @param {Date|String|Number} date - the date to be changed
- * @param {Number} amount - the amount of weeks to be added
- * @returns {Date} the new date with the weeks added
- *
- * @example
- * // Add 4 weeks to 1 September 2014:
- * var result = addWeeks(new Date(2014, 8, 1), 4)
- * //=> Mon Sep 29 2014 00:00:00
- */
-function addWeeks (dirtyDate, dirtyAmount) {
-  var amount = Number(dirtyAmount)
-  var days = amount * 7
-  return addDays(dirtyDate, days)
-}
-
-module.exports = addWeeks
-
-
-/***/ }),
-/* 16 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var parse = __webpack_require__(0)
-
-/**
- * @category Common Helpers
- * @summary Compare the two dates reverse chronologically and return -1, 0 or 1.
- *
- * @description
- * Compare the two dates and return -1 if the first date is after the second,
- * 1 if the first date is before the second or 0 if dates are equal.
- *
- * @param {Date|String|Number} dateLeft - the first date to compare
- * @param {Date|String|Number} dateRight - the second date to compare
- * @returns {Number} the result of the comparison
- *
- * @example
- * // Compare 11 February 1987 and 10 July 1989 reverse chronologically:
- * var result = compareDesc(
- *   new Date(1987, 1, 11),
- *   new Date(1989, 6, 10)
- * )
- * //=> 1
- *
- * @example
- * // Sort the array of dates in reverse chronological order:
- * var result = [
- *   new Date(1995, 6, 2),
- *   new Date(1987, 1, 11),
- *   new Date(1989, 6, 10)
- * ].sort(compareDesc)
- * //=> [
- * //   Sun Jul 02 1995 00:00:00,
- * //   Mon Jul 10 1989 00:00:00,
- * //   Wed Feb 11 1987 00:00:00
- * // ]
- */
-function compareDesc (dirtyDateLeft, dirtyDateRight) {
-  var dateLeft = parse(dirtyDateLeft)
-  var timeLeft = dateLeft.getTime()
-  var dateRight = parse(dirtyDateRight)
-  var timeRight = dateRight.getTime()
-
-  if (timeLeft > timeRight) {
-    return -1
-  } else if (timeLeft < timeRight) {
-    return 1
-  } else {
-    return 0
-  }
-}
-
-module.exports = compareDesc
-
-
-/***/ }),
-/* 17 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var parse = __webpack_require__(0)
-var differenceInCalendarMonths = __webpack_require__(37)
-var compareAsc = __webpack_require__(7)
-
-/**
- * @category Month Helpers
- * @summary Get the number of full months between the given dates.
- *
- * @description
- * Get the number of full months between the given dates.
- *
- * @param {Date|String|Number} dateLeft - the later date
- * @param {Date|String|Number} dateRight - the earlier date
- * @returns {Number} the number of full months
- *
- * @example
- * // How many full months are between 31 January 2014 and 1 September 2014?
- * var result = differenceInMonths(
- *   new Date(2014, 8, 1),
- *   new Date(2014, 0, 31)
- * )
- * //=> 7
- */
-function differenceInMonths (dirtyDateLeft, dirtyDateRight) {
-  var dateLeft = parse(dirtyDateLeft)
-  var dateRight = parse(dirtyDateRight)
-
-  var sign = compareAsc(dateLeft, dateRight)
-  var difference = Math.abs(differenceInCalendarMonths(dateLeft, dateRight))
-  dateLeft.setMonth(dateLeft.getMonth() - sign * difference)
-
-  // Math.abs(diff in full months - diff in calendar months) === 1 if last calendar month is not full
-  // If so, result must be decreased by 1 in absolute value
-  var isLastMonthNotFull = compareAsc(dateLeft, dateRight) === -sign
-  return sign * (difference - isLastMonthNotFull)
-}
-
-module.exports = differenceInMonths
-
-
-/***/ }),
-/* 18 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var differenceInMilliseconds = __webpack_require__(12)
-
-/**
- * @category Second Helpers
- * @summary Get the number of seconds between the given dates.
- *
- * @description
- * Get the number of seconds between the given dates.
- *
- * @param {Date|String|Number} dateLeft - the later date
- * @param {Date|String|Number} dateRight - the earlier date
- * @returns {Number} the number of seconds
- *
- * @example
- * // How many seconds are between
- * // 2 July 2014 12:30:07.999 and 2 July 2014 12:30:20.000?
- * var result = differenceInSeconds(
- *   new Date(2014, 6, 2, 12, 30, 20, 0),
- *   new Date(2014, 6, 2, 12, 30, 7, 999)
- * )
- * //=> 12
- */
-function differenceInSeconds (dirtyDateLeft, dirtyDateRight) {
-  var diff = differenceInMilliseconds(dirtyDateLeft, dirtyDateRight) / 1000
-  return diff > 0 ? Math.floor(diff) : Math.ceil(diff)
-}
-
-module.exports = differenceInSeconds
-
-
-/***/ }),
-/* 19 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var buildDistanceInWordsLocale = __webpack_require__(96)
-var buildFormatLocale = __webpack_require__(97)
-
-/**
- * @category Locales
- * @summary English locale.
- */
-module.exports = {
-  distanceInWords: buildDistanceInWordsLocale(),
-  format: buildFormatLocale()
-}
-
-
-/***/ }),
-/* 20 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var parse = __webpack_require__(0)
-
-/**
- * @category Day Helpers
- * @summary Return the end of a day for the given date.
- *
- * @description
- * Return the end of a day for the given date.
- * The result will be in the local timezone.
- *
- * @param {Date|String|Number} date - the original date
- * @returns {Date} the end of a day
- *
- * @example
- * // The end of a day for 2 September 2014 11:55:00:
- * var result = endOfDay(new Date(2014, 8, 2, 11, 55, 0))
- * //=> Tue Sep 02 2014 23:59:59.999
- */
-function endOfDay (dirtyDate) {
-  var date = parse(dirtyDate)
-  date.setHours(23, 59, 59, 999)
-  return date
-}
-
-module.exports = endOfDay
-
-
-/***/ }),
-/* 21 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var parse = __webpack_require__(0)
-var startOfISOWeek = __webpack_require__(2)
-var startOfISOYear = __webpack_require__(6)
-
-var MILLISECONDS_IN_WEEK = 604800000
-
-/**
- * @category ISO Week Helpers
- * @summary Get the ISO week of the given date.
- *
- * @description
- * Get the ISO week of the given date.
- *
- * ISO week-numbering year: http://en.wikipedia.org/wiki/ISO_week_date
- *
- * @param {Date|String|Number} date - the given date
- * @returns {Number} the ISO week
- *
- * @example
- * // Which week of the ISO-week numbering year is 2 January 2005?
- * var result = getISOWeek(new Date(2005, 0, 2))
- * //=> 53
- */
-function getISOWeek (dirtyDate) {
-  var date = parse(dirtyDate)
-  var diff = startOfISOWeek(date).getTime() - startOfISOYear(date).getTime()
-
-  // Round the number of days to the nearest integer
-  // because the number of milliseconds in a week is not constant
-  // (e.g. it's different in the week of the daylight saving time clock shift)
-  return Math.round(diff / MILLISECONDS_IN_WEEK) + 1
-}
-
-module.exports = getISOWeek
-
-
-/***/ }),
-/* 22 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var startOfWeek = __webpack_require__(9)
-
-/**
- * @category Week Helpers
- * @summary Are the given dates in the same week?
- *
- * @description
- * Are the given dates in the same week?
- *
- * @param {Date|String|Number} dateLeft - the first date to check
- * @param {Date|String|Number} dateRight - the second date to check
- * @param {Object} [options] - the object with options
- * @param {Number} [options.weekStartsOn=0] - the index of the first day of the week (0 - Sunday)
- * @returns {Boolean} the dates are in the same week
- *
- * @example
- * // Are 31 August 2014 and 4 September 2014 in the same week?
- * var result = isSameWeek(
- *   new Date(2014, 7, 31),
- *   new Date(2014, 8, 4)
- * )
- * //=> true
- *
- * @example
- * // If week starts with Monday,
- * // are 31 August 2014 and 4 September 2014 in the same week?
- * var result = isSameWeek(
- *   new Date(2014, 7, 31),
- *   new Date(2014, 8, 4),
- *   {weekStartsOn: 1}
- * )
- * //=> false
- */
-function isSameWeek (dirtyDateLeft, dirtyDateRight, dirtyOptions) {
-  var dateLeftStartOfWeek = startOfWeek(dirtyDateLeft, dirtyOptions)
-  var dateRightStartOfWeek = startOfWeek(dirtyDateRight, dirtyOptions)
-
-  return dateLeftStartOfWeek.getTime() === dateRightStartOfWeek.getTime()
-}
-
-module.exports = isSameWeek
-
-
-/***/ }),
-/* 23 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1324,19 +797,885 @@ function normalizeComponent (
 
 
 /***/ }),
+/* 10 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var parse = __webpack_require__(0)
+
+/**
+ * @category Week Helpers
+ * @summary Return the start of a week for the given date.
+ *
+ * @description
+ * Return the start of a week for the given date.
+ * The result will be in the local timezone.
+ *
+ * @param {Date|String|Number} date - the original date
+ * @param {Object} [options] - the object with options
+ * @param {Number} [options.weekStartsOn=0] - the index of the first day of the week (0 - Sunday)
+ * @returns {Date} the start of a week
+ *
+ * @example
+ * // The start of a week for 2 September 2014 11:55:00:
+ * var result = startOfWeek(new Date(2014, 8, 2, 11, 55, 0))
+ * //=> Sun Aug 31 2014 00:00:00
+ *
+ * @example
+ * // If the week starts on Monday, the start of the week for 2 September 2014 11:55:00:
+ * var result = startOfWeek(new Date(2014, 8, 2, 11, 55, 0), {weekStartsOn: 1})
+ * //=> Mon Sep 01 2014 00:00:00
+ */
+function startOfWeek (dirtyDate, dirtyOptions) {
+  var weekStartsOn = dirtyOptions ? (Number(dirtyOptions.weekStartsOn) || 0) : 0
+
+  var date = parse(dirtyDate)
+  var day = date.getDay()
+  var diff = (day < weekStartsOn ? 7 : 0) + day - weekStartsOn
+
+  date.setDate(date.getDate() - diff)
+  date.setHours(0, 0, 0, 0)
+  return date
+}
+
+module.exports = startOfWeek
+
+
+/***/ }),
+/* 11 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var startOfDay = __webpack_require__(3)
+
+var MILLISECONDS_IN_MINUTE = 60000
+var MILLISECONDS_IN_DAY = 86400000
+
+/**
+ * @category Day Helpers
+ * @summary Get the number of calendar days between the given dates.
+ *
+ * @description
+ * Get the number of calendar days between the given dates.
+ *
+ * @param {Date|String|Number} dateLeft - the later date
+ * @param {Date|String|Number} dateRight - the earlier date
+ * @returns {Number} the number of calendar days
+ *
+ * @example
+ * // How many calendar days are between
+ * // 2 July 2011 23:00:00 and 2 July 2012 00:00:00?
+ * var result = differenceInCalendarDays(
+ *   new Date(2012, 6, 2, 0, 0),
+ *   new Date(2011, 6, 2, 23, 0)
+ * )
+ * //=> 366
+ */
+function differenceInCalendarDays (dirtyDateLeft, dirtyDateRight) {
+  var startOfDayLeft = startOfDay(dirtyDateLeft)
+  var startOfDayRight = startOfDay(dirtyDateRight)
+
+  var timestampLeft = startOfDayLeft.getTime() -
+    startOfDayLeft.getTimezoneOffset() * MILLISECONDS_IN_MINUTE
+  var timestampRight = startOfDayRight.getTime() -
+    startOfDayRight.getTimezoneOffset() * MILLISECONDS_IN_MINUTE
+
+  // Round the number of days to the nearest integer
+  // because the number of milliseconds in a day is not constant
+  // (e.g. it's different in the day of the daylight saving time clock shift)
+  return Math.round((timestampLeft - timestampRight) / MILLISECONDS_IN_DAY)
+}
+
+module.exports = differenceInCalendarDays
+
+
+/***/ }),
+/* 12 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var parse = __webpack_require__(0)
+var getDaysInMonth = __webpack_require__(15)
+
+/**
+ * @category Month Helpers
+ * @summary Add the specified number of months to the given date.
+ *
+ * @description
+ * Add the specified number of months to the given date.
+ *
+ * @param {Date|String|Number} date - the date to be changed
+ * @param {Number} amount - the amount of months to be added
+ * @returns {Date} the new date with the months added
+ *
+ * @example
+ * // Add 5 months to 1 September 2014:
+ * var result = addMonths(new Date(2014, 8, 1), 5)
+ * //=> Sun Feb 01 2015 00:00:00
+ */
+function addMonths (dirtyDate, dirtyAmount) {
+  var date = parse(dirtyDate)
+  var amount = Number(dirtyAmount)
+  var desiredMonth = date.getMonth() + amount
+  var dateWithDesiredMonth = new Date(0)
+  dateWithDesiredMonth.setFullYear(date.getFullYear(), desiredMonth, 1)
+  dateWithDesiredMonth.setHours(0, 0, 0, 0)
+  var daysInMonth = getDaysInMonth(dateWithDesiredMonth)
+  // Set the last day of the new month
+  // if the original date was the last day of the longer month
+  date.setMonth(desiredMonth, Math.min(daysInMonth, date.getDate()))
+  return date
+}
+
+module.exports = addMonths
+
+
+/***/ }),
+/* 13 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var parse = __webpack_require__(0)
+
+/**
+ * @category Millisecond Helpers
+ * @summary Get the number of milliseconds between the given dates.
+ *
+ * @description
+ * Get the number of milliseconds between the given dates.
+ *
+ * @param {Date|String|Number} dateLeft - the later date
+ * @param {Date|String|Number} dateRight - the earlier date
+ * @returns {Number} the number of milliseconds
+ *
+ * @example
+ * // How many milliseconds are between
+ * // 2 July 2014 12:30:20.600 and 2 July 2014 12:30:21.700?
+ * var result = differenceInMilliseconds(
+ *   new Date(2014, 6, 2, 12, 30, 21, 700),
+ *   new Date(2014, 6, 2, 12, 30, 20, 600)
+ * )
+ * //=> 1100
+ */
+function differenceInMilliseconds (dirtyDateLeft, dirtyDateRight) {
+  var dateLeft = parse(dirtyDateLeft)
+  var dateRight = parse(dirtyDateRight)
+  return dateLeft.getTime() - dateRight.getTime()
+}
+
+module.exports = differenceInMilliseconds
+
+
+/***/ }),
+/* 14 */
+/***/ (function(module, exports) {
+
+/**
+ * @category Common Helpers
+ * @summary Is the given argument an instance of Date?
+ *
+ * @description
+ * Is the given argument an instance of Date?
+ *
+ * @param {*} argument - the argument to check
+ * @returns {Boolean} the given argument is an instance of Date
+ *
+ * @example
+ * // Is 'mayonnaise' a Date?
+ * var result = isDate('mayonnaise')
+ * //=> false
+ */
+function isDate (argument) {
+  return argument instanceof Date
+}
+
+module.exports = isDate
+
+
+/***/ }),
+/* 15 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var parse = __webpack_require__(0)
+
+/**
+ * @category Month Helpers
+ * @summary Get the number of days in a month of the given date.
+ *
+ * @description
+ * Get the number of days in a month of the given date.
+ *
+ * @param {Date|String|Number} date - the given date
+ * @returns {Number} the number of days in a month
+ *
+ * @example
+ * // How many days are in February 2000?
+ * var result = getDaysInMonth(new Date(2000, 1))
+ * //=> 29
+ */
+function getDaysInMonth (dirtyDate) {
+  var date = parse(dirtyDate)
+  var year = date.getFullYear()
+  var monthIndex = date.getMonth()
+  var lastDayOfMonth = new Date(0)
+  lastDayOfMonth.setFullYear(year, monthIndex + 1, 0)
+  lastDayOfMonth.setHours(0, 0, 0, 0)
+  return lastDayOfMonth.getDate()
+}
+
+module.exports = getDaysInMonth
+
+
+/***/ }),
+/* 16 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var addDays = __webpack_require__(4)
+
+/**
+ * @category Week Helpers
+ * @summary Add the specified number of weeks to the given date.
+ *
+ * @description
+ * Add the specified number of week to the given date.
+ *
+ * @param {Date|String|Number} date - the date to be changed
+ * @param {Number} amount - the amount of weeks to be added
+ * @returns {Date} the new date with the weeks added
+ *
+ * @example
+ * // Add 4 weeks to 1 September 2014:
+ * var result = addWeeks(new Date(2014, 8, 1), 4)
+ * //=> Mon Sep 29 2014 00:00:00
+ */
+function addWeeks (dirtyDate, dirtyAmount) {
+  var amount = Number(dirtyAmount)
+  var days = amount * 7
+  return addDays(dirtyDate, days)
+}
+
+module.exports = addWeeks
+
+
+/***/ }),
+/* 17 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var parse = __webpack_require__(0)
+
+/**
+ * @category Common Helpers
+ * @summary Compare the two dates reverse chronologically and return -1, 0 or 1.
+ *
+ * @description
+ * Compare the two dates and return -1 if the first date is after the second,
+ * 1 if the first date is before the second or 0 if dates are equal.
+ *
+ * @param {Date|String|Number} dateLeft - the first date to compare
+ * @param {Date|String|Number} dateRight - the second date to compare
+ * @returns {Number} the result of the comparison
+ *
+ * @example
+ * // Compare 11 February 1987 and 10 July 1989 reverse chronologically:
+ * var result = compareDesc(
+ *   new Date(1987, 1, 11),
+ *   new Date(1989, 6, 10)
+ * )
+ * //=> 1
+ *
+ * @example
+ * // Sort the array of dates in reverse chronological order:
+ * var result = [
+ *   new Date(1995, 6, 2),
+ *   new Date(1987, 1, 11),
+ *   new Date(1989, 6, 10)
+ * ].sort(compareDesc)
+ * //=> [
+ * //   Sun Jul 02 1995 00:00:00,
+ * //   Mon Jul 10 1989 00:00:00,
+ * //   Wed Feb 11 1987 00:00:00
+ * // ]
+ */
+function compareDesc (dirtyDateLeft, dirtyDateRight) {
+  var dateLeft = parse(dirtyDateLeft)
+  var timeLeft = dateLeft.getTime()
+  var dateRight = parse(dirtyDateRight)
+  var timeRight = dateRight.getTime()
+
+  if (timeLeft > timeRight) {
+    return -1
+  } else if (timeLeft < timeRight) {
+    return 1
+  } else {
+    return 0
+  }
+}
+
+module.exports = compareDesc
+
+
+/***/ }),
+/* 18 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var parse = __webpack_require__(0)
+var differenceInCalendarMonths = __webpack_require__(40)
+var compareAsc = __webpack_require__(7)
+
+/**
+ * @category Month Helpers
+ * @summary Get the number of full months between the given dates.
+ *
+ * @description
+ * Get the number of full months between the given dates.
+ *
+ * @param {Date|String|Number} dateLeft - the later date
+ * @param {Date|String|Number} dateRight - the earlier date
+ * @returns {Number} the number of full months
+ *
+ * @example
+ * // How many full months are between 31 January 2014 and 1 September 2014?
+ * var result = differenceInMonths(
+ *   new Date(2014, 8, 1),
+ *   new Date(2014, 0, 31)
+ * )
+ * //=> 7
+ */
+function differenceInMonths (dirtyDateLeft, dirtyDateRight) {
+  var dateLeft = parse(dirtyDateLeft)
+  var dateRight = parse(dirtyDateRight)
+
+  var sign = compareAsc(dateLeft, dateRight)
+  var difference = Math.abs(differenceInCalendarMonths(dateLeft, dateRight))
+  dateLeft.setMonth(dateLeft.getMonth() - sign * difference)
+
+  // Math.abs(diff in full months - diff in calendar months) === 1 if last calendar month is not full
+  // If so, result must be decreased by 1 in absolute value
+  var isLastMonthNotFull = compareAsc(dateLeft, dateRight) === -sign
+  return sign * (difference - isLastMonthNotFull)
+}
+
+module.exports = differenceInMonths
+
+
+/***/ }),
+/* 19 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var differenceInMilliseconds = __webpack_require__(13)
+
+/**
+ * @category Second Helpers
+ * @summary Get the number of seconds between the given dates.
+ *
+ * @description
+ * Get the number of seconds between the given dates.
+ *
+ * @param {Date|String|Number} dateLeft - the later date
+ * @param {Date|String|Number} dateRight - the earlier date
+ * @returns {Number} the number of seconds
+ *
+ * @example
+ * // How many seconds are between
+ * // 2 July 2014 12:30:07.999 and 2 July 2014 12:30:20.000?
+ * var result = differenceInSeconds(
+ *   new Date(2014, 6, 2, 12, 30, 20, 0),
+ *   new Date(2014, 6, 2, 12, 30, 7, 999)
+ * )
+ * //=> 12
+ */
+function differenceInSeconds (dirtyDateLeft, dirtyDateRight) {
+  var diff = differenceInMilliseconds(dirtyDateLeft, dirtyDateRight) / 1000
+  return diff > 0 ? Math.floor(diff) : Math.ceil(diff)
+}
+
+module.exports = differenceInSeconds
+
+
+/***/ }),
+/* 20 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var buildDistanceInWordsLocale = __webpack_require__(107)
+var buildFormatLocale = __webpack_require__(108)
+
+/**
+ * @category Locales
+ * @summary English locale.
+ */
+module.exports = {
+  distanceInWords: buildDistanceInWordsLocale(),
+  format: buildFormatLocale()
+}
+
+
+/***/ }),
+/* 21 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var parse = __webpack_require__(0)
+
+/**
+ * @category Day Helpers
+ * @summary Return the end of a day for the given date.
+ *
+ * @description
+ * Return the end of a day for the given date.
+ * The result will be in the local timezone.
+ *
+ * @param {Date|String|Number} date - the original date
+ * @returns {Date} the end of a day
+ *
+ * @example
+ * // The end of a day for 2 September 2014 11:55:00:
+ * var result = endOfDay(new Date(2014, 8, 2, 11, 55, 0))
+ * //=> Tue Sep 02 2014 23:59:59.999
+ */
+function endOfDay (dirtyDate) {
+  var date = parse(dirtyDate)
+  date.setHours(23, 59, 59, 999)
+  return date
+}
+
+module.exports = endOfDay
+
+
+/***/ }),
+/* 22 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var parse = __webpack_require__(0)
+var startOfISOWeek = __webpack_require__(2)
+var startOfISOYear = __webpack_require__(6)
+
+var MILLISECONDS_IN_WEEK = 604800000
+
+/**
+ * @category ISO Week Helpers
+ * @summary Get the ISO week of the given date.
+ *
+ * @description
+ * Get the ISO week of the given date.
+ *
+ * ISO week-numbering year: http://en.wikipedia.org/wiki/ISO_week_date
+ *
+ * @param {Date|String|Number} date - the given date
+ * @returns {Number} the ISO week
+ *
+ * @example
+ * // Which week of the ISO-week numbering year is 2 January 2005?
+ * var result = getISOWeek(new Date(2005, 0, 2))
+ * //=> 53
+ */
+function getISOWeek (dirtyDate) {
+  var date = parse(dirtyDate)
+  var diff = startOfISOWeek(date).getTime() - startOfISOYear(date).getTime()
+
+  // Round the number of days to the nearest integer
+  // because the number of milliseconds in a week is not constant
+  // (e.g. it's different in the week of the daylight saving time clock shift)
+  return Math.round(diff / MILLISECONDS_IN_WEEK) + 1
+}
+
+module.exports = getISOWeek
+
+
+/***/ }),
+/* 23 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var startOfWeek = __webpack_require__(10)
+
+/**
+ * @category Week Helpers
+ * @summary Are the given dates in the same week?
+ *
+ * @description
+ * Are the given dates in the same week?
+ *
+ * @param {Date|String|Number} dateLeft - the first date to check
+ * @param {Date|String|Number} dateRight - the second date to check
+ * @param {Object} [options] - the object with options
+ * @param {Number} [options.weekStartsOn=0] - the index of the first day of the week (0 - Sunday)
+ * @returns {Boolean} the dates are in the same week
+ *
+ * @example
+ * // Are 31 August 2014 and 4 September 2014 in the same week?
+ * var result = isSameWeek(
+ *   new Date(2014, 7, 31),
+ *   new Date(2014, 8, 4)
+ * )
+ * //=> true
+ *
+ * @example
+ * // If week starts with Monday,
+ * // are 31 August 2014 and 4 September 2014 in the same week?
+ * var result = isSameWeek(
+ *   new Date(2014, 7, 31),
+ *   new Date(2014, 8, 4),
+ *   {weekStartsOn: 1}
+ * )
+ * //=> false
+ */
+function isSameWeek (dirtyDateLeft, dirtyDateRight, dirtyOptions) {
+  var dateLeftStartOfWeek = startOfWeek(dirtyDateLeft, dirtyOptions)
+  var dateRightStartOfWeek = startOfWeek(dirtyDateRight, dirtyOptions)
+
+  return dateLeftStartOfWeek.getTime() === dateRightStartOfWeek.getTime()
+}
+
+module.exports = isSameWeek
+
+
+/***/ }),
 /* 24 */
+/***/ (function(module, exports) {
+
+/*
+	MIT License http://www.opensource.org/licenses/mit-license.php
+	Author Tobias Koppers @sokra
+*/
+// css base code, injected by the css-loader
+module.exports = function(useSourceMap) {
+	var list = [];
+
+	// return the list of modules as css string
+	list.toString = function toString() {
+		return this.map(function (item) {
+			var content = cssWithMappingToString(item, useSourceMap);
+			if(item[2]) {
+				return "@media " + item[2] + "{" + content + "}";
+			} else {
+				return content;
+			}
+		}).join("");
+	};
+
+	// import a list of modules into the list
+	list.i = function(modules, mediaQuery) {
+		if(typeof modules === "string")
+			modules = [[null, modules, ""]];
+		var alreadyImportedModules = {};
+		for(var i = 0; i < this.length; i++) {
+			var id = this[i][0];
+			if(typeof id === "number")
+				alreadyImportedModules[id] = true;
+		}
+		for(i = 0; i < modules.length; i++) {
+			var item = modules[i];
+			// skip already imported module
+			// this implementation is not 100% perfect for weird media query combinations
+			//  when a module is imported multiple times with different media queries.
+			//  I hope this will never occur (Hey this way we have smaller bundles)
+			if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
+				if(mediaQuery && !item[2]) {
+					item[2] = mediaQuery;
+				} else if(mediaQuery) {
+					item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
+				}
+				list.push(item);
+			}
+		}
+	};
+	return list;
+};
+
+function cssWithMappingToString(item, useSourceMap) {
+	var content = item[1] || '';
+	var cssMapping = item[3];
+	if (!cssMapping) {
+		return content;
+	}
+
+	if (useSourceMap && typeof btoa === 'function') {
+		var sourceMapping = toComment(cssMapping);
+		var sourceURLs = cssMapping.sources.map(function (source) {
+			return '/*# sourceURL=' + cssMapping.sourceRoot + source + ' */'
+		});
+
+		return [content].concat(sourceURLs).concat([sourceMapping]).join('\n');
+	}
+
+	return [content].join('\n');
+}
+
+// Adapted from convert-source-map (MIT)
+function toComment(sourceMap) {
+	// eslint-disable-next-line no-undef
+	var base64 = btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap))));
+	var data = 'sourceMappingURL=data:application/json;charset=utf-8;base64,' + base64;
+
+	return '/*# ' + data + ' */';
+}
+
+
+/***/ }),
+/* 25 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_ynab__ = __webpack_require__(25);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__config__ = __webpack_require__(82);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_Budgets_vue__ = __webpack_require__(83);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_Budget_vue__ = __webpack_require__(186);
-//
-//
-//
-//
-//
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony export (immutable) */ __webpack_exports__["default"] = addStylesClient;
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__listToStyles__ = __webpack_require__(77);
+/*
+  MIT License http://www.opensource.org/licenses/mit-license.php
+  Author Tobias Koppers @sokra
+  Modified by Evan You @yyx990803
+*/
+
+
+
+var hasDocument = typeof document !== 'undefined'
+
+if (typeof DEBUG !== 'undefined' && DEBUG) {
+  if (!hasDocument) {
+    throw new Error(
+    'vue-style-loader cannot be used in a non-browser environment. ' +
+    "Use { target: 'node' } in your Webpack config to indicate a server-rendering environment."
+  ) }
+}
+
+/*
+type StyleObject = {
+  id: number;
+  parts: Array<StyleObjectPart>
+}
+
+type StyleObjectPart = {
+  css: string;
+  media: string;
+  sourceMap: ?string
+}
+*/
+
+var stylesInDom = {/*
+  [id: number]: {
+    id: number,
+    refs: number,
+    parts: Array<(obj?: StyleObjectPart) => void>
+  }
+*/}
+
+var head = hasDocument && (document.head || document.getElementsByTagName('head')[0])
+var singletonElement = null
+var singletonCounter = 0
+var isProduction = false
+var noop = function () {}
+var options = null
+var ssrIdKey = 'data-vue-ssr-id'
+
+// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
+// tags it will allow on a page
+var isOldIE = typeof navigator !== 'undefined' && /msie [6-9]\b/.test(navigator.userAgent.toLowerCase())
+
+function addStylesClient (parentId, list, _isProduction, _options) {
+  isProduction = _isProduction
+
+  options = _options || {}
+
+  var styles = Object(__WEBPACK_IMPORTED_MODULE_0__listToStyles__["a" /* default */])(parentId, list)
+  addStylesToDom(styles)
+
+  return function update (newList) {
+    var mayRemove = []
+    for (var i = 0; i < styles.length; i++) {
+      var item = styles[i]
+      var domStyle = stylesInDom[item.id]
+      domStyle.refs--
+      mayRemove.push(domStyle)
+    }
+    if (newList) {
+      styles = Object(__WEBPACK_IMPORTED_MODULE_0__listToStyles__["a" /* default */])(parentId, newList)
+      addStylesToDom(styles)
+    } else {
+      styles = []
+    }
+    for (var i = 0; i < mayRemove.length; i++) {
+      var domStyle = mayRemove[i]
+      if (domStyle.refs === 0) {
+        for (var j = 0; j < domStyle.parts.length; j++) {
+          domStyle.parts[j]()
+        }
+        delete stylesInDom[domStyle.id]
+      }
+    }
+  }
+}
+
+function addStylesToDom (styles /* Array<StyleObject> */) {
+  for (var i = 0; i < styles.length; i++) {
+    var item = styles[i]
+    var domStyle = stylesInDom[item.id]
+    if (domStyle) {
+      domStyle.refs++
+      for (var j = 0; j < domStyle.parts.length; j++) {
+        domStyle.parts[j](item.parts[j])
+      }
+      for (; j < item.parts.length; j++) {
+        domStyle.parts.push(addStyle(item.parts[j]))
+      }
+      if (domStyle.parts.length > item.parts.length) {
+        domStyle.parts.length = item.parts.length
+      }
+    } else {
+      var parts = []
+      for (var j = 0; j < item.parts.length; j++) {
+        parts.push(addStyle(item.parts[j]))
+      }
+      stylesInDom[item.id] = { id: item.id, refs: 1, parts: parts }
+    }
+  }
+}
+
+function createStyleElement () {
+  var styleElement = document.createElement('style')
+  styleElement.type = 'text/css'
+  head.appendChild(styleElement)
+  return styleElement
+}
+
+function addStyle (obj /* StyleObjectPart */) {
+  var update, remove
+  var styleElement = document.querySelector('style[' + ssrIdKey + '~="' + obj.id + '"]')
+
+  if (styleElement) {
+    if (isProduction) {
+      // has SSR styles and in production mode.
+      // simply do nothing.
+      return noop
+    } else {
+      // has SSR styles but in dev mode.
+      // for some reason Chrome can't handle source map in server-rendered
+      // style tags - source maps in <style> only works if the style tag is
+      // created and inserted dynamically. So we remove the server rendered
+      // styles and inject new ones.
+      styleElement.parentNode.removeChild(styleElement)
+    }
+  }
+
+  if (isOldIE) {
+    // use singleton mode for IE9.
+    var styleIndex = singletonCounter++
+    styleElement = singletonElement || (singletonElement = createStyleElement())
+    update = applyToSingletonTag.bind(null, styleElement, styleIndex, false)
+    remove = applyToSingletonTag.bind(null, styleElement, styleIndex, true)
+  } else {
+    // use multi-style-tag mode in all other cases
+    styleElement = createStyleElement()
+    update = applyToTag.bind(null, styleElement)
+    remove = function () {
+      styleElement.parentNode.removeChild(styleElement)
+    }
+  }
+
+  update(obj)
+
+  return function updateStyle (newObj /* StyleObjectPart */) {
+    if (newObj) {
+      if (newObj.css === obj.css &&
+          newObj.media === obj.media &&
+          newObj.sourceMap === obj.sourceMap) {
+        return
+      }
+      update(obj = newObj)
+    } else {
+      remove()
+    }
+  }
+}
+
+var replaceText = (function () {
+  var textStore = []
+
+  return function (index, replacement) {
+    textStore[index] = replacement
+    return textStore.filter(Boolean).join('\n')
+  }
+})()
+
+function applyToSingletonTag (styleElement, index, remove, obj) {
+  var css = remove ? '' : obj.css
+
+  if (styleElement.styleSheet) {
+    styleElement.styleSheet.cssText = replaceText(index, css)
+  } else {
+    var cssNode = document.createTextNode(css)
+    var childNodes = styleElement.childNodes
+    if (childNodes[index]) styleElement.removeChild(childNodes[index])
+    if (childNodes.length) {
+      styleElement.insertBefore(cssNode, childNodes[index])
+    } else {
+      styleElement.appendChild(cssNode)
+    }
+  }
+}
+
+function applyToTag (styleElement, obj) {
+  var css = obj.css
+  var media = obj.media
+  var sourceMap = obj.sourceMap
+
+  if (media) {
+    styleElement.setAttribute('media', media)
+  }
+  if (options.ssrId) {
+    styleElement.setAttribute(ssrIdKey, obj.id)
+  }
+
+  if (sourceMap) {
+    // https://developer.chrome.com/devtools/docs/javascript-debugging
+    // this makes source maps inside style tags work properly in Chrome
+    css += '\n/*# sourceURL=' + sourceMap.sources[0] + ' */'
+    // http://stackoverflow.com/a/26603875
+    css += '\n/*# sourceMappingURL=data:application/json;base64,' + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + ' */'
+  }
+
+  if (styleElement.styleSheet) {
+    styleElement.styleSheet.cssText = css
+  } else {
+    while (styleElement.firstChild) {
+      styleElement.removeChild(styleElement.firstChild)
+    }
+    styleElement.appendChild(document.createTextNode(css))
+  }
+}
+
+
+/***/ }),
+/* 26 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _ynab = __webpack_require__(27);
+
+var ynab = _interopRequireWildcard(_ynab);
+
+var _config = __webpack_require__(29);
+
+var _config2 = _interopRequireDefault(_config);
+
+var _Budgets = __webpack_require__(91);
+
+var _Budgets2 = _interopRequireDefault(_Budgets);
+
+var _Budget = __webpack_require__(93);
+
+var _Budget2 = _interopRequireDefault(_Budget);
+
+var _SharedBudget = __webpack_require__(197);
+
+var _SharedBudget2 = _interopRequireDefault(_SharedBudget);
+
+var _lzString = __webpack_require__(67);
+
+var _lzString2 = _interopRequireDefault(_lzString);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
 //
 //
 //
@@ -1366,17 +1705,12 @@ function normalizeComponent (
 //
 //
 
-
-
-
-
-
-/* harmony default export */ __webpack_exports__["a"] = ({
-  data() {
+exports.default = {
+  data: function data() {
     return {
       ynab: {
-        clientId: __WEBPACK_IMPORTED_MODULE_1__config__["a" /* default */].clientId,
-        redirectUri: __WEBPACK_IMPORTED_MODULE_1__config__["a" /* default */].redirectUri,
+        clientId: _config2.default.clientId,
+        redirectUri: _config2.default.redirectUri,
         token: null,
         api: null
       },
@@ -1385,71 +1719,69 @@ function normalizeComponent (
       budgetId: null,
       budgets: [],
       transactions: [],
-      budget: null
+      budget: null,
+      sharedBudget: null
     };
   },
-  created() {
-    this.ynab.token = this.findYNABToken();
-    if (this.ynab.token) {
-      this.api = new __WEBPACK_IMPORTED_MODULE_0_ynab__["a" /* api */](this.ynab.token);
-      if (!this.budgetId) {
-        this.getBudgets();
-      } else {
-        this.selectBudget(this.budgetId);
+  created: function created() {
+    var querystring = new URLSearchParams(window.location.search.substring(1));
+    var budget = querystring.get("budget");
+    if (budget) {
+      var sharedBudget = _lzString2.default.decompressFromEncodedURIComponent(budget);
+      this.sharedBudget = JSON.parse(sharedBudget);
+    } else {
+      this.ynab.token = this.findYNABToken();
+      if (this.ynab.token) {
+        this.api = new ynab.api(this.ynab.token);
+        if (!this.budgetId) {
+          this.getBudgets();
+        } else {
+          this.selectBudget(this.budgetId);
+        }
       }
     }
   },
+
   methods: {
-    getBudgets() {
+    getBudgets: function getBudgets() {
+      var _this = this;
+
       this.loading = true;
       this.error = null;
-      this.api.budgets
-        .getBudgets()
-        .then(res => {
-          this.budgets = res.data.budgets;
-        })
-        .catch(err => {
-          this.error = err.error.detail;
-        })
-        .finally(() => {
-          this.loading = false;
-        });
+      this.api.budgets.getBudgets().then(function (res) {
+        _this.budgets = res.data.budgets;
+      }).catch(function (err) {
+        _this.error = err.error.detail;
+      }).finally(function () {
+        _this.loading = false;
+      });
     },
-    selectBudget(id) {
+    selectBudget: function selectBudget(id) {
+      var _this2 = this;
+
       this.loading = true;
       this.error = null;
       this.budgetId = id;
       this.budget = null;
-      this.api.budgets
-        .getBudgetById(id)
-        .then(res => {
-          this.budget = res.data.budget;
-          console.log("budget", this.budget);
-        })
-        .catch(err => {
-          this.error = err.error.detail;
-        })
-        .finally(() => {
-          this.loading = false;
-        });
+      this.api.budgets.getBudgetById(id).then(function (res) {
+        _this2.budget = res.data.budget;
+        console.log("budget", _this2.budget);
+      }).catch(function (err) {
+        _this2.error = err.error.detail;
+      }).finally(function () {
+        _this2.loading = false;
+      });
     },
-    authorizeWithYNAB(e) {
+    authorizeWithYNAB: function authorizeWithYNAB(e) {
       e.preventDefault();
-      const uri = `https://app.youneedabudget.com/oauth/authorize?client_id=${
-        this.ynab.clientId
-      }&redirect_uri=${encodeURIComponent(
-        this.ynab.redirectUri
-      )}&response_type=token`;
+      var uri = "https://app.youneedabudget.com/oauth/authorize?client_id=" + this.ynab.clientId + "&redirect_uri=" + encodeURIComponent(this.ynab.redirectUri) + "&response_type=token";
       location.replace(uri);
     },
-    findYNABToken() {
-      let token = null;
-      const search = window.location.hash
-        .substring(1)
-        .replace(/&/g, '","')
-        .replace(/=/g, '":"');
+    findYNABToken: function findYNABToken() {
+      var token = null;
+      var search = window.location.hash.substring(1).replace(/&/g, '","').replace(/=/g, '":"');
       if (search && search !== "") {
-        const params = JSON.parse('{"' + search + '"}', function(key, value) {
+        var params = JSON.parse('{"' + search + '"}', function (key, value) {
           return key === "" ? value : decodeURIComponent(value);
         });
         token = params.access_token;
@@ -1460,29 +1792,79 @@ function normalizeComponent (
       }
       return token;
     },
-    resetToken() {
+    resetToken: function resetToken() {
       sessionStorage.removeItem("ynab_access_token");
       this.ynab.token = null;
       this.error = null;
+    },
+    clearSharedBudget: function clearSharedBudget() {
+      this.sharedBudget = null;
+      location = [location.protocol, "//", location.host, location.pathname].join("");
     }
   },
   components: {
-    Budgets: __WEBPACK_IMPORTED_MODULE_2__components_Budgets_vue__["a" /* default */],
-    Budget: __WEBPACK_IMPORTED_MODULE_3__components_Budget_vue__["a" /* default */]
+    Budgets: _Budgets2.default,
+    Budget: _Budget2.default,
+    SharedBudget: _SharedBudget2.default
   }
-});
-
+};
 
 /***/ }),
-/* 25 */
+/* 27 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__configuration__ = __webpack_require__(71);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__api__ = __webpack_require__(26);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils__ = __webpack_require__(81);
-/* unused harmony namespace reexport */
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_2__utils__["a"]; });
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__configuration__ = __webpack_require__(80);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__api__ = __webpack_require__(28);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils__ = __webpack_require__(90);
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "COLLECTION_FORMATS", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["k"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "BaseAPI", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["f"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "RequiredError", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["C"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "Account", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["a"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "SaveTransaction", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["D"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "ScheduledTransactionSummary", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["F"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "TransactionSummary", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["L"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "HybridTransaction", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["p"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "ScheduledTransactionDetail", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["E"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "TransactionDetail", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["K"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "AccountsApiFetchParamCreator", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["d"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "AccountsApiFp", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["e"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "AccountsApiFactory", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["c"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "AccountsApi", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["b"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "BudgetsApiFetchParamCreator", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["i"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "BudgetsApiFp", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["j"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "BudgetsApiFactory", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["h"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "BudgetsApi", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["g"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "CategoriesApiFetchParamCreator", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["n"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "CategoriesApiFp", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["o"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "CategoriesApiFactory", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["m"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "CategoriesApi", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["l"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "MonthsApiFetchParamCreator", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["s"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "MonthsApiFp", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["t"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "MonthsApiFactory", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["r"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "MonthsApi", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["q"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "PayeeLocationsApiFetchParamCreator", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["w"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "PayeeLocationsApiFp", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["x"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "PayeeLocationsApiFactory", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["v"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "PayeeLocationsApi", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["u"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "PayeesApiFetchParamCreator", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["A"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "PayeesApiFp", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["B"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "PayeesApiFactory", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["z"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "PayeesApi", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["y"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "ScheduledTransactionsApiFetchParamCreator", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["I"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "ScheduledTransactionsApiFp", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["J"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "ScheduledTransactionsApiFactory", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["H"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "ScheduledTransactionsApi", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["G"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "TransactionsApiFetchParamCreator", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["O"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "TransactionsApiFp", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["P"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "TransactionsApiFactory", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["N"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "TransactionsApi", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["M"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "UserApiFetchParamCreator", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["S"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "UserApiFp", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["T"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "UserApiFactory", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["R"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "UserApi", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["Q"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "utils", function() { return __WEBPACK_IMPORTED_MODULE_2__utils__["a"]; });
 
 
 
@@ -1505,7 +1887,7 @@ class api {
      */
     get budgets() {
         if (!this._budgets) {
-            this._budgets = new __WEBPACK_IMPORTED_MODULE_1__api__["b" /* BudgetsApi */](this._configuration);
+            this._budgets = new __WEBPACK_IMPORTED_MODULE_1__api__["g" /* BudgetsApi */](this._configuration);
         }
         return this._budgets;
     }
@@ -1514,7 +1896,7 @@ class api {
      */
     get accounts() {
         if (!this._accounts) {
-            this._accounts = new __WEBPACK_IMPORTED_MODULE_1__api__["a" /* AccountsApi */](this._configuration);
+            this._accounts = new __WEBPACK_IMPORTED_MODULE_1__api__["b" /* AccountsApi */](this._configuration);
         }
         return this._accounts;
     }
@@ -1523,7 +1905,7 @@ class api {
      */
     get categories() {
         if (!this._categories) {
-            this._categories = new __WEBPACK_IMPORTED_MODULE_1__api__["c" /* CategoriesApi */](this._configuration);
+            this._categories = new __WEBPACK_IMPORTED_MODULE_1__api__["l" /* CategoriesApi */](this._configuration);
         }
         return this._categories;
     }
@@ -1532,7 +1914,7 @@ class api {
      */
     get months() {
         if (!this._months) {
-            this._months = new __WEBPACK_IMPORTED_MODULE_1__api__["d" /* MonthsApi */](this._configuration);
+            this._months = new __WEBPACK_IMPORTED_MODULE_1__api__["q" /* MonthsApi */](this._configuration);
         }
         return this._months;
     }
@@ -1541,7 +1923,7 @@ class api {
      */
     get payees() {
         if (!this._payees) {
-            this._payees = new __WEBPACK_IMPORTED_MODULE_1__api__["f" /* PayeesApi */](this._configuration);
+            this._payees = new __WEBPACK_IMPORTED_MODULE_1__api__["y" /* PayeesApi */](this._configuration);
         }
         return this._payees;
     }
@@ -1550,7 +1932,7 @@ class api {
      */
     get payeeLocations() {
         if (!this._payeeLocations) {
-            this._payeeLocations = new __WEBPACK_IMPORTED_MODULE_1__api__["e" /* PayeeLocationsApi */](this._configuration);
+            this._payeeLocations = new __WEBPACK_IMPORTED_MODULE_1__api__["u" /* PayeeLocationsApi */](this._configuration);
         }
         return this._payeeLocations;
     }
@@ -1559,7 +1941,7 @@ class api {
      */
     get transactions() {
         if (!this._transactions) {
-            this._transactions = new __WEBPACK_IMPORTED_MODULE_1__api__["h" /* TransactionsApi */](this._configuration);
+            this._transactions = new __WEBPACK_IMPORTED_MODULE_1__api__["M" /* TransactionsApi */](this._configuration);
         }
         return this._transactions;
     }
@@ -1568,28 +1950,28 @@ class api {
      */
     get scheduledTransactions() {
         if (!this._scheduledTransactions) {
-            this._scheduledTransactions = new __WEBPACK_IMPORTED_MODULE_1__api__["g" /* ScheduledTransactionsApi */](this._configuration);
+            this._scheduledTransactions = new __WEBPACK_IMPORTED_MODULE_1__api__["G" /* ScheduledTransactionsApi */](this._configuration);
         }
         return this._scheduledTransactions;
     }
 }
-/* harmony export (immutable) */ __webpack_exports__["a"] = api;
+/* harmony export (immutable) */ __webpack_exports__["api"] = api;
 
 
 
 /***/ }),
-/* 26 */
+/* 28 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* unused harmony export Account */
-/* unused harmony export SaveTransaction */
-/* unused harmony export ScheduledTransactionSummary */
-/* unused harmony export TransactionSummary */
-/* unused harmony export HybridTransaction */
-/* unused harmony export ScheduledTransactionDetail */
-/* unused harmony export TransactionDetail */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_url__ = __webpack_require__(72);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Account; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "D", function() { return SaveTransaction; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "F", function() { return ScheduledTransactionSummary; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "L", function() { return TransactionSummary; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "p", function() { return HybridTransaction; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "E", function() { return ScheduledTransactionDetail; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "K", function() { return TransactionDetail; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_url__ = __webpack_require__(81);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_url___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_url__);
 // tslint:disable
 /**
@@ -1606,7 +1988,7 @@ class api {
 
 // Requiring portable-fetch like this ensures that we have a global fetch function
 // That makes it easier to override with modules like fetch-mock
-__webpack_require__(79);
+__webpack_require__(88);
 const USER_AGENT = "api_client/js/0.14.0";
 function convertDateToFullDateStringFormat(date) {
     // Convert to RFC 3339 "full-date" format, like "2017-11-27"
@@ -1627,7 +2009,7 @@ const COLLECTION_FORMATS = {
     tsv: "\t",
     pipes: "|",
 };
-/* unused harmony export COLLECTION_FORMATS */
+/* harmony export (immutable) */ __webpack_exports__["k"] = COLLECTION_FORMATS;
 
 /**
  *
@@ -1641,7 +2023,7 @@ class BaseAPI {
         }
     }
 }
-/* unused harmony export BaseAPI */
+/* harmony export (immutable) */ __webpack_exports__["f"] = BaseAPI;
 
 ;
 /**
@@ -1656,7 +2038,7 @@ class RequiredError extends Error {
         this.field = field;
     }
 }
-/* unused harmony export RequiredError */
+/* harmony export (immutable) */ __webpack_exports__["C"] = RequiredError;
 
 /**
  * @export
@@ -1974,7 +2356,7 @@ const AccountsApiFetchParamCreator = function (configuration) {
         },
     };
 };
-/* unused harmony export AccountsApiFetchParamCreator */
+/* harmony export (immutable) */ __webpack_exports__["d"] = AccountsApiFetchParamCreator;
 
 /**
  * AccountsApi - functional programming interface
@@ -2029,7 +2411,7 @@ const AccountsApiFp = function (configuration) {
         },
     };
 };
-/* unused harmony export AccountsApiFp */
+/* harmony export (immutable) */ __webpack_exports__["e"] = AccountsApiFp;
 
 /**
  * AccountsApi - factory interface
@@ -2060,7 +2442,7 @@ const AccountsApiFactory = function (configuration) {
         },
     };
 };
-/* unused harmony export AccountsApiFactory */
+/* harmony export (immutable) */ __webpack_exports__["c"] = AccountsApiFactory;
 
 /**
  * AccountsApi - object-oriented interface
@@ -2093,7 +2475,7 @@ class AccountsApi extends BaseAPI {
         return AccountsApiFp(this.configuration).getAccounts(budget_id, options)();
     }
 }
-/* harmony export (immutable) */ __webpack_exports__["a"] = AccountsApi;
+/* harmony export (immutable) */ __webpack_exports__["b"] = AccountsApi;
 
 /**
  * BudgetsApi - fetch parameter creator
@@ -2169,7 +2551,7 @@ const BudgetsApiFetchParamCreator = function (configuration) {
         },
     };
 };
-/* unused harmony export BudgetsApiFetchParamCreator */
+/* harmony export (immutable) */ __webpack_exports__["i"] = BudgetsApiFetchParamCreator;
 
 /**
  * BudgetsApi - functional programming interface
@@ -2223,7 +2605,7 @@ const BudgetsApiFp = function (configuration) {
         },
     };
 };
-/* unused harmony export BudgetsApiFp */
+/* harmony export (immutable) */ __webpack_exports__["j"] = BudgetsApiFp;
 
 /**
  * BudgetsApi - factory interface
@@ -2253,7 +2635,7 @@ const BudgetsApiFactory = function (configuration) {
         },
     };
 };
-/* unused harmony export BudgetsApiFactory */
+/* harmony export (immutable) */ __webpack_exports__["h"] = BudgetsApiFactory;
 
 /**
  * BudgetsApi - object-oriented interface
@@ -2285,7 +2667,7 @@ class BudgetsApi extends BaseAPI {
         return BudgetsApiFp(this.configuration).getBudgets(options)();
     }
 }
-/* harmony export (immutable) */ __webpack_exports__["b"] = BudgetsApi;
+/* harmony export (immutable) */ __webpack_exports__["g"] = BudgetsApi;
 
 /**
  * CategoriesApi - fetch parameter creator
@@ -2369,7 +2751,7 @@ const CategoriesApiFetchParamCreator = function (configuration) {
         },
     };
 };
-/* unused harmony export CategoriesApiFetchParamCreator */
+/* harmony export (immutable) */ __webpack_exports__["n"] = CategoriesApiFetchParamCreator;
 
 /**
  * CategoriesApi - functional programming interface
@@ -2424,7 +2806,7 @@ const CategoriesApiFp = function (configuration) {
         },
     };
 };
-/* unused harmony export CategoriesApiFp */
+/* harmony export (immutable) */ __webpack_exports__["o"] = CategoriesApiFp;
 
 /**
  * CategoriesApi - factory interface
@@ -2455,7 +2837,7 @@ const CategoriesApiFactory = function (configuration) {
         },
     };
 };
-/* unused harmony export CategoriesApiFactory */
+/* harmony export (immutable) */ __webpack_exports__["m"] = CategoriesApiFactory;
 
 /**
  * CategoriesApi - object-oriented interface
@@ -2488,7 +2870,7 @@ class CategoriesApi extends BaseAPI {
         return CategoriesApiFp(this.configuration).getCategoryById(budget_id, category_id, options)();
     }
 }
-/* harmony export (immutable) */ __webpack_exports__["c"] = CategoriesApi;
+/* harmony export (immutable) */ __webpack_exports__["l"] = CategoriesApi;
 
 /**
  * MonthsApi - fetch parameter creator
@@ -2572,7 +2954,7 @@ const MonthsApiFetchParamCreator = function (configuration) {
         },
     };
 };
-/* unused harmony export MonthsApiFetchParamCreator */
+/* harmony export (immutable) */ __webpack_exports__["s"] = MonthsApiFetchParamCreator;
 
 /**
  * MonthsApi - functional programming interface
@@ -2627,7 +3009,7 @@ const MonthsApiFp = function (configuration) {
         },
     };
 };
-/* unused harmony export MonthsApiFp */
+/* harmony export (immutable) */ __webpack_exports__["t"] = MonthsApiFp;
 
 /**
  * MonthsApi - factory interface
@@ -2658,7 +3040,7 @@ const MonthsApiFactory = function (configuration) {
         },
     };
 };
-/* unused harmony export MonthsApiFactory */
+/* harmony export (immutable) */ __webpack_exports__["r"] = MonthsApiFactory;
 
 /**
  * MonthsApi - object-oriented interface
@@ -2691,7 +3073,7 @@ class MonthsApi extends BaseAPI {
         return MonthsApiFp(this.configuration).getBudgetMonths(budget_id, options)();
     }
 }
-/* harmony export (immutable) */ __webpack_exports__["d"] = MonthsApi;
+/* harmony export (immutable) */ __webpack_exports__["q"] = MonthsApi;
 
 /**
  * PayeeLocationsApi - fetch parameter creator
@@ -2815,7 +3197,7 @@ const PayeeLocationsApiFetchParamCreator = function (configuration) {
         },
     };
 };
-/* unused harmony export PayeeLocationsApiFetchParamCreator */
+/* harmony export (immutable) */ __webpack_exports__["w"] = PayeeLocationsApiFetchParamCreator;
 
 /**
  * PayeeLocationsApi - functional programming interface
@@ -2893,7 +3275,7 @@ const PayeeLocationsApiFp = function (configuration) {
         },
     };
 };
-/* unused harmony export PayeeLocationsApiFp */
+/* harmony export (immutable) */ __webpack_exports__["x"] = PayeeLocationsApiFp;
 
 /**
  * PayeeLocationsApi - factory interface
@@ -2935,7 +3317,7 @@ const PayeeLocationsApiFactory = function (configuration) {
         },
     };
 };
-/* unused harmony export PayeeLocationsApiFactory */
+/* harmony export (immutable) */ __webpack_exports__["v"] = PayeeLocationsApiFactory;
 
 /**
  * PayeeLocationsApi - object-oriented interface
@@ -2980,7 +3362,7 @@ class PayeeLocationsApi extends BaseAPI {
         return PayeeLocationsApiFp(this.configuration).getPayeeLocationsByPayee(budget_id, payee_id, options)();
     }
 }
-/* harmony export (immutable) */ __webpack_exports__["e"] = PayeeLocationsApi;
+/* harmony export (immutable) */ __webpack_exports__["u"] = PayeeLocationsApi;
 
 /**
  * PayeesApi - fetch parameter creator
@@ -3064,7 +3446,7 @@ const PayeesApiFetchParamCreator = function (configuration) {
         },
     };
 };
-/* unused harmony export PayeesApiFetchParamCreator */
+/* harmony export (immutable) */ __webpack_exports__["A"] = PayeesApiFetchParamCreator;
 
 /**
  * PayeesApi - functional programming interface
@@ -3119,7 +3501,7 @@ const PayeesApiFp = function (configuration) {
         },
     };
 };
-/* unused harmony export PayeesApiFp */
+/* harmony export (immutable) */ __webpack_exports__["B"] = PayeesApiFp;
 
 /**
  * PayeesApi - factory interface
@@ -3150,7 +3532,7 @@ const PayeesApiFactory = function (configuration) {
         },
     };
 };
-/* unused harmony export PayeesApiFactory */
+/* harmony export (immutable) */ __webpack_exports__["z"] = PayeesApiFactory;
 
 /**
  * PayeesApi - object-oriented interface
@@ -3183,7 +3565,7 @@ class PayeesApi extends BaseAPI {
         return PayeesApiFp(this.configuration).getPayees(budget_id, options)();
     }
 }
-/* harmony export (immutable) */ __webpack_exports__["f"] = PayeesApi;
+/* harmony export (immutable) */ __webpack_exports__["y"] = PayeesApi;
 
 /**
  * ScheduledTransactionsApi - fetch parameter creator
@@ -3267,7 +3649,7 @@ const ScheduledTransactionsApiFetchParamCreator = function (configuration) {
         },
     };
 };
-/* unused harmony export ScheduledTransactionsApiFetchParamCreator */
+/* harmony export (immutable) */ __webpack_exports__["I"] = ScheduledTransactionsApiFetchParamCreator;
 
 /**
  * ScheduledTransactionsApi - functional programming interface
@@ -3322,7 +3704,7 @@ const ScheduledTransactionsApiFp = function (configuration) {
         },
     };
 };
-/* unused harmony export ScheduledTransactionsApiFp */
+/* harmony export (immutable) */ __webpack_exports__["J"] = ScheduledTransactionsApiFp;
 
 /**
  * ScheduledTransactionsApi - factory interface
@@ -3353,7 +3735,7 @@ const ScheduledTransactionsApiFactory = function (configuration) {
         },
     };
 };
-/* unused harmony export ScheduledTransactionsApiFactory */
+/* harmony export (immutable) */ __webpack_exports__["H"] = ScheduledTransactionsApiFactory;
 
 /**
  * ScheduledTransactionsApi - object-oriented interface
@@ -3386,7 +3768,7 @@ class ScheduledTransactionsApi extends BaseAPI {
         return ScheduledTransactionsApiFp(this.configuration).getScheduledTransactions(budget_id, options)();
     }
 }
-/* harmony export (immutable) */ __webpack_exports__["g"] = ScheduledTransactionsApi;
+/* harmony export (immutable) */ __webpack_exports__["G"] = ScheduledTransactionsApi;
 
 /**
  * TransactionsApi - fetch parameter creator
@@ -3739,7 +4121,7 @@ const TransactionsApiFetchParamCreator = function (configuration) {
         },
     };
 };
-/* unused harmony export TransactionsApiFetchParamCreator */
+/* harmony export (immutable) */ __webpack_exports__["O"] = TransactionsApiFetchParamCreator;
 
 /**
  * TransactionsApi - functional programming interface
@@ -3938,7 +4320,7 @@ const TransactionsApiFp = function (configuration) {
         },
     };
 };
-/* unused harmony export TransactionsApiFp */
+/* harmony export (immutable) */ __webpack_exports__["P"] = TransactionsApiFp;
 
 /**
  * TransactionsApi - factory interface
@@ -4041,7 +4423,7 @@ const TransactionsApiFactory = function (configuration) {
         },
     };
 };
-/* unused harmony export TransactionsApiFactory */
+/* harmony export (immutable) */ __webpack_exports__["N"] = TransactionsApiFactory;
 
 /**
  * TransactionsApi - object-oriented interface
@@ -4152,7 +4534,7 @@ class TransactionsApi extends BaseAPI {
         return TransactionsApiFp(this.configuration).updateTransaction(budget_id, transaction_id, transaction, options)();
     }
 }
-/* harmony export (immutable) */ __webpack_exports__["h"] = TransactionsApi;
+/* harmony export (immutable) */ __webpack_exports__["M"] = TransactionsApi;
 
 /**
  * UserApi - fetch parameter creator
@@ -4190,7 +4572,7 @@ const UserApiFetchParamCreator = function (configuration) {
         },
     };
 };
-/* unused harmony export UserApiFetchParamCreator */
+/* harmony export (immutable) */ __webpack_exports__["S"] = UserApiFetchParamCreator;
 
 /**
  * UserApi - functional programming interface
@@ -4221,7 +4603,7 @@ const UserApiFp = function (configuration) {
         },
     };
 };
-/* unused harmony export UserApiFp */
+/* harmony export (immutable) */ __webpack_exports__["T"] = UserApiFp;
 
 /**
  * UserApi - factory interface
@@ -4240,7 +4622,7 @@ const UserApiFactory = function (configuration) {
         },
     };
 };
-/* unused harmony export UserApiFactory */
+/* harmony export (immutable) */ __webpack_exports__["R"] = UserApiFactory;
 
 /**
  * UserApi - object-oriented interface
@@ -4260,205 +4642,291 @@ class UserApi extends BaseAPI {
         return UserApiFp(this.configuration).getUser(options)();
     }
 }
-/* unused harmony export UserApi */
+/* harmony export (immutable) */ __webpack_exports__["Q"] = UserApi;
 
-
-
-/***/ }),
-/* 27 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_date_fns__ = __webpack_require__(28);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_date_fns___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_date_fns__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-
-/* harmony default export */ __webpack_exports__["a"] = ({
-  props: ["budgets", "selectBudget"],
-  methods: {},
-  computed: {
-    today: function() {
-      return new Date();
-    }
-  }
-});
-
-
-/***/ }),
-/* 28 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = {
-  addDays: __webpack_require__(4),
-  addHours: __webpack_require__(29),
-  addISOYears: __webpack_require__(30),
-  addMilliseconds: __webpack_require__(5),
-  addMinutes: __webpack_require__(32),
-  addMonths: __webpack_require__(11),
-  addQuarters: __webpack_require__(33),
-  addSeconds: __webpack_require__(34),
-  addWeeks: __webpack_require__(15),
-  addYears: __webpack_require__(35),
-  areRangesOverlapping: __webpack_require__(84),
-  closestIndexTo: __webpack_require__(85),
-  closestTo: __webpack_require__(86),
-  compareAsc: __webpack_require__(7),
-  compareDesc: __webpack_require__(16),
-  differenceInCalendarDays: __webpack_require__(10),
-  differenceInCalendarISOWeeks: __webpack_require__(87),
-  differenceInCalendarISOYears: __webpack_require__(36),
-  differenceInCalendarMonths: __webpack_require__(37),
-  differenceInCalendarQuarters: __webpack_require__(88),
-  differenceInCalendarWeeks: __webpack_require__(89),
-  differenceInCalendarYears: __webpack_require__(39),
-  differenceInDays: __webpack_require__(40),
-  differenceInHours: __webpack_require__(90),
-  differenceInISOYears: __webpack_require__(91),
-  differenceInMilliseconds: __webpack_require__(12),
-  differenceInMinutes: __webpack_require__(92),
-  differenceInMonths: __webpack_require__(17),
-  differenceInQuarters: __webpack_require__(93),
-  differenceInSeconds: __webpack_require__(18),
-  differenceInWeeks: __webpack_require__(94),
-  differenceInYears: __webpack_require__(95),
-  distanceInWords: __webpack_require__(42),
-  distanceInWordsStrict: __webpack_require__(99),
-  distanceInWordsToNow: __webpack_require__(100),
-  eachDay: __webpack_require__(101),
-  endOfDay: __webpack_require__(20),
-  endOfHour: __webpack_require__(102),
-  endOfISOWeek: __webpack_require__(103),
-  endOfISOYear: __webpack_require__(104),
-  endOfMinute: __webpack_require__(105),
-  endOfMonth: __webpack_require__(44),
-  endOfQuarter: __webpack_require__(106),
-  endOfSecond: __webpack_require__(107),
-  endOfToday: __webpack_require__(108),
-  endOfTomorrow: __webpack_require__(109),
-  endOfWeek: __webpack_require__(43),
-  endOfYear: __webpack_require__(110),
-  endOfYesterday: __webpack_require__(111),
-  format: __webpack_require__(112),
-  getDate: __webpack_require__(113),
-  getDay: __webpack_require__(114),
-  getDayOfYear: __webpack_require__(45),
-  getDaysInMonth: __webpack_require__(14),
-  getDaysInYear: __webpack_require__(115),
-  getHours: __webpack_require__(116),
-  getISODay: __webpack_require__(49),
-  getISOWeek: __webpack_require__(21),
-  getISOWeeksInYear: __webpack_require__(117),
-  getISOYear: __webpack_require__(1),
-  getMilliseconds: __webpack_require__(118),
-  getMinutes: __webpack_require__(119),
-  getMonth: __webpack_require__(120),
-  getOverlappingDaysInRanges: __webpack_require__(121),
-  getQuarter: __webpack_require__(38),
-  getSeconds: __webpack_require__(122),
-  getTime: __webpack_require__(123),
-  getYear: __webpack_require__(124),
-  isAfter: __webpack_require__(125),
-  isBefore: __webpack_require__(126),
-  isDate: __webpack_require__(13),
-  isEqual: __webpack_require__(127),
-  isFirstDayOfMonth: __webpack_require__(128),
-  isFriday: __webpack_require__(129),
-  isFuture: __webpack_require__(130),
-  isLastDayOfMonth: __webpack_require__(131),
-  isLeapYear: __webpack_require__(48),
-  isMonday: __webpack_require__(132),
-  isPast: __webpack_require__(133),
-  isSameDay: __webpack_require__(134),
-  isSameHour: __webpack_require__(50),
-  isSameISOWeek: __webpack_require__(52),
-  isSameISOYear: __webpack_require__(53),
-  isSameMinute: __webpack_require__(54),
-  isSameMonth: __webpack_require__(56),
-  isSameQuarter: __webpack_require__(57),
-  isSameSecond: __webpack_require__(59),
-  isSameWeek: __webpack_require__(22),
-  isSameYear: __webpack_require__(61),
-  isSaturday: __webpack_require__(135),
-  isSunday: __webpack_require__(136),
-  isThisHour: __webpack_require__(137),
-  isThisISOWeek: __webpack_require__(138),
-  isThisISOYear: __webpack_require__(139),
-  isThisMinute: __webpack_require__(140),
-  isThisMonth: __webpack_require__(141),
-  isThisQuarter: __webpack_require__(142),
-  isThisSecond: __webpack_require__(143),
-  isThisWeek: __webpack_require__(144),
-  isThisYear: __webpack_require__(145),
-  isThursday: __webpack_require__(146),
-  isToday: __webpack_require__(147),
-  isTomorrow: __webpack_require__(148),
-  isTuesday: __webpack_require__(149),
-  isValid: __webpack_require__(47),
-  isWednesday: __webpack_require__(150),
-  isWeekend: __webpack_require__(151),
-  isWithinRange: __webpack_require__(152),
-  isYesterday: __webpack_require__(153),
-  lastDayOfISOWeek: __webpack_require__(154),
-  lastDayOfISOYear: __webpack_require__(155),
-  lastDayOfMonth: __webpack_require__(156),
-  lastDayOfQuarter: __webpack_require__(157),
-  lastDayOfWeek: __webpack_require__(62),
-  lastDayOfYear: __webpack_require__(158),
-  max: __webpack_require__(159),
-  min: __webpack_require__(160),
-  parse: __webpack_require__(0),
-  setDate: __webpack_require__(161),
-  setDay: __webpack_require__(162),
-  setDayOfYear: __webpack_require__(163),
-  setHours: __webpack_require__(164),
-  setISODay: __webpack_require__(165),
-  setISOWeek: __webpack_require__(166),
-  setISOYear: __webpack_require__(31),
-  setMilliseconds: __webpack_require__(167),
-  setMinutes: __webpack_require__(168),
-  setMonth: __webpack_require__(63),
-  setQuarter: __webpack_require__(169),
-  setSeconds: __webpack_require__(170),
-  setYear: __webpack_require__(171),
-  startOfDay: __webpack_require__(3),
-  startOfHour: __webpack_require__(51),
-  startOfISOWeek: __webpack_require__(2),
-  startOfISOYear: __webpack_require__(6),
-  startOfMinute: __webpack_require__(55),
-  startOfMonth: __webpack_require__(172),
-  startOfQuarter: __webpack_require__(58),
-  startOfSecond: __webpack_require__(60),
-  startOfToday: __webpack_require__(173),
-  startOfTomorrow: __webpack_require__(174),
-  startOfWeek: __webpack_require__(9),
-  startOfYear: __webpack_require__(46),
-  startOfYesterday: __webpack_require__(175),
-  subDays: __webpack_require__(176),
-  subHours: __webpack_require__(177),
-  subISOYears: __webpack_require__(41),
-  subMilliseconds: __webpack_require__(178),
-  subMinutes: __webpack_require__(179),
-  subMonths: __webpack_require__(180),
-  subQuarters: __webpack_require__(181),
-  subSeconds: __webpack_require__(182),
-  subWeeks: __webpack_require__(183),
-  subYears: __webpack_require__(184)
-}
 
 
 /***/ }),
 /* 29 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony default export */ __webpack_exports__["default"] = ({
+  clientId: "a51fbc3f0117cb4163fca3ecdb80749eba91b35c6fae3457590354fa47a64c63",
+  redirectUri:
+     true
+      ? "https://danyowma.github.io/ynab-share"
+      : "https://localhost:8080"
+});
+
+
+/***/ }),
+/* 30 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+exports.default = {
+  props: ["budgets", "selectBudget"]
+};
+
+/***/ }),
+/* 31 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _dateFns = __webpack_require__(94);
+
+var _ynab = __webpack_require__(27);
+
+var _config = __webpack_require__(29);
+
+var _config2 = _interopRequireDefault(_config);
+
+var _lzString = __webpack_require__(67);
+
+var _lzString2 = _interopRequireDefault(_lzString);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; } //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+var dateRangeNames = {
+  thisMonth: "thisMonth",
+  latest3Months: "latest3Months",
+  thisYear: "thisYear",
+  lastYear: "lastYear"
+};
+
+exports.default = {
+  props: ["budget"],
+  data: function data() {
+    return {
+      dateRange: this.getThisMonth(),
+      totalBudgeted: 0
+    };
+  },
+
+  methods: {
+    convertMilliUnitsToCurrencyAmount: _ynab.utils.convertMilliUnitsToCurrencyAmount,
+    selectDateRange: function selectDateRange(dateRange) {
+      this.dateRange = dateRange;
+    },
+    formatAsYnabDate: function formatAsYnabDate(date) {
+      return (0, _dateFns.format)(date, "YYYY-MM-DD");
+    },
+    getThisMonth: function getThisMonth() {
+      var startDate = this.formatAsYnabDate((0, _dateFns.startOfMonth)(new Date()));
+      return {
+        name: dateRangeNames.thisMonth,
+        startDate: startDate,
+        endDate: startDate
+      };
+    },
+    getLatest3Months: function getLatest3Months() {
+      var endDate = this.formatAsYnabDate((0, _dateFns.startOfMonth)(new Date()));
+      var startDate = this.formatAsYnabDate((0, _dateFns.addMonths)(endDate, -2));
+      return {
+        name: dateRangeNames.latest3Months,
+        startDate: startDate,
+        endDate: endDate
+      };
+    },
+    getThisYear: function getThisYear() {
+      var startDate = this.formatAsYnabDate((0, _dateFns.startOfYear)(new Date()));
+      var endDate = this.formatAsYnabDate((0, _dateFns.startOfMonth)((0, _dateFns.endOfYear)(new Date())));
+      return { name: dateRangeNames.thisYear, startDate: startDate, endDate: endDate };
+    },
+    getLastYear: function getLastYear() {
+      var startDate = this.formatAsYnabDate((0, _dateFns.startOfYear)((0, _dateFns.addYears)(new Date(), -1)));
+      var endDate = this.formatAsYnabDate((0, _dateFns.startOfMonth)((0, _dateFns.endOfYear)(startDate)));
+      return { name: dateRangeNames.lastYear, startDate: startDate, endDate: endDate };
+    }
+  },
+  computed: {
+    mappedBudget: function mappedBudget() {
+      var _budget = this.budget,
+          firstMonth = _budget.first_month,
+          lastMonth = _budget.last_month,
+          months = _budget.months,
+          categoryGroups = _budget.category_groups,
+          categories = _budget.categories;
+      var _dateRange = this.dateRange,
+          startDate = _dateRange.startDate,
+          endDate = _dateRange.endDate;
+
+      var mappedBudget = {};
+      var totalBudgeted = 0;
+
+      if (!(0, _dateFns.areRangesOverlapping)(startDate, endDate, firstMonth, lastMonth)) {
+        return mappedBudget;
+      }
+
+      for (var i = 0; i < categoryGroups.length; i++) {
+        var categoryGroup = categoryGroups[i];
+        mappedBudget[categoryGroup.id] = {
+          name: categoryGroup.name,
+          categories: [],
+          budgeted: 0
+        };
+      }
+
+      var start = (0, _dateFns.compareAsc)(startDate, firstMonth) > -1 ? startDate : firstMonth;
+      var end = (0, _dateFns.compareAsc)(endDate, lastMonth) < 1 ? endDate : lastMonth;
+
+      for (var _i = 0; _i < months.length; _i++) {
+        var month = months[_i];
+        if ((0, _dateFns.isWithinRange)(month.month, start, end)) {
+          var _loop = function _loop(j) {
+            var category = month.categories.find(function (x) {
+              return x.id === categories[j].id;
+            });
+            var existingCategoryIndex = mappedBudget[category.category_group_id].categories.findIndex(function (x) {
+              return Object.keys(x)[0] === category.id;
+            });
+            if (existingCategoryIndex > -1) {
+              mappedBudget[category.category_group_id].categories[existingCategoryIndex][category.id].budgeted += category.budgeted;
+            } else {
+              mappedBudget[category.category_group_id].categories.push(_defineProperty({}, category.id, {
+                name: category.name,
+                budgeted: category.budgeted
+              }));
+            }
+            mappedBudget[category.category_group_id].budgeted += category.budgeted;
+            totalBudgeted += category.budgeted;
+          };
+
+          for (var j = 0; j < categories.length; j++) {
+            _loop(j);
+          }
+        }
+      }
+      this.totalBudgeted = totalBudgeted;
+
+      return mappedBudget;
+    },
+    budgetUrl: function budgetUrl() {
+      if (!Object.keys(this.mappedBudget).length) {
+        return null;
+      }
+
+      var budget = [];
+      var _iteratorNormalCompletion = true;
+      var _didIteratorError = false;
+      var _iteratorError = undefined;
+
+      try {
+        for (var _iterator = Object.values(_extends({}, this.mappedBudget))[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+          var categoryGroup = _step.value;
+
+          var categories = [];
+          var _iteratorNormalCompletion2 = true;
+          var _didIteratorError2 = false;
+          var _iteratorError2 = undefined;
+
+          try {
+            for (var _iterator2 = categoryGroup.categories[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+              var _category = _step2.value;
+
+              categories.push({
+                name: _category[Object.keys(_category)[0]].name,
+                budgeted: (_category[Object.keys(_category)[0]].budgeted / this.totalBudgeted * 100).toFixed(2)
+              });
+            }
+          } catch (err) {
+            _didIteratorError2 = true;
+            _iteratorError2 = err;
+          } finally {
+            try {
+              if (!_iteratorNormalCompletion2 && _iterator2.return) {
+                _iterator2.return();
+              }
+            } finally {
+              if (_didIteratorError2) {
+                throw _iteratorError2;
+              }
+            }
+          }
+
+          budget.push({
+            name: categoryGroup.name,
+            budgeted: (categoryGroup.budgeted / this.totalBudgeted * 100).toFixed(2),
+            categories: categories
+          });
+        }
+      } catch (err) {
+        _didIteratorError = true;
+        _iteratorError = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion && _iterator.return) {
+            _iterator.return();
+          }
+        } finally {
+          if (_didIteratorError) {
+            throw _iteratorError;
+          }
+        }
+      }
+
+      var lzEncodedBudget = _lzString2.default.compressToEncodedURIComponent(JSON.stringify(budget));
+
+      return _config2.default.redirectUri + "?budget=" + lzEncodedBudget;
+    }
+  }
+};
+
+/***/ }),
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var addMilliseconds = __webpack_require__(5)
@@ -4490,11 +4958,11 @@ module.exports = addHours
 
 
 /***/ }),
-/* 30 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var getISOYear = __webpack_require__(1)
-var setISOYear = __webpack_require__(31)
+var setISOYear = __webpack_require__(34)
 
 /**
  * @category ISO Week-Numbering Year Helpers
@@ -4523,12 +4991,12 @@ module.exports = addISOYears
 
 
 /***/ }),
-/* 31 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
 var startOfISOYear = __webpack_require__(6)
-var differenceInCalendarDays = __webpack_require__(10)
+var differenceInCalendarDays = __webpack_require__(11)
 
 /**
  * @category ISO Week-Numbering Year Helpers
@@ -4565,7 +5033,7 @@ module.exports = setISOYear
 
 
 /***/ }),
-/* 32 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var addMilliseconds = __webpack_require__(5)
@@ -4597,10 +5065,10 @@ module.exports = addMinutes
 
 
 /***/ }),
-/* 33 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var addMonths = __webpack_require__(11)
+var addMonths = __webpack_require__(12)
 
 /**
  * @category Quarter Helpers
@@ -4628,7 +5096,7 @@ module.exports = addQuarters
 
 
 /***/ }),
-/* 34 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var addMilliseconds = __webpack_require__(5)
@@ -4658,10 +5126,10 @@ module.exports = addSeconds
 
 
 /***/ }),
-/* 35 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var addMonths = __webpack_require__(11)
+var addMonths = __webpack_require__(12)
 
 /**
  * @category Year Helpers
@@ -4688,7 +5156,7 @@ module.exports = addYears
 
 
 /***/ }),
-/* 36 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var getISOYear = __webpack_require__(1)
@@ -4722,7 +5190,7 @@ module.exports = differenceInCalendarISOYears
 
 
 /***/ }),
-/* 37 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
@@ -4760,7 +5228,7 @@ module.exports = differenceInCalendarMonths
 
 
 /***/ }),
-/* 38 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
@@ -4790,7 +5258,7 @@ module.exports = getQuarter
 
 
 /***/ }),
-/* 39 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
@@ -4825,11 +5293,11 @@ module.exports = differenceInCalendarYears
 
 
 /***/ }),
-/* 40 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
-var differenceInCalendarDays = __webpack_require__(10)
+var differenceInCalendarDays = __webpack_require__(11)
 var compareAsc = __webpack_require__(7)
 
 /**
@@ -4870,10 +5338,10 @@ module.exports = differenceInDays
 
 
 /***/ }),
-/* 41 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var addISOYears = __webpack_require__(30)
+var addISOYears = __webpack_require__(33)
 
 /**
  * @category ISO Week-Numbering Year Helpers
@@ -4902,14 +5370,14 @@ module.exports = subISOYears
 
 
 /***/ }),
-/* 42 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var compareDesc = __webpack_require__(16)
+var compareDesc = __webpack_require__(17)
 var parse = __webpack_require__(0)
-var differenceInSeconds = __webpack_require__(18)
-var differenceInMonths = __webpack_require__(17)
-var enLocale = __webpack_require__(19)
+var differenceInSeconds = __webpack_require__(19)
+var differenceInMonths = __webpack_require__(18)
+var enLocale = __webpack_require__(20)
 
 var MINUTES_IN_DAY = 1440
 var MINUTES_IN_ALMOST_TWO_DAYS = 2520
@@ -5111,7 +5579,7 @@ module.exports = distanceInWords
 
 
 /***/ }),
-/* 43 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
@@ -5155,7 +5623,7 @@ module.exports = endOfWeek
 
 
 /***/ }),
-/* 44 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
@@ -5188,12 +5656,12 @@ module.exports = endOfMonth
 
 
 /***/ }),
-/* 45 */
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
-var startOfYear = __webpack_require__(46)
-var differenceInCalendarDays = __webpack_require__(10)
+var startOfYear = __webpack_require__(49)
+var differenceInCalendarDays = __webpack_require__(11)
 
 /**
  * @category Day Helpers
@@ -5221,7 +5689,7 @@ module.exports = getDayOfYear
 
 
 /***/ }),
-/* 46 */
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
@@ -5254,10 +5722,10 @@ module.exports = startOfYear
 
 
 /***/ }),
-/* 47 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isDate = __webpack_require__(13)
+var isDate = __webpack_require__(14)
 
 /**
  * @category Common Helpers
@@ -5295,7 +5763,7 @@ module.exports = isValid
 
 
 /***/ }),
-/* 48 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
@@ -5325,7 +5793,7 @@ module.exports = isLeapYear
 
 
 /***/ }),
-/* 49 */
+/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
@@ -5363,10 +5831,10 @@ module.exports = getISODay
 
 
 /***/ }),
-/* 50 */
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var startOfHour = __webpack_require__(51)
+var startOfHour = __webpack_require__(54)
 
 /**
  * @category Hour Helpers
@@ -5398,7 +5866,7 @@ module.exports = isSameHour
 
 
 /***/ }),
-/* 51 */
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
@@ -5429,10 +5897,10 @@ module.exports = startOfHour
 
 
 /***/ }),
-/* 52 */
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isSameWeek = __webpack_require__(22)
+var isSameWeek = __webpack_require__(23)
 
 /**
  * @category ISO Week Helpers
@@ -5463,7 +5931,7 @@ module.exports = isSameISOWeek
 
 
 /***/ }),
-/* 53 */
+/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var startOfISOYear = __webpack_require__(6)
@@ -5500,10 +5968,10 @@ module.exports = isSameISOYear
 
 
 /***/ }),
-/* 54 */
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var startOfMinute = __webpack_require__(55)
+var startOfMinute = __webpack_require__(58)
 
 /**
  * @category Minute Helpers
@@ -5536,7 +6004,7 @@ module.exports = isSameMinute
 
 
 /***/ }),
-/* 55 */
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
@@ -5567,7 +6035,7 @@ module.exports = startOfMinute
 
 
 /***/ }),
-/* 56 */
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
@@ -5602,10 +6070,10 @@ module.exports = isSameMonth
 
 
 /***/ }),
-/* 57 */
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var startOfQuarter = __webpack_require__(58)
+var startOfQuarter = __webpack_require__(61)
 
 /**
  * @category Quarter Helpers
@@ -5637,7 +6105,7 @@ module.exports = isSameQuarter
 
 
 /***/ }),
-/* 58 */
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
@@ -5671,10 +6139,10 @@ module.exports = startOfQuarter
 
 
 /***/ }),
-/* 59 */
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var startOfSecond = __webpack_require__(60)
+var startOfSecond = __webpack_require__(63)
 
 /**
  * @category Second Helpers
@@ -5707,7 +6175,7 @@ module.exports = isSameSecond
 
 
 /***/ }),
-/* 60 */
+/* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
@@ -5738,7 +6206,7 @@ module.exports = startOfSecond
 
 
 /***/ }),
-/* 61 */
+/* 64 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
@@ -5772,7 +6240,7 @@ module.exports = isSameYear
 
 
 /***/ }),
-/* 62 */
+/* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
@@ -5816,11 +6284,11 @@ module.exports = lastDayOfWeek
 
 
 /***/ }),
-/* 63 */
+/* 66 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
-var getDaysInMonth = __webpack_require__(14)
+var getDaysInMonth = __webpack_require__(15)
 
 /**
  * @category Month Helpers
@@ -5858,191 +6326,561 @@ module.exports = setMonth
 
 
 /***/ }),
-/* 64 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/* 67 */
+/***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_date_fns__ = __webpack_require__(28);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_date_fns___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_date_fns__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ynab__ = __webpack_require__(25);
+var __WEBPACK_AMD_DEFINE_RESULT__;// Copyright (c) 2013 Pieroxy <pieroxy@pieroxy.net>
+// This work is free. You can redistribute it and/or modify it
+// under the terms of the WTFPL, Version 2
+// For more information see LICENSE.txt or http://www.wtfpl.net/
 //
+// For more information, the home page:
+// http://pieroxy.net/blog/pages/lz-string/testing.html
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+// LZ-based compression algorithm, version 1.4.4
+var LZString = (function() {
 
+// private property
+var f = String.fromCharCode;
+var keyStrBase64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+var keyStrUriSafe = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+-$";
+var baseReverseDic = {};
 
-
-
-const dateRangeNames = {
-  thisMonth: "thisMonth",
-  latest3Months: "latest3Months",
-  thisYear: "thisYear",
-  lastYear: "lastYear"
-};
-
-/* harmony default export */ __webpack_exports__["a"] = ({
-  props: ["budget"],
-  data() {
-    return {
-      dateRange: this.getThisMonth()
-    };
-  },
-  methods: {
-    convertMilliUnitsToCurrencyAmount: __WEBPACK_IMPORTED_MODULE_1_ynab__["b" /* utils */].convertMilliUnitsToCurrencyAmount,
-    selectDateRange(dateRange) {
-      this.dateRange = dateRange;
-    },
-    formatAsYnabDate(date) {
-      return Object(__WEBPACK_IMPORTED_MODULE_0_date_fns__["format"])(date, "YYYY-MM-DD");
-    },
-    getThisMonth() {
-      const startDate = this.formatAsYnabDate(Object(__WEBPACK_IMPORTED_MODULE_0_date_fns__["startOfMonth"])(new Date()));
-      return {
-        name: dateRangeNames.thisMonth,
-        startDate,
-        endDate: startDate
-      };
-    },
-    getLatest3Months() {
-      const endDate = this.formatAsYnabDate(Object(__WEBPACK_IMPORTED_MODULE_0_date_fns__["startOfMonth"])(new Date()));
-      const startDate = this.formatAsYnabDate(Object(__WEBPACK_IMPORTED_MODULE_0_date_fns__["addMonths"])(endDate, -2));
-      return {
-        name: dateRangeNames.latest3Months,
-        startDate,
-        endDate
-      };
-    },
-    getThisYear() {
-      const startDate = this.formatAsYnabDate(Object(__WEBPACK_IMPORTED_MODULE_0_date_fns__["startOfYear"])(new Date()));
-      const endDate = this.formatAsYnabDate(
-        Object(__WEBPACK_IMPORTED_MODULE_0_date_fns__["startOfMonth"])(Object(__WEBPACK_IMPORTED_MODULE_0_date_fns__["endOfYear"])(new Date()))
-      );
-      return { name: dateRangeNames.thisYear, startDate, endDate };
-    },
-    getLastYear() {
-      const startDate = this.formatAsYnabDate(
-        Object(__WEBPACK_IMPORTED_MODULE_0_date_fns__["startOfYear"])(Object(__WEBPACK_IMPORTED_MODULE_0_date_fns__["addYears"])(new Date(), -1))
-      );
-      const endDate = this.formatAsYnabDate(Object(__WEBPACK_IMPORTED_MODULE_0_date_fns__["startOfMonth"])(Object(__WEBPACK_IMPORTED_MODULE_0_date_fns__["endOfYear"])(startDate)));
-      return { name: dateRangeNames.lastYear, startDate, endDate };
-    }
-  },
-  computed: {
-    mappedBudget: function() {
-      const {
-        first_month: firstMonth,
-        last_month: lastMonth,
-        months,
-        category_groups: categoryGroups,
-        categories
-      } = this.budget;
-      const mappedBudget = {};
-      let totalBudgeted = 0;
-
-      if (
-        !Object(__WEBPACK_IMPORTED_MODULE_0_date_fns__["areRangesOverlapping"])(
-          this.dateRange.startDate,
-          this.dateRange.endDate,
-          firstMonth,
-          lastMonth
-        )
-      ) {
-        return mappedBudget;
-      }
-      // move this out because it should only need to be done once
-      for (let i = 0; i < categoryGroups.length; i++) {
-        const categoryGroup = categoryGroups[i];
-        mappedBudget[categoryGroup.id] = {
-          name: categoryGroup.name,
-          categories: [],
-          budgeted: 0
-        };
-      }
-
-      const startDate =
-        Object(__WEBPACK_IMPORTED_MODULE_0_date_fns__["compareAsc"])(this.dateRange.startDate, firstMonth) > -1
-          ? this.dateRange.startDate
-          : firstMonth;
-      const endDate =
-        Object(__WEBPACK_IMPORTED_MODULE_0_date_fns__["compareAsc"])(this.dateRange.endDate, lastMonth) < 1
-          ? this.dateRange.endDate
-          : lastMonth;
-
-      for (let i = 0; i < months.length; i++) {
-        const month = months[i];
-        if (Object(__WEBPACK_IMPORTED_MODULE_0_date_fns__["isWithinRange"])(month.month, startDate, endDate)) {
-          for (let j = 0; j < categories.length; j++) {
-            const category = month.categories.find(
-              x => x.id === categories[j].id
-            );
-            const existingCategoryIndex = mappedBudget[
-              category.category_group_id
-            ].categories.findIndex(x => Object.keys(x)[0] === category.id);
-            if (existingCategoryIndex > -1) {
-              mappedBudget[category.category_group_id].categories[
-                existingCategoryIndex
-              ][category.id].budgeted +=
-                category.budgeted;
-            } else {
-              mappedBudget[category.category_group_id].categories.push({
-                [category.id]: {
-                  name: category.name,
-                  budgeted: category.budgeted
-                }
-              });
-            }
-            mappedBudget[category.category_group_id].budgeted +=
-              category.budgeted;
-            totalBudgeted += category.budgeted;
-          }
-        }
-      }
-      mappedBudget.totalBudgeted = totalBudgeted;
-      return mappedBudget;
+function getBaseValue(alphabet, character) {
+  if (!baseReverseDic[alphabet]) {
+    baseReverseDic[alphabet] = {};
+    for (var i=0 ; i<alphabet.length ; i++) {
+      baseReverseDic[alphabet][alphabet.charAt(i)] = i;
     }
   }
-});
+  return baseReverseDic[alphabet][character];
+}
+
+var LZString = {
+  compressToBase64 : function (input) {
+    if (input == null) return "";
+    var res = LZString._compress(input, 6, function(a){return keyStrBase64.charAt(a);});
+    switch (res.length % 4) { // To produce valid Base64
+    default: // When could this happen ?
+    case 0 : return res;
+    case 1 : return res+"===";
+    case 2 : return res+"==";
+    case 3 : return res+"=";
+    }
+  },
+
+  decompressFromBase64 : function (input) {
+    if (input == null) return "";
+    if (input == "") return null;
+    return LZString._decompress(input.length, 32, function(index) { return getBaseValue(keyStrBase64, input.charAt(index)); });
+  },
+
+  compressToUTF16 : function (input) {
+    if (input == null) return "";
+    return LZString._compress(input, 15, function(a){return f(a+32);}) + " ";
+  },
+
+  decompressFromUTF16: function (compressed) {
+    if (compressed == null) return "";
+    if (compressed == "") return null;
+    return LZString._decompress(compressed.length, 16384, function(index) { return compressed.charCodeAt(index) - 32; });
+  },
+
+  //compress into uint8array (UCS-2 big endian format)
+  compressToUint8Array: function (uncompressed) {
+    var compressed = LZString.compress(uncompressed);
+    var buf=new Uint8Array(compressed.length*2); // 2 bytes per character
+
+    for (var i=0, TotalLen=compressed.length; i<TotalLen; i++) {
+      var current_value = compressed.charCodeAt(i);
+      buf[i*2] = current_value >>> 8;
+      buf[i*2+1] = current_value % 256;
+    }
+    return buf;
+  },
+
+  //decompress from uint8array (UCS-2 big endian format)
+  decompressFromUint8Array:function (compressed) {
+    if (compressed===null || compressed===undefined){
+        return LZString.decompress(compressed);
+    } else {
+        var buf=new Array(compressed.length/2); // 2 bytes per character
+        for (var i=0, TotalLen=buf.length; i<TotalLen; i++) {
+          buf[i]=compressed[i*2]*256+compressed[i*2+1];
+        }
+
+        var result = [];
+        buf.forEach(function (c) {
+          result.push(f(c));
+        });
+        return LZString.decompress(result.join(''));
+
+    }
+
+  },
+
+
+  //compress into a string that is already URI encoded
+  compressToEncodedURIComponent: function (input) {
+    if (input == null) return "";
+    return LZString._compress(input, 6, function(a){return keyStrUriSafe.charAt(a);});
+  },
+
+  //decompress from an output of compressToEncodedURIComponent
+  decompressFromEncodedURIComponent:function (input) {
+    if (input == null) return "";
+    if (input == "") return null;
+    input = input.replace(/ /g, "+");
+    return LZString._decompress(input.length, 32, function(index) { return getBaseValue(keyStrUriSafe, input.charAt(index)); });
+  },
+
+  compress: function (uncompressed) {
+    return LZString._compress(uncompressed, 16, function(a){return f(a);});
+  },
+  _compress: function (uncompressed, bitsPerChar, getCharFromInt) {
+    if (uncompressed == null) return "";
+    var i, value,
+        context_dictionary= {},
+        context_dictionaryToCreate= {},
+        context_c="",
+        context_wc="",
+        context_w="",
+        context_enlargeIn= 2, // Compensate for the first entry which should not count
+        context_dictSize= 3,
+        context_numBits= 2,
+        context_data=[],
+        context_data_val=0,
+        context_data_position=0,
+        ii;
+
+    for (ii = 0; ii < uncompressed.length; ii += 1) {
+      context_c = uncompressed.charAt(ii);
+      if (!Object.prototype.hasOwnProperty.call(context_dictionary,context_c)) {
+        context_dictionary[context_c] = context_dictSize++;
+        context_dictionaryToCreate[context_c] = true;
+      }
+
+      context_wc = context_w + context_c;
+      if (Object.prototype.hasOwnProperty.call(context_dictionary,context_wc)) {
+        context_w = context_wc;
+      } else {
+        if (Object.prototype.hasOwnProperty.call(context_dictionaryToCreate,context_w)) {
+          if (context_w.charCodeAt(0)<256) {
+            for (i=0 ; i<context_numBits ; i++) {
+              context_data_val = (context_data_val << 1);
+              if (context_data_position == bitsPerChar-1) {
+                context_data_position = 0;
+                context_data.push(getCharFromInt(context_data_val));
+                context_data_val = 0;
+              } else {
+                context_data_position++;
+              }
+            }
+            value = context_w.charCodeAt(0);
+            for (i=0 ; i<8 ; i++) {
+              context_data_val = (context_data_val << 1) | (value&1);
+              if (context_data_position == bitsPerChar-1) {
+                context_data_position = 0;
+                context_data.push(getCharFromInt(context_data_val));
+                context_data_val = 0;
+              } else {
+                context_data_position++;
+              }
+              value = value >> 1;
+            }
+          } else {
+            value = 1;
+            for (i=0 ; i<context_numBits ; i++) {
+              context_data_val = (context_data_val << 1) | value;
+              if (context_data_position ==bitsPerChar-1) {
+                context_data_position = 0;
+                context_data.push(getCharFromInt(context_data_val));
+                context_data_val = 0;
+              } else {
+                context_data_position++;
+              }
+              value = 0;
+            }
+            value = context_w.charCodeAt(0);
+            for (i=0 ; i<16 ; i++) {
+              context_data_val = (context_data_val << 1) | (value&1);
+              if (context_data_position == bitsPerChar-1) {
+                context_data_position = 0;
+                context_data.push(getCharFromInt(context_data_val));
+                context_data_val = 0;
+              } else {
+                context_data_position++;
+              }
+              value = value >> 1;
+            }
+          }
+          context_enlargeIn--;
+          if (context_enlargeIn == 0) {
+            context_enlargeIn = Math.pow(2, context_numBits);
+            context_numBits++;
+          }
+          delete context_dictionaryToCreate[context_w];
+        } else {
+          value = context_dictionary[context_w];
+          for (i=0 ; i<context_numBits ; i++) {
+            context_data_val = (context_data_val << 1) | (value&1);
+            if (context_data_position == bitsPerChar-1) {
+              context_data_position = 0;
+              context_data.push(getCharFromInt(context_data_val));
+              context_data_val = 0;
+            } else {
+              context_data_position++;
+            }
+            value = value >> 1;
+          }
+
+
+        }
+        context_enlargeIn--;
+        if (context_enlargeIn == 0) {
+          context_enlargeIn = Math.pow(2, context_numBits);
+          context_numBits++;
+        }
+        // Add wc to the dictionary.
+        context_dictionary[context_wc] = context_dictSize++;
+        context_w = String(context_c);
+      }
+    }
+
+    // Output the code for w.
+    if (context_w !== "") {
+      if (Object.prototype.hasOwnProperty.call(context_dictionaryToCreate,context_w)) {
+        if (context_w.charCodeAt(0)<256) {
+          for (i=0 ; i<context_numBits ; i++) {
+            context_data_val = (context_data_val << 1);
+            if (context_data_position == bitsPerChar-1) {
+              context_data_position = 0;
+              context_data.push(getCharFromInt(context_data_val));
+              context_data_val = 0;
+            } else {
+              context_data_position++;
+            }
+          }
+          value = context_w.charCodeAt(0);
+          for (i=0 ; i<8 ; i++) {
+            context_data_val = (context_data_val << 1) | (value&1);
+            if (context_data_position == bitsPerChar-1) {
+              context_data_position = 0;
+              context_data.push(getCharFromInt(context_data_val));
+              context_data_val = 0;
+            } else {
+              context_data_position++;
+            }
+            value = value >> 1;
+          }
+        } else {
+          value = 1;
+          for (i=0 ; i<context_numBits ; i++) {
+            context_data_val = (context_data_val << 1) | value;
+            if (context_data_position == bitsPerChar-1) {
+              context_data_position = 0;
+              context_data.push(getCharFromInt(context_data_val));
+              context_data_val = 0;
+            } else {
+              context_data_position++;
+            }
+            value = 0;
+          }
+          value = context_w.charCodeAt(0);
+          for (i=0 ; i<16 ; i++) {
+            context_data_val = (context_data_val << 1) | (value&1);
+            if (context_data_position == bitsPerChar-1) {
+              context_data_position = 0;
+              context_data.push(getCharFromInt(context_data_val));
+              context_data_val = 0;
+            } else {
+              context_data_position++;
+            }
+            value = value >> 1;
+          }
+        }
+        context_enlargeIn--;
+        if (context_enlargeIn == 0) {
+          context_enlargeIn = Math.pow(2, context_numBits);
+          context_numBits++;
+        }
+        delete context_dictionaryToCreate[context_w];
+      } else {
+        value = context_dictionary[context_w];
+        for (i=0 ; i<context_numBits ; i++) {
+          context_data_val = (context_data_val << 1) | (value&1);
+          if (context_data_position == bitsPerChar-1) {
+            context_data_position = 0;
+            context_data.push(getCharFromInt(context_data_val));
+            context_data_val = 0;
+          } else {
+            context_data_position++;
+          }
+          value = value >> 1;
+        }
+
+
+      }
+      context_enlargeIn--;
+      if (context_enlargeIn == 0) {
+        context_enlargeIn = Math.pow(2, context_numBits);
+        context_numBits++;
+      }
+    }
+
+    // Mark the end of the stream
+    value = 2;
+    for (i=0 ; i<context_numBits ; i++) {
+      context_data_val = (context_data_val << 1) | (value&1);
+      if (context_data_position == bitsPerChar-1) {
+        context_data_position = 0;
+        context_data.push(getCharFromInt(context_data_val));
+        context_data_val = 0;
+      } else {
+        context_data_position++;
+      }
+      value = value >> 1;
+    }
+
+    // Flush the last char
+    while (true) {
+      context_data_val = (context_data_val << 1);
+      if (context_data_position == bitsPerChar-1) {
+        context_data.push(getCharFromInt(context_data_val));
+        break;
+      }
+      else context_data_position++;
+    }
+    return context_data.join('');
+  },
+
+  decompress: function (compressed) {
+    if (compressed == null) return "";
+    if (compressed == "") return null;
+    return LZString._decompress(compressed.length, 32768, function(index) { return compressed.charCodeAt(index); });
+  },
+
+  _decompress: function (length, resetValue, getNextValue) {
+    var dictionary = [],
+        next,
+        enlargeIn = 4,
+        dictSize = 4,
+        numBits = 3,
+        entry = "",
+        result = [],
+        i,
+        w,
+        bits, resb, maxpower, power,
+        c,
+        data = {val:getNextValue(0), position:resetValue, index:1};
+
+    for (i = 0; i < 3; i += 1) {
+      dictionary[i] = i;
+    }
+
+    bits = 0;
+    maxpower = Math.pow(2,2);
+    power=1;
+    while (power!=maxpower) {
+      resb = data.val & data.position;
+      data.position >>= 1;
+      if (data.position == 0) {
+        data.position = resetValue;
+        data.val = getNextValue(data.index++);
+      }
+      bits |= (resb>0 ? 1 : 0) * power;
+      power <<= 1;
+    }
+
+    switch (next = bits) {
+      case 0:
+          bits = 0;
+          maxpower = Math.pow(2,8);
+          power=1;
+          while (power!=maxpower) {
+            resb = data.val & data.position;
+            data.position >>= 1;
+            if (data.position == 0) {
+              data.position = resetValue;
+              data.val = getNextValue(data.index++);
+            }
+            bits |= (resb>0 ? 1 : 0) * power;
+            power <<= 1;
+          }
+        c = f(bits);
+        break;
+      case 1:
+          bits = 0;
+          maxpower = Math.pow(2,16);
+          power=1;
+          while (power!=maxpower) {
+            resb = data.val & data.position;
+            data.position >>= 1;
+            if (data.position == 0) {
+              data.position = resetValue;
+              data.val = getNextValue(data.index++);
+            }
+            bits |= (resb>0 ? 1 : 0) * power;
+            power <<= 1;
+          }
+        c = f(bits);
+        break;
+      case 2:
+        return "";
+    }
+    dictionary[3] = c;
+    w = c;
+    result.push(c);
+    while (true) {
+      if (data.index > length) {
+        return "";
+      }
+
+      bits = 0;
+      maxpower = Math.pow(2,numBits);
+      power=1;
+      while (power!=maxpower) {
+        resb = data.val & data.position;
+        data.position >>= 1;
+        if (data.position == 0) {
+          data.position = resetValue;
+          data.val = getNextValue(data.index++);
+        }
+        bits |= (resb>0 ? 1 : 0) * power;
+        power <<= 1;
+      }
+
+      switch (c = bits) {
+        case 0:
+          bits = 0;
+          maxpower = Math.pow(2,8);
+          power=1;
+          while (power!=maxpower) {
+            resb = data.val & data.position;
+            data.position >>= 1;
+            if (data.position == 0) {
+              data.position = resetValue;
+              data.val = getNextValue(data.index++);
+            }
+            bits |= (resb>0 ? 1 : 0) * power;
+            power <<= 1;
+          }
+
+          dictionary[dictSize++] = f(bits);
+          c = dictSize-1;
+          enlargeIn--;
+          break;
+        case 1:
+          bits = 0;
+          maxpower = Math.pow(2,16);
+          power=1;
+          while (power!=maxpower) {
+            resb = data.val & data.position;
+            data.position >>= 1;
+            if (data.position == 0) {
+              data.position = resetValue;
+              data.val = getNextValue(data.index++);
+            }
+            bits |= (resb>0 ? 1 : 0) * power;
+            power <<= 1;
+          }
+          dictionary[dictSize++] = f(bits);
+          c = dictSize-1;
+          enlargeIn--;
+          break;
+        case 2:
+          return result.join('');
+      }
+
+      if (enlargeIn == 0) {
+        enlargeIn = Math.pow(2, numBits);
+        numBits++;
+      }
+
+      if (dictionary[c]) {
+        entry = dictionary[c];
+      } else {
+        if (c === dictSize) {
+          entry = w + w.charAt(0);
+        } else {
+          return null;
+        }
+      }
+      result.push(entry);
+
+      // Add w+entry[0] to the dictionary.
+      dictionary[dictSize++] = w + entry.charAt(0);
+      enlargeIn--;
+
+      w = entry;
+
+      if (enlargeIn == 0) {
+        enlargeIn = Math.pow(2, numBits);
+        numBits++;
+      }
+
+    }
+  }
+};
+  return LZString;
+})();
+
+if (true) {
+  !(__WEBPACK_AMD_DEFINE_RESULT__ = (function () { return LZString; }).call(exports, __webpack_require__, exports, module),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+} else if( typeof module !== 'undefined' && module != null ) {
+  module.exports = LZString
+}
 
 
 /***/ }),
-/* 65 */
+/* 68 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+exports.default = {
+  props: ["budget", "clearSharedBudget"]
+};
+
+/***/ }),
+/* 69 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(66);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__App_vue__ = __webpack_require__(70);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(70);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__App_vue__ = __webpack_require__(74);
 
 
 
 new __WEBPACK_IMPORTED_MODULE_0_vue__["a" /* default */]({
   el: "#app",
-  render: h => h(__WEBPACK_IMPORTED_MODULE_1__App_vue__["a" /* default */])
+  render: h => h(__WEBPACK_IMPORTED_MODULE_1__App_vue__["default"])
 });
 
 
 /***/ }),
-/* 66 */
+/* 70 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -14054,10 +14892,10 @@ if (inBrowser) {
 
 /* harmony default export */ __webpack_exports__["a"] = (Vue);
 
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(8), __webpack_require__(67).setImmediate))
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(8), __webpack_require__(71).setImmediate))
 
 /***/ }),
-/* 67 */
+/* 71 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {var scope = (typeof global !== "undefined" && global) ||
@@ -14113,7 +14951,7 @@ exports._unrefActive = exports.active = function(item) {
 };
 
 // setimmediate attaches itself to the global object
-__webpack_require__(68);
+__webpack_require__(72);
 // On some exotic environments, it's not clear which object `setimmediate` was
 // able to install onto.  Search each possibility in the same order as the
 // `setimmediate` library.
@@ -14127,7 +14965,7 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
 /***/ }),
-/* 68 */
+/* 72 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, process) {(function (global, undefined) {
@@ -14317,10 +15155,10 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
     attachTo.clearImmediate = clearImmediate;
 }(typeof self === "undefined" ? typeof global === "undefined" ? this : global : self));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8), __webpack_require__(69)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8), __webpack_require__(73)))
 
 /***/ }),
-/* 69 */
+/* 73 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -14510,14 +15348,19 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 70 */
+/* 74 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_selector_type_script_index_0_App_vue__ = __webpack_require__(24);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_App_vue__ = __webpack_require__(26);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_App_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_App_vue__);
 /* unused harmony namespace reexport */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_10a51f53_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_App_vue__ = __webpack_require__(188);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__ = __webpack_require__(23);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_7023b000_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_App_vue__ = __webpack_require__(199);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__ = __webpack_require__(9);
+function injectStyle (context) {
+  __webpack_require__(75)
+  __webpack_require__(78)
+}
 /* script */
 
 
@@ -14526,27 +15369,118 @@ process.umask = function() { return 0; };
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
-var __vue_styles__ = null
+var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = null
+var __vue_scopeId__ = "data-v-7023b000"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 
 var Component = Object(__WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__["a" /* default */])(
-  __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_selector_type_script_index_0_App_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_10a51f53_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_App_vue__["a" /* render */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_10a51f53_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_App_vue__["b" /* staticRenderFns */],
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_App_vue___default.a,
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_7023b000_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_App_vue__["a" /* render */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_7023b000_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_App_vue__["b" /* staticRenderFns */],
   __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
   __vue_module_identifier__
 )
 
-/* harmony default export */ __webpack_exports__["a"] = (Component.exports);
+/* harmony default export */ __webpack_exports__["default"] = (Component.exports);
 
 
 /***/ }),
-/* 71 */
+/* 75 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(76);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var add = __webpack_require__(25).default
+var update = add("58d51c20", content, true, {});
+
+/***/ }),
+/* 76 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(24)(false);
+// imports
+
+
+// module
+exports.push([module.i, ".container[data-v-7023b000]{height:100%}.logo[data-v-7023b000]{color:#12323d;font:900 40px Helvetica,Arial,sans-serif;line-height:1em;padding:12px 20px}.period[data-v-7023b000]{color:#85c3e9}.hero[data-v-7023b000]{display:flex;flex-direction:column;justify-content:space-around;align-items:center;height:calc(100% - 64px);padding:54px 20px;background:#85c3e9;color:#fff;text-align:center}.hero-header[data-v-7023b000]{padding:0 24px 24px;font:900 60px Helvetica,Arial,sans-serif;text-transform:capitalize;line-height:1em}.hero-description[data-v-7023b000]{display:flex;flex-direction:column;justify-content:center;align-items:center;width:75%;margin:0 auto;padding:0 24px 24px;font:400 24px Helvetica,Arial,sans-serif;line-height:1.5em}.button[data-v-7023b000]{width:220px;padding:24px;border:none;border-radius:5px;background:#f3783c;font:400 18px Helvetica,Arial,sans-serif;color:#fff;text-transform:uppercase;cursor:pointer}.button[data-v-7023b000]:focus{outline:none}", ""]);
+
+// exports
+
+
+/***/ }),
+/* 77 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = listToStyles;
+/**
+ * Translates the list format produced by css-loader into something
+ * easier to manipulate.
+ */
+function listToStyles (parentId, list) {
+  var styles = []
+  var newStyles = {}
+  for (var i = 0; i < list.length; i++) {
+    var item = list[i]
+    var id = item[0]
+    var css = item[1]
+    var media = item[2]
+    var sourceMap = item[3]
+    var part = {
+      id: parentId + ':' + i,
+      css: css,
+      media: media,
+      sourceMap: sourceMap
+    }
+    if (!newStyles[id]) {
+      styles.push(newStyles[id] = { id: id, parts: [part] })
+    } else {
+      newStyles[id].parts.push(part)
+    }
+  }
+  return styles
+}
+
+
+/***/ }),
+/* 78 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(79);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var add = __webpack_require__(25).default
+var update = add("709b2c27", content, true, {});
+
+/***/ }),
+/* 79 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(24)(false);
+// imports
+
+
+// module
+exports.push([module.i, "*{box-sizing:border-box}body,html{height:100%;margin:0}", ""]);
+
+// exports
+
+
+/***/ }),
+/* 80 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -14573,7 +15507,7 @@ class Configuration {
 
 
 /***/ }),
-/* 72 */
+/* 81 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14600,8 +15534,8 @@ class Configuration {
 
 
 
-var punycode = __webpack_require__(73);
-var util = __webpack_require__(75);
+var punycode = __webpack_require__(82);
+var util = __webpack_require__(84);
 
 exports.parse = urlParse;
 exports.resolve = urlResolve;
@@ -14676,7 +15610,7 @@ var protocolPattern = /^([a-z0-9.+-]+:)/i,
       'gopher:': true,
       'file:': true
     },
-    querystring = __webpack_require__(76);
+    querystring = __webpack_require__(85);
 
 function urlParse(url, parseQueryString, slashesDenoteHost) {
   if (url && util.isObject(url) && url instanceof Url) return url;
@@ -15312,7 +16246,7 @@ Url.prototype.parseHost = function() {
 
 
 /***/ }),
-/* 73 */
+/* 82 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module, global) {var __WEBPACK_AMD_DEFINE_RESULT__;/*! https://mths.be/punycode v1.4.1 by @mathias */
@@ -15848,10 +16782,10 @@ Url.prototype.parseHost = function() {
 
 }(this));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(74)(module), __webpack_require__(8)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(83)(module), __webpack_require__(8)))
 
 /***/ }),
-/* 74 */
+/* 83 */
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -15879,7 +16813,7 @@ module.exports = function(module) {
 
 
 /***/ }),
-/* 75 */
+/* 84 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15902,18 +16836,18 @@ module.exports = {
 
 
 /***/ }),
-/* 76 */
+/* 85 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-exports.decode = exports.parse = __webpack_require__(77);
-exports.encode = exports.stringify = __webpack_require__(78);
+exports.decode = exports.parse = __webpack_require__(86);
+exports.encode = exports.stringify = __webpack_require__(87);
 
 
 /***/ }),
-/* 77 */
+/* 86 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16004,7 +16938,7 @@ var isArray = Array.isArray || function (xs) {
 
 
 /***/ }),
-/* 78 */
+/* 87 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16096,19 +17030,19 @@ var objectKeys = Object.keys || function (obj) {
 
 
 /***/ }),
-/* 79 */
+/* 88 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // the whatwg-fetch polyfill installs the fetch() function
 // on the global object (window or self)
 //
 // Return that as the export for use in Webpack, Browserify etc.
-__webpack_require__(80);
+__webpack_require__(89);
 module.exports = self.fetch.bind(self);
 
 
 /***/ }),
-/* 80 */
+/* 89 */
 /***/ (function(module, exports) {
 
 (function(self) {
@@ -16580,7 +17514,7 @@ module.exports = self.fetch.bind(self);
 
 
 /***/ }),
-/* 81 */
+/* 90 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -16622,28 +17556,16 @@ module.exports = self.fetch.bind(self);
 
 
 /***/ }),
-/* 82 */
+/* 91 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony default export */ __webpack_exports__["a"] = ({
-  clientId: "a51fbc3f0117cb4163fca3ecdb80749eba91b35c6fae3457590354fa47a64c63",
-  redirectUri:
-     true
-      ? "https://danyowma.github.io/ynab-share"
-      : "https://localhost:8080"
-});
-
-
-/***/ }),
-/* 83 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_selector_type_script_index_0_Budgets_vue__ = __webpack_require__(27);
-/* unused harmony namespace reexport */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_65a499f6_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Budgets_vue__ = __webpack_require__(185);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__ = __webpack_require__(23);
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Budgets_vue__ = __webpack_require__(30);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Budgets_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Budgets_vue__);
+/* harmony namespace reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Budgets_vue__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Budgets_vue__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_4598b298_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Budgets_vue__ = __webpack_require__(92);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__ = __webpack_require__(9);
 /* script */
 
 
@@ -16659,20 +17581,231 @@ var __vue_scopeId__ = null
 var __vue_module_identifier__ = null
 
 var Component = Object(__WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__["a" /* default */])(
-  __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_selector_type_script_index_0_Budgets_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_65a499f6_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Budgets_vue__["a" /* render */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_65a499f6_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Budgets_vue__["b" /* staticRenderFns */],
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Budgets_vue___default.a,
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_4598b298_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Budgets_vue__["a" /* render */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_4598b298_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Budgets_vue__["b" /* staticRenderFns */],
   __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
   __vue_module_identifier__
 )
 
-/* harmony default export */ __webpack_exports__["a"] = (Component.exports);
+/* harmony default export */ __webpack_exports__["default"] = (Component.exports);
 
 
 /***/ }),
-/* 84 */
+/* 92 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return staticRenderFns; });
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('h5',[_vm._v("Select A Budget")]),_vm._v(" "),_vm._l((_vm.budgets),function(budget){return _c('div',{key:budget.id},[_c('a',{attrs:{"href":"#"},on:{"click":function($event){_vm.selectBudget(budget.id, $event)}}},[_vm._v(_vm._s(budget.name))])])})],2)}
+var staticRenderFns = []
+
+
+/***/ }),
+/* 93 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Budget_vue__ = __webpack_require__(31);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Budget_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Budget_vue__);
+/* harmony namespace reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Budget_vue__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Budget_vue__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_e77e6956_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Budget_vue__ = __webpack_require__(196);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__ = __webpack_require__(9);
+/* script */
+
+
+/* template */
+
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+
+var Component = Object(__WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__["a" /* default */])(
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Budget_vue___default.a,
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_e77e6956_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Budget_vue__["a" /* render */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_e77e6956_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Budget_vue__["b" /* staticRenderFns */],
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+
+/* harmony default export */ __webpack_exports__["default"] = (Component.exports);
+
+
+/***/ }),
+/* 94 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = {
+  addDays: __webpack_require__(4),
+  addHours: __webpack_require__(32),
+  addISOYears: __webpack_require__(33),
+  addMilliseconds: __webpack_require__(5),
+  addMinutes: __webpack_require__(35),
+  addMonths: __webpack_require__(12),
+  addQuarters: __webpack_require__(36),
+  addSeconds: __webpack_require__(37),
+  addWeeks: __webpack_require__(16),
+  addYears: __webpack_require__(38),
+  areRangesOverlapping: __webpack_require__(95),
+  closestIndexTo: __webpack_require__(96),
+  closestTo: __webpack_require__(97),
+  compareAsc: __webpack_require__(7),
+  compareDesc: __webpack_require__(17),
+  differenceInCalendarDays: __webpack_require__(11),
+  differenceInCalendarISOWeeks: __webpack_require__(98),
+  differenceInCalendarISOYears: __webpack_require__(39),
+  differenceInCalendarMonths: __webpack_require__(40),
+  differenceInCalendarQuarters: __webpack_require__(99),
+  differenceInCalendarWeeks: __webpack_require__(100),
+  differenceInCalendarYears: __webpack_require__(42),
+  differenceInDays: __webpack_require__(43),
+  differenceInHours: __webpack_require__(101),
+  differenceInISOYears: __webpack_require__(102),
+  differenceInMilliseconds: __webpack_require__(13),
+  differenceInMinutes: __webpack_require__(103),
+  differenceInMonths: __webpack_require__(18),
+  differenceInQuarters: __webpack_require__(104),
+  differenceInSeconds: __webpack_require__(19),
+  differenceInWeeks: __webpack_require__(105),
+  differenceInYears: __webpack_require__(106),
+  distanceInWords: __webpack_require__(45),
+  distanceInWordsStrict: __webpack_require__(110),
+  distanceInWordsToNow: __webpack_require__(111),
+  eachDay: __webpack_require__(112),
+  endOfDay: __webpack_require__(21),
+  endOfHour: __webpack_require__(113),
+  endOfISOWeek: __webpack_require__(114),
+  endOfISOYear: __webpack_require__(115),
+  endOfMinute: __webpack_require__(116),
+  endOfMonth: __webpack_require__(47),
+  endOfQuarter: __webpack_require__(117),
+  endOfSecond: __webpack_require__(118),
+  endOfToday: __webpack_require__(119),
+  endOfTomorrow: __webpack_require__(120),
+  endOfWeek: __webpack_require__(46),
+  endOfYear: __webpack_require__(121),
+  endOfYesterday: __webpack_require__(122),
+  format: __webpack_require__(123),
+  getDate: __webpack_require__(124),
+  getDay: __webpack_require__(125),
+  getDayOfYear: __webpack_require__(48),
+  getDaysInMonth: __webpack_require__(15),
+  getDaysInYear: __webpack_require__(126),
+  getHours: __webpack_require__(127),
+  getISODay: __webpack_require__(52),
+  getISOWeek: __webpack_require__(22),
+  getISOWeeksInYear: __webpack_require__(128),
+  getISOYear: __webpack_require__(1),
+  getMilliseconds: __webpack_require__(129),
+  getMinutes: __webpack_require__(130),
+  getMonth: __webpack_require__(131),
+  getOverlappingDaysInRanges: __webpack_require__(132),
+  getQuarter: __webpack_require__(41),
+  getSeconds: __webpack_require__(133),
+  getTime: __webpack_require__(134),
+  getYear: __webpack_require__(135),
+  isAfter: __webpack_require__(136),
+  isBefore: __webpack_require__(137),
+  isDate: __webpack_require__(14),
+  isEqual: __webpack_require__(138),
+  isFirstDayOfMonth: __webpack_require__(139),
+  isFriday: __webpack_require__(140),
+  isFuture: __webpack_require__(141),
+  isLastDayOfMonth: __webpack_require__(142),
+  isLeapYear: __webpack_require__(51),
+  isMonday: __webpack_require__(143),
+  isPast: __webpack_require__(144),
+  isSameDay: __webpack_require__(145),
+  isSameHour: __webpack_require__(53),
+  isSameISOWeek: __webpack_require__(55),
+  isSameISOYear: __webpack_require__(56),
+  isSameMinute: __webpack_require__(57),
+  isSameMonth: __webpack_require__(59),
+  isSameQuarter: __webpack_require__(60),
+  isSameSecond: __webpack_require__(62),
+  isSameWeek: __webpack_require__(23),
+  isSameYear: __webpack_require__(64),
+  isSaturday: __webpack_require__(146),
+  isSunday: __webpack_require__(147),
+  isThisHour: __webpack_require__(148),
+  isThisISOWeek: __webpack_require__(149),
+  isThisISOYear: __webpack_require__(150),
+  isThisMinute: __webpack_require__(151),
+  isThisMonth: __webpack_require__(152),
+  isThisQuarter: __webpack_require__(153),
+  isThisSecond: __webpack_require__(154),
+  isThisWeek: __webpack_require__(155),
+  isThisYear: __webpack_require__(156),
+  isThursday: __webpack_require__(157),
+  isToday: __webpack_require__(158),
+  isTomorrow: __webpack_require__(159),
+  isTuesday: __webpack_require__(160),
+  isValid: __webpack_require__(50),
+  isWednesday: __webpack_require__(161),
+  isWeekend: __webpack_require__(162),
+  isWithinRange: __webpack_require__(163),
+  isYesterday: __webpack_require__(164),
+  lastDayOfISOWeek: __webpack_require__(165),
+  lastDayOfISOYear: __webpack_require__(166),
+  lastDayOfMonth: __webpack_require__(167),
+  lastDayOfQuarter: __webpack_require__(168),
+  lastDayOfWeek: __webpack_require__(65),
+  lastDayOfYear: __webpack_require__(169),
+  max: __webpack_require__(170),
+  min: __webpack_require__(171),
+  parse: __webpack_require__(0),
+  setDate: __webpack_require__(172),
+  setDay: __webpack_require__(173),
+  setDayOfYear: __webpack_require__(174),
+  setHours: __webpack_require__(175),
+  setISODay: __webpack_require__(176),
+  setISOWeek: __webpack_require__(177),
+  setISOYear: __webpack_require__(34),
+  setMilliseconds: __webpack_require__(178),
+  setMinutes: __webpack_require__(179),
+  setMonth: __webpack_require__(66),
+  setQuarter: __webpack_require__(180),
+  setSeconds: __webpack_require__(181),
+  setYear: __webpack_require__(182),
+  startOfDay: __webpack_require__(3),
+  startOfHour: __webpack_require__(54),
+  startOfISOWeek: __webpack_require__(2),
+  startOfISOYear: __webpack_require__(6),
+  startOfMinute: __webpack_require__(58),
+  startOfMonth: __webpack_require__(183),
+  startOfQuarter: __webpack_require__(61),
+  startOfSecond: __webpack_require__(63),
+  startOfToday: __webpack_require__(184),
+  startOfTomorrow: __webpack_require__(185),
+  startOfWeek: __webpack_require__(10),
+  startOfYear: __webpack_require__(49),
+  startOfYesterday: __webpack_require__(186),
+  subDays: __webpack_require__(187),
+  subHours: __webpack_require__(188),
+  subISOYears: __webpack_require__(44),
+  subMilliseconds: __webpack_require__(189),
+  subMinutes: __webpack_require__(190),
+  subMonths: __webpack_require__(191),
+  subQuarters: __webpack_require__(192),
+  subSeconds: __webpack_require__(193),
+  subWeeks: __webpack_require__(194),
+  subYears: __webpack_require__(195)
+}
+
+
+/***/ }),
+/* 95 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
@@ -16722,7 +17855,7 @@ module.exports = areRangesOverlapping
 
 
 /***/ }),
-/* 85 */
+/* 96 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
@@ -16777,7 +17910,7 @@ module.exports = closestIndexTo
 
 
 /***/ }),
-/* 86 */
+/* 97 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
@@ -16830,7 +17963,7 @@ module.exports = closestTo
 
 
 /***/ }),
-/* 87 */
+/* 98 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var startOfISOWeek = __webpack_require__(2)
@@ -16878,10 +18011,10 @@ module.exports = differenceInCalendarISOWeeks
 
 
 /***/ }),
-/* 88 */
+/* 99 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var getQuarter = __webpack_require__(38)
+var getQuarter = __webpack_require__(41)
 var parse = __webpack_require__(0)
 
 /**
@@ -16917,10 +18050,10 @@ module.exports = differenceInCalendarQuarters
 
 
 /***/ }),
-/* 89 */
+/* 100 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var startOfWeek = __webpack_require__(9)
+var startOfWeek = __webpack_require__(10)
 
 var MILLISECONDS_IN_MINUTE = 60000
 var MILLISECONDS_IN_WEEK = 604800000
@@ -16975,10 +18108,10 @@ module.exports = differenceInCalendarWeeks
 
 
 /***/ }),
-/* 90 */
+/* 101 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var differenceInMilliseconds = __webpack_require__(12)
+var differenceInMilliseconds = __webpack_require__(13)
 
 var MILLISECONDS_IN_HOUR = 3600000
 
@@ -17010,13 +18143,13 @@ module.exports = differenceInHours
 
 
 /***/ }),
-/* 91 */
+/* 102 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
-var differenceInCalendarISOYears = __webpack_require__(36)
+var differenceInCalendarISOYears = __webpack_require__(39)
 var compareAsc = __webpack_require__(7)
-var subISOYears = __webpack_require__(41)
+var subISOYears = __webpack_require__(44)
 
 /**
  * @category ISO Week-Numbering Year Helpers
@@ -17058,10 +18191,10 @@ module.exports = differenceInISOYears
 
 
 /***/ }),
-/* 92 */
+/* 103 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var differenceInMilliseconds = __webpack_require__(12)
+var differenceInMilliseconds = __webpack_require__(13)
 
 var MILLISECONDS_IN_MINUTE = 60000
 
@@ -17093,10 +18226,10 @@ module.exports = differenceInMinutes
 
 
 /***/ }),
-/* 93 */
+/* 104 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var differenceInMonths = __webpack_require__(17)
+var differenceInMonths = __webpack_require__(18)
 
 /**
  * @category Quarter Helpers
@@ -17126,10 +18259,10 @@ module.exports = differenceInQuarters
 
 
 /***/ }),
-/* 94 */
+/* 105 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var differenceInDays = __webpack_require__(40)
+var differenceInDays = __webpack_require__(43)
 
 /**
  * @category Week Helpers
@@ -17159,11 +18292,11 @@ module.exports = differenceInWeeks
 
 
 /***/ }),
-/* 95 */
+/* 106 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
-var differenceInCalendarYears = __webpack_require__(39)
+var differenceInCalendarYears = __webpack_require__(42)
 var compareAsc = __webpack_require__(7)
 
 /**
@@ -17203,7 +18336,7 @@ module.exports = differenceInYears
 
 
 /***/ }),
-/* 96 */
+/* 107 */
 /***/ (function(module, exports) {
 
 function buildDistanceInWordsLocale () {
@@ -17308,10 +18441,10 @@ module.exports = buildDistanceInWordsLocale
 
 
 /***/ }),
-/* 97 */
+/* 108 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var buildFormattingTokensRegExp = __webpack_require__(98)
+var buildFormattingTokensRegExp = __webpack_require__(109)
 
 function buildFormatLocale () {
   // Note: in English, the names of days of the week and months are capitalized.
@@ -17402,7 +18535,7 @@ module.exports = buildFormatLocale
 
 
 /***/ }),
-/* 98 */
+/* 109 */
 /***/ (function(module, exports) {
 
 var commonFormatterKeys = [
@@ -17436,13 +18569,13 @@ module.exports = buildFormattingTokensRegExp
 
 
 /***/ }),
-/* 99 */
+/* 110 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var compareDesc = __webpack_require__(16)
+var compareDesc = __webpack_require__(17)
 var parse = __webpack_require__(0)
-var differenceInSeconds = __webpack_require__(18)
-var enLocale = __webpack_require__(19)
+var differenceInSeconds = __webpack_require__(19)
+var enLocale = __webpack_require__(20)
 
 var MINUTES_IN_DAY = 1440
 var MINUTES_IN_MONTH = 43200
@@ -17618,10 +18751,10 @@ module.exports = distanceInWordsStrict
 
 
 /***/ }),
-/* 100 */
+/* 111 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var distanceInWords = __webpack_require__(42)
+var distanceInWords = __webpack_require__(45)
 
 /**
  * @category Common Helpers
@@ -17709,7 +18842,7 @@ module.exports = distanceInWordsToNow
 
 
 /***/ }),
-/* 101 */
+/* 112 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
@@ -17769,7 +18902,7 @@ module.exports = eachDay
 
 
 /***/ }),
-/* 102 */
+/* 113 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
@@ -17800,10 +18933,10 @@ module.exports = endOfHour
 
 
 /***/ }),
-/* 103 */
+/* 114 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var endOfWeek = __webpack_require__(43)
+var endOfWeek = __webpack_require__(46)
 
 /**
  * @category ISO Week Helpers
@@ -17831,7 +18964,7 @@ module.exports = endOfISOWeek
 
 
 /***/ }),
-/* 104 */
+/* 115 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var getISOYear = __webpack_require__(1)
@@ -17870,7 +19003,7 @@ module.exports = endOfISOYear
 
 
 /***/ }),
-/* 105 */
+/* 116 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
@@ -17901,7 +19034,7 @@ module.exports = endOfMinute
 
 
 /***/ }),
-/* 106 */
+/* 117 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
@@ -17935,7 +19068,7 @@ module.exports = endOfQuarter
 
 
 /***/ }),
-/* 107 */
+/* 118 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
@@ -17966,10 +19099,10 @@ module.exports = endOfSecond
 
 
 /***/ }),
-/* 108 */
+/* 119 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var endOfDay = __webpack_require__(20)
+var endOfDay = __webpack_require__(21)
 
 /**
  * @category Day Helpers
@@ -17993,7 +19126,7 @@ module.exports = endOfToday
 
 
 /***/ }),
-/* 109 */
+/* 120 */
 /***/ (function(module, exports) {
 
 /**
@@ -18026,7 +19159,7 @@ module.exports = endOfTomorrow
 
 
 /***/ }),
-/* 110 */
+/* 121 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
@@ -18059,7 +19192,7 @@ module.exports = endOfYear
 
 
 /***/ }),
-/* 111 */
+/* 122 */
 /***/ (function(module, exports) {
 
 /**
@@ -18092,15 +19225,15 @@ module.exports = endOfYesterday
 
 
 /***/ }),
-/* 112 */
+/* 123 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var getDayOfYear = __webpack_require__(45)
-var getISOWeek = __webpack_require__(21)
+var getDayOfYear = __webpack_require__(48)
+var getISOWeek = __webpack_require__(22)
 var getISOYear = __webpack_require__(1)
 var parse = __webpack_require__(0)
-var isValid = __webpack_require__(47)
-var enLocale = __webpack_require__(19)
+var isValid = __webpack_require__(50)
+var enLocale = __webpack_require__(20)
 
 /**
  * @category Common Helpers
@@ -18426,7 +19559,7 @@ module.exports = format
 
 
 /***/ }),
-/* 113 */
+/* 124 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
@@ -18456,7 +19589,7 @@ module.exports = getDate
 
 
 /***/ }),
-/* 114 */
+/* 125 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
@@ -18486,10 +19619,10 @@ module.exports = getDay
 
 
 /***/ }),
-/* 115 */
+/* 126 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isLeapYear = __webpack_require__(48)
+var isLeapYear = __webpack_require__(51)
 
 /**
  * @category Year Helpers
@@ -18514,7 +19647,7 @@ module.exports = getDaysInYear
 
 
 /***/ }),
-/* 116 */
+/* 127 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
@@ -18544,11 +19677,11 @@ module.exports = getHours
 
 
 /***/ }),
-/* 117 */
+/* 128 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var startOfISOYear = __webpack_require__(6)
-var addWeeks = __webpack_require__(15)
+var addWeeks = __webpack_require__(16)
 
 var MILLISECONDS_IN_WEEK = 604800000
 
@@ -18583,7 +19716,7 @@ module.exports = getISOWeeksInYear
 
 
 /***/ }),
-/* 118 */
+/* 129 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
@@ -18613,7 +19746,7 @@ module.exports = getMilliseconds
 
 
 /***/ }),
-/* 119 */
+/* 130 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
@@ -18643,7 +19776,7 @@ module.exports = getMinutes
 
 
 /***/ }),
-/* 120 */
+/* 131 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
@@ -18673,7 +19806,7 @@ module.exports = getMonth
 
 
 /***/ }),
-/* 121 */
+/* 132 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
@@ -18741,7 +19874,7 @@ module.exports = getOverlappingDaysInRanges
 
 
 /***/ }),
-/* 122 */
+/* 133 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
@@ -18771,7 +19904,7 @@ module.exports = getSeconds
 
 
 /***/ }),
-/* 123 */
+/* 134 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
@@ -18801,7 +19934,7 @@ module.exports = getTime
 
 
 /***/ }),
-/* 124 */
+/* 135 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
@@ -18831,7 +19964,7 @@ module.exports = getYear
 
 
 /***/ }),
-/* 125 */
+/* 136 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
@@ -18862,7 +19995,7 @@ module.exports = isAfter
 
 
 /***/ }),
-/* 126 */
+/* 137 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
@@ -18893,7 +20026,7 @@ module.exports = isBefore
 
 
 /***/ }),
-/* 127 */
+/* 138 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
@@ -18927,7 +20060,7 @@ module.exports = isEqual
 
 
 /***/ }),
-/* 128 */
+/* 139 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
@@ -18955,7 +20088,7 @@ module.exports = isFirstDayOfMonth
 
 
 /***/ }),
-/* 129 */
+/* 140 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
@@ -18983,7 +20116,7 @@ module.exports = isFriday
 
 
 /***/ }),
-/* 130 */
+/* 141 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
@@ -19011,12 +20144,12 @@ module.exports = isFuture
 
 
 /***/ }),
-/* 131 */
+/* 142 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
-var endOfDay = __webpack_require__(20)
-var endOfMonth = __webpack_require__(44)
+var endOfDay = __webpack_require__(21)
+var endOfMonth = __webpack_require__(47)
 
 /**
  * @category Month Helpers
@@ -19042,7 +20175,7 @@ module.exports = isLastDayOfMonth
 
 
 /***/ }),
-/* 132 */
+/* 143 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
@@ -19070,7 +20203,7 @@ module.exports = isMonday
 
 
 /***/ }),
-/* 133 */
+/* 144 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
@@ -19098,7 +20231,7 @@ module.exports = isPast
 
 
 /***/ }),
-/* 134 */
+/* 145 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var startOfDay = __webpack_require__(3)
@@ -19133,7 +20266,7 @@ module.exports = isSameDay
 
 
 /***/ }),
-/* 135 */
+/* 146 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
@@ -19161,7 +20294,7 @@ module.exports = isSaturday
 
 
 /***/ }),
-/* 136 */
+/* 147 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
@@ -19189,10 +20322,10 @@ module.exports = isSunday
 
 
 /***/ }),
-/* 137 */
+/* 148 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isSameHour = __webpack_require__(50)
+var isSameHour = __webpack_require__(53)
 
 /**
  * @category Hour Helpers
@@ -19218,10 +20351,10 @@ module.exports = isThisHour
 
 
 /***/ }),
-/* 138 */
+/* 149 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isSameISOWeek = __webpack_require__(52)
+var isSameISOWeek = __webpack_require__(55)
 
 /**
  * @category ISO Week Helpers
@@ -19248,10 +20381,10 @@ module.exports = isThisISOWeek
 
 
 /***/ }),
-/* 139 */
+/* 150 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isSameISOYear = __webpack_require__(53)
+var isSameISOYear = __webpack_require__(56)
 
 /**
  * @category ISO Week-Numbering Year Helpers
@@ -19279,10 +20412,10 @@ module.exports = isThisISOYear
 
 
 /***/ }),
-/* 140 */
+/* 151 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isSameMinute = __webpack_require__(54)
+var isSameMinute = __webpack_require__(57)
 
 /**
  * @category Minute Helpers
@@ -19308,10 +20441,10 @@ module.exports = isThisMinute
 
 
 /***/ }),
-/* 141 */
+/* 152 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isSameMonth = __webpack_require__(56)
+var isSameMonth = __webpack_require__(59)
 
 /**
  * @category Month Helpers
@@ -19336,10 +20469,10 @@ module.exports = isThisMonth
 
 
 /***/ }),
-/* 142 */
+/* 153 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isSameQuarter = __webpack_require__(57)
+var isSameQuarter = __webpack_require__(60)
 
 /**
  * @category Quarter Helpers
@@ -19364,10 +20497,10 @@ module.exports = isThisQuarter
 
 
 /***/ }),
-/* 143 */
+/* 154 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isSameSecond = __webpack_require__(59)
+var isSameSecond = __webpack_require__(62)
 
 /**
  * @category Second Helpers
@@ -19393,10 +20526,10 @@ module.exports = isThisSecond
 
 
 /***/ }),
-/* 144 */
+/* 155 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isSameWeek = __webpack_require__(22)
+var isSameWeek = __webpack_require__(23)
 
 /**
  * @category Week Helpers
@@ -19429,10 +20562,10 @@ module.exports = isThisWeek
 
 
 /***/ }),
-/* 145 */
+/* 156 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isSameYear = __webpack_require__(61)
+var isSameYear = __webpack_require__(64)
 
 /**
  * @category Year Helpers
@@ -19457,7 +20590,7 @@ module.exports = isThisYear
 
 
 /***/ }),
-/* 146 */
+/* 157 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
@@ -19485,7 +20618,7 @@ module.exports = isThursday
 
 
 /***/ }),
-/* 147 */
+/* 158 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var startOfDay = __webpack_require__(3)
@@ -19513,7 +20646,7 @@ module.exports = isToday
 
 
 /***/ }),
-/* 148 */
+/* 159 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var startOfDay = __webpack_require__(3)
@@ -19543,7 +20676,7 @@ module.exports = isTomorrow
 
 
 /***/ }),
-/* 149 */
+/* 160 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
@@ -19571,7 +20704,7 @@ module.exports = isTuesday
 
 
 /***/ }),
-/* 150 */
+/* 161 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
@@ -19599,7 +20732,7 @@ module.exports = isWednesday
 
 
 /***/ }),
-/* 151 */
+/* 162 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
@@ -19629,7 +20762,7 @@ module.exports = isWeekend
 
 
 /***/ }),
-/* 152 */
+/* 163 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
@@ -19677,7 +20810,7 @@ module.exports = isWithinRange
 
 
 /***/ }),
-/* 153 */
+/* 164 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var startOfDay = __webpack_require__(3)
@@ -19707,10 +20840,10 @@ module.exports = isYesterday
 
 
 /***/ }),
-/* 154 */
+/* 165 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var lastDayOfWeek = __webpack_require__(62)
+var lastDayOfWeek = __webpack_require__(65)
 
 /**
  * @category ISO Week Helpers
@@ -19738,7 +20871,7 @@ module.exports = lastDayOfISOWeek
 
 
 /***/ }),
-/* 155 */
+/* 166 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var getISOYear = __webpack_require__(1)
@@ -19777,7 +20910,7 @@ module.exports = lastDayOfISOYear
 
 
 /***/ }),
-/* 156 */
+/* 167 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
@@ -19810,7 +20943,7 @@ module.exports = lastDayOfMonth
 
 
 /***/ }),
-/* 157 */
+/* 168 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
@@ -19844,7 +20977,7 @@ module.exports = lastDayOfQuarter
 
 
 /***/ }),
-/* 158 */
+/* 169 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
@@ -19877,7 +21010,7 @@ module.exports = lastDayOfYear
 
 
 /***/ }),
-/* 159 */
+/* 170 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
@@ -19915,7 +21048,7 @@ module.exports = max
 
 
 /***/ }),
-/* 160 */
+/* 171 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
@@ -19953,7 +21086,7 @@ module.exports = min
 
 
 /***/ }),
-/* 161 */
+/* 172 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
@@ -19985,7 +21118,7 @@ module.exports = setDate
 
 
 /***/ }),
-/* 162 */
+/* 173 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
@@ -20031,7 +21164,7 @@ module.exports = setDay
 
 
 /***/ }),
-/* 163 */
+/* 174 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
@@ -20064,7 +21197,7 @@ module.exports = setDayOfYear
 
 
 /***/ }),
-/* 164 */
+/* 175 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
@@ -20096,12 +21229,12 @@ module.exports = setHours
 
 
 /***/ }),
-/* 165 */
+/* 176 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
 var addDays = __webpack_require__(4)
-var getISODay = __webpack_require__(49)
+var getISODay = __webpack_require__(52)
 
 /**
  * @category Weekday Helpers
@@ -20133,11 +21266,11 @@ module.exports = setISODay
 
 
 /***/ }),
-/* 166 */
+/* 177 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
-var getISOWeek = __webpack_require__(21)
+var getISOWeek = __webpack_require__(22)
 
 /**
  * @category ISO Week Helpers
@@ -20169,7 +21302,7 @@ module.exports = setISOWeek
 
 
 /***/ }),
-/* 167 */
+/* 178 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
@@ -20201,7 +21334,7 @@ module.exports = setMilliseconds
 
 
 /***/ }),
-/* 168 */
+/* 179 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
@@ -20233,11 +21366,11 @@ module.exports = setMinutes
 
 
 /***/ }),
-/* 169 */
+/* 180 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
-var setMonth = __webpack_require__(63)
+var setMonth = __webpack_require__(66)
 
 /**
  * @category Quarter Helpers
@@ -20267,7 +21400,7 @@ module.exports = setQuarter
 
 
 /***/ }),
-/* 170 */
+/* 181 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
@@ -20299,7 +21432,7 @@ module.exports = setSeconds
 
 
 /***/ }),
-/* 171 */
+/* 182 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
@@ -20331,7 +21464,7 @@ module.exports = setYear
 
 
 /***/ }),
-/* 172 */
+/* 183 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
@@ -20363,7 +21496,7 @@ module.exports = startOfMonth
 
 
 /***/ }),
-/* 173 */
+/* 184 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var startOfDay = __webpack_require__(3)
@@ -20390,7 +21523,7 @@ module.exports = startOfToday
 
 
 /***/ }),
-/* 174 */
+/* 185 */
 /***/ (function(module, exports) {
 
 /**
@@ -20423,7 +21556,7 @@ module.exports = startOfTomorrow
 
 
 /***/ }),
-/* 175 */
+/* 186 */
 /***/ (function(module, exports) {
 
 /**
@@ -20456,7 +21589,7 @@ module.exports = startOfYesterday
 
 
 /***/ }),
-/* 176 */
+/* 187 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var addDays = __webpack_require__(4)
@@ -20486,10 +21619,10 @@ module.exports = subDays
 
 
 /***/ }),
-/* 177 */
+/* 188 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var addHours = __webpack_require__(29)
+var addHours = __webpack_require__(32)
 
 /**
  * @category Hour Helpers
@@ -20516,7 +21649,7 @@ module.exports = subHours
 
 
 /***/ }),
-/* 178 */
+/* 189 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var addMilliseconds = __webpack_require__(5)
@@ -20546,10 +21679,10 @@ module.exports = subMilliseconds
 
 
 /***/ }),
-/* 179 */
+/* 190 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var addMinutes = __webpack_require__(32)
+var addMinutes = __webpack_require__(35)
 
 /**
  * @category Minute Helpers
@@ -20576,10 +21709,10 @@ module.exports = subMinutes
 
 
 /***/ }),
-/* 180 */
+/* 191 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var addMonths = __webpack_require__(11)
+var addMonths = __webpack_require__(12)
 
 /**
  * @category Month Helpers
@@ -20606,10 +21739,10 @@ module.exports = subMonths
 
 
 /***/ }),
-/* 181 */
+/* 192 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var addQuarters = __webpack_require__(33)
+var addQuarters = __webpack_require__(36)
 
 /**
  * @category Quarter Helpers
@@ -20636,10 +21769,10 @@ module.exports = subQuarters
 
 
 /***/ }),
-/* 182 */
+/* 193 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var addSeconds = __webpack_require__(34)
+var addSeconds = __webpack_require__(37)
 
 /**
  * @category Second Helpers
@@ -20666,10 +21799,10 @@ module.exports = subSeconds
 
 
 /***/ }),
-/* 183 */
+/* 194 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var addWeeks = __webpack_require__(15)
+var addWeeks = __webpack_require__(16)
 
 /**
  * @category Week Helpers
@@ -20696,10 +21829,10 @@ module.exports = subWeeks
 
 
 /***/ }),
-/* 184 */
+/* 195 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var addYears = __webpack_require__(35)
+var addYears = __webpack_require__(38)
 
 /**
  * @category Year Helpers
@@ -20726,25 +21859,27 @@ module.exports = subYears
 
 
 /***/ }),
-/* 185 */
+/* 196 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return render; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return staticRenderFns; });
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('h5',[_vm._v("Select A Budget")]),_vm._v(" "),_vm._l((_vm.budgets),function(budget){return _c('div',{key:budget.id,staticClass:"row"},[_c('a',{staticClass:"col",attrs:{"href":"#"},on:{"click":function($event){_vm.selectBudget(budget.id, $event)}}},[_vm._v(_vm._s(budget.name))])])})],2)}
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_vm._v("\n  "+_vm._s(this.budget.name)+"\n  "),_c('a',{attrs:{"href":"#"},on:{"click":function($event){_vm.selectDateRange(_vm.getThisMonth())}}},[_vm._v("This Month")]),_vm._v(" "),_c('a',{attrs:{"href":"#"},on:{"click":function($event){_vm.selectDateRange(_vm.getLatest3Months())}}},[_vm._v("Latest 3 Months")]),_vm._v(" "),_c('a',{attrs:{"href":"#"},on:{"click":function($event){_vm.selectDateRange(_vm.getThisYear())}}},[_vm._v("This Year")]),_vm._v(" "),_c('a',{attrs:{"href":"#"},on:{"click":function($event){_vm.selectDateRange(_vm.getLastYear())}}},[_vm._v("Last Year")]),_vm._v(" "),(!Object.keys(_vm.mappedBudget).length)?_c('div',[_vm._v("\n    Not enough data\n  ")]):_c('div',[_c('div',[_vm._v("Share: "),_c('input',{attrs:{"type":"text"},domProps:{"value":_vm.budgetUrl}})]),_vm._v(" "),_vm._l((Object.keys(_vm.mappedBudget)),function(categoryGroupId){return _c('div',{key:categoryGroupId},[_c('span',[_vm._v(_vm._s(_vm.mappedBudget[categoryGroupId].name))]),_vm._v(" "),_c('span',[_vm._v(_vm._s(_vm.convertMilliUnitsToCurrencyAmount(_vm.mappedBudget[categoryGroupId].budgeted).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2})))]),_vm._v(" "),_c('span',[_vm._v(_vm._s((_vm.mappedBudget[categoryGroupId].budgeted / _vm.totalBudgeted * 100).toFixed(2))+"%")]),_vm._v(" "),_vm._l((_vm.mappedBudget[categoryGroupId].categories),function(category){return _c('div',{key:Object.keys(category)[0]},[_c('span',[_vm._v(_vm._s(category[Object.keys(category)[0]].name))]),_vm._v(" "),_c('span',[_vm._v(_vm._s(_vm.convertMilliUnitsToCurrencyAmount(category[Object.keys(category)[0]].budgeted).toFixed(2).toLocaleString()))]),_vm._v(" "),_c('span',[_vm._v(_vm._s((category[Object.keys(category)[0]].budgeted / _vm.totalBudgeted * 100).toFixed(2))+"%")])])})],2)})],2)])}
 var staticRenderFns = []
 
 
 /***/ }),
-/* 186 */
+/* 197 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_selector_type_script_index_0_Budget_vue__ = __webpack_require__(64);
-/* unused harmony namespace reexport */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_029e8d28_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Budget_vue__ = __webpack_require__(187);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__ = __webpack_require__(23);
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_SharedBudget_vue__ = __webpack_require__(68);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_SharedBudget_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_SharedBudget_vue__);
+/* harmony namespace reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_SharedBudget_vue__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_SharedBudget_vue__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_c140642a_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_SharedBudget_vue__ = __webpack_require__(198);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__ = __webpack_require__(9);
 /* script */
 
 
@@ -20760,38 +21895,38 @@ var __vue_scopeId__ = null
 var __vue_module_identifier__ = null
 
 var Component = Object(__WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__["a" /* default */])(
-  __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_selector_type_script_index_0_Budget_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_029e8d28_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Budget_vue__["a" /* render */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_029e8d28_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Budget_vue__["b" /* staticRenderFns */],
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_SharedBudget_vue___default.a,
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_c140642a_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_SharedBudget_vue__["a" /* render */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_c140642a_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_SharedBudget_vue__["b" /* staticRenderFns */],
   __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
   __vue_module_identifier__
 )
 
-/* harmony default export */ __webpack_exports__["a"] = (Component.exports);
+/* harmony default export */ __webpack_exports__["default"] = (Component.exports);
 
 
 /***/ }),
-/* 187 */
+/* 198 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return render; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return staticRenderFns; });
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_vm._v("\n  "+_vm._s(this.budget.name)+"\n  "),_c('a',{attrs:{"href":"#"},on:{"click":function($event){_vm.selectDateRange(_vm.getThisMonth())}}},[_vm._v("This Month")]),_vm._v(" "),_c('a',{attrs:{"href":"#"},on:{"click":function($event){_vm.selectDateRange(_vm.getLatest3Months())}}},[_vm._v("Latest 3 Months")]),_vm._v(" "),_c('a',{attrs:{"href":"#"},on:{"click":function($event){_vm.selectDateRange(_vm.getThisYear())}}},[_vm._v("This Year")]),_vm._v(" "),_c('a',{attrs:{"href":"#"},on:{"click":function($event){_vm.selectDateRange(_vm.getLastYear())}}},[_vm._v("Last Year")]),_vm._v(" "),(!Object.keys(_vm.mappedBudget).length)?_c('div',[_vm._v("\n    Not enough data\n  ")]):_vm._l((Object.keys(_vm.mappedBudget)),function(categoryGroupId){return _c('div',{key:categoryGroupId},[_c('span',{staticClass:"bold"},[_vm._v(_vm._s(_vm.mappedBudget[categoryGroupId].name))]),_vm._v(" "),_c('span',[_vm._v(_vm._s(_vm.convertMilliUnitsToCurrencyAmount(_vm.mappedBudget[categoryGroupId].budgeted).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2})))]),_vm._v(" "),_c('span',[_vm._v(_vm._s((_vm.mappedBudget[categoryGroupId].budgeted / _vm.mappedBudget.totalBudgeted * 100).toFixed(2))+"%")]),_vm._v(" "),_vm._l((_vm.mappedBudget[categoryGroupId].categories),function(category){return _c('div',{key:Object.keys(category)[0]},[_c('span',[_vm._v(_vm._s(category[Object.keys(category)[0]].name))]),_vm._v(" "),_c('span',[_vm._v(_vm._s(_vm.convertMilliUnitsToCurrencyAmount(category[Object.keys(category)[0]].budgeted).toFixed(2).toLocaleString()))]),_vm._v(" "),_c('span',[_vm._v(_vm._s((category[Object.keys(category)[0]].budgeted / _vm.mappedBudget.totalBudgeted * 100).toFixed(2))+"%")])])})],2)})],2)}
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('button',{on:{"click":_vm.clearSharedBudget}},[_vm._v("Share your own budget!")]),_vm._v(" "),_vm._l((_vm.budget),function(categoryGroup){return _c('div',{key:categoryGroup.name},[_c('span',[_vm._v(_vm._s(categoryGroup.name))]),_vm._v(" "),_c('span',[_vm._v(_vm._s(categoryGroup.budgeted)+"%")]),_vm._v(" "),_vm._l((categoryGroup.categories),function(category){return _c('div',{key:((categoryGroup.name) + "-" + (category.name))},[_c('span',[_vm._v(_vm._s(category.name))]),_vm._v(" "),_c('span',[_vm._v(_vm._s(category.budgeted)+"%")])])})],2)})],2)}
 var staticRenderFns = []
 
 
 /***/ }),
-/* 188 */
+/* 199 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return render; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return staticRenderFns; });
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('h1',[_vm._v("YNAB Share")]),_vm._v(" "),_c('div',[(_vm.loading)?_c('h1',[_vm._v("Loading...")]):_vm._e(),_vm._v(" "),(_vm.error)?_c('div',[_c('h1',[_vm._v("Oops!")]),_vm._v(" "),_c('p',[_vm._v(_vm._s(_vm.error))]),_vm._v(" "),_c('button',{on:{"click":_vm.resetToken}},[_vm._v("Try Again >")])]):_c('div',[(!_vm.ynab.token)?_c('form',[_c('div',[_c('h1',[_vm._v("Hello!")]),_vm._v(" "),_c('p',[_vm._v("If you would like to use this App, please authorize with YNAB!")]),_vm._v(" "),_c('button',{on:{"click":_vm.authorizeWithYNAB}},[_vm._v("Authorize This App With YNAB >")])])]):(!_vm.budgetId && !_vm.loading)?_c('Budgets',{attrs:{"budgets":_vm.budgets,"selectBudget":_vm.selectBudget}}):(!_vm.loading)?_c('div',[_c('Budget',{attrs:{"budget":_vm.budget}}),_vm._v(" "),_c('button',{on:{"click":function($event){_vm.budgetId = null}}},[_vm._v("< Select Another Budget")])],1):_vm._e()],1),_vm._v(" "),_c('Footer')],1)])}
-var staticRenderFns = []
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"container"},[_vm._m(0),_vm._v(" "),(_vm.loading)?_c('div',[_vm._v("Loading...")]):_vm._e(),_vm._v(" "),(_vm.error)?_c('div',[_c('h1',[_vm._v("Oops!")]),_vm._v(" "),_c('p',[_vm._v(_vm._s(_vm.error))]),_vm._v(" "),_c('button',{on:{"click":_vm.resetToken}},[_vm._v("Try Again >")])]):_vm._e(),_vm._v(" "),(_vm.sharedBudget && _vm.sharedBudget.length)?_c('SharedBudget',{attrs:{"budget":_vm.sharedBudget,"clearSharedBudget":_vm.clearSharedBudget}}):(!_vm.ynab.token)?_c('div',{staticClass:"hero"},[_c('div',[_c('div',{staticClass:"hero-header"},[_vm._v("Let's talk about budgets")]),_vm._v(" "),_c('div',{staticClass:"hero-description"},[_vm._v("\n        We'll hide the amounts so you can share your budget and geek out over categories\n      ")])]),_vm._v(" "),_c('button',{staticClass:"button",on:{"click":_vm.authorizeWithYNAB}},[_vm._v("Sign in with YNAB")])]):(!_vm.budgetId && !_vm.loading)?_c('Budgets',{attrs:{"budgets":_vm.budgets,"selectBudget":_vm.selectBudget}}):(!_vm.loading)?_c('div',[_c('Budget',{attrs:{"budget":_vm.budget}}),_vm._v(" "),_c('button',{on:{"click":function($event){_vm.budgetId = null}}},[_vm._v("< Select Another Budget")])],1):_vm._e()],1)}
+var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"logo"},[_vm._v("YNAB Share"),_c('span',{staticClass:"period"},[_vm._v(".")])])}]
 
 
 /***/ })
