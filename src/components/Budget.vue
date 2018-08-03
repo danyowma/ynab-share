@@ -35,7 +35,8 @@ import {
   addMonths,
   isWithinRange,
   compareAsc,
-  areRangesOverlapping
+  areRangesOverlapping,
+  isSameDay
 } from "date-fns";
 import { utils } from "ynab";
 import config from "../config";
@@ -109,7 +110,10 @@ export default {
       const mappedBudget = {};
       let totalBudgeted = 0;
 
-      if (!areRangesOverlapping(startDate, endDate, firstMonth, lastMonth)) {
+      if (
+        !areRangesOverlapping(startDate, endDate, firstMonth, lastMonth) &&
+        !(isSameDay(startDate, endDate) && isSameDay(startDate, lastMonth))
+      ) {
         return mappedBudget;
       }
 
