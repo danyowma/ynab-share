@@ -10,9 +10,9 @@
     <SharedBudget v-if="sharedBudget && sharedBudget.length" :budget="sharedBudget" :clearSharedBudget="clearSharedBudget" />
     <div v-else-if="!ynab.token" class="hero">
       <div>
-        <div class="hero-header">Let's talk about budgets</div>
+        <div class="hero-header">Let's talk budgets</div>
         <div class="hero-description">
-          We'll hide the amounts so you can share your budget and geek out over categories
+          Show your friends that budgets aren't scary. Geek out over categories with other YNABers. We'll hide the amounts to make it less awkward.
         </div>
       </div>
       <button @click="authorizeWithYNAB" class="button">Sign in with YNAB</button>
@@ -205,12 +205,17 @@ export default {
   width: 220px;
   padding: 24px;
   border: none;
+  border-bottom: 5px solid transparent;
   border-radius: 5px;
   background: #f3783c;
   font: 400 18px Helvetica, Arial, sans-serif;
   color: white;
   text-transform: uppercase;
   cursor: pointer;
+}
+
+.button:hover {
+  border-bottom: 5px solid #d55522;
 }
 
 .button:focus {
