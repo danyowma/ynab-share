@@ -13,7 +13,7 @@
     </div>
 
     <div v-else>
-      <div>Share: <input type="text" :value="budgetUrl" /></div>
+      <div>Share: <input type="text" :value="budgetUrl" @click="selectText" /></div>
       <div v-for="categoryGroupId in Object.keys(mappedBudget)" v-bind:key="categoryGroupId">
           <div class="category-group">
             <span class="category-group-name">{{mappedBudget[categoryGroupId].name}}</span>
@@ -102,6 +102,9 @@ export default {
       );
       const endDate = this.formatAsYnabDate(startOfMonth(endOfYear(startDate)));
       return { name: dateRangeNames.lastYear, startDate, endDate };
+    },
+    selectText(e) {
+      e.target.setSelectionRange(0, e.target.value.length);
     }
   },
   computed: {
