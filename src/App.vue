@@ -10,10 +10,8 @@
     <SharedBudget v-if="sharedBudget && sharedBudget.length" :budget="sharedBudget" :clearSharedBudget="clearSharedBudget" />
     <Landing v-else-if="!ynab.token" :authorizeWithYNAB="authorizeWithYNAB" />
     <Budgets v-else-if="!budgetId && !loading" :budgets="budgets" :selectBudget="selectBudget" />
-
     <div v-else-if="!loading">
-      <Budget :budget="budget" />
-      <button @click="budgetId = null">&lt; Select Another Budget</button>
+      <Budget :budget="budget" :clearBudget="clearBudget"/>
     </div>
   </div>
 </template>
@@ -64,6 +62,9 @@ export default {
     }
   },
   methods: {
+    clearBudget() {
+      this.budgetId = null;
+    },
     getBudgets() {
       this.loading = true;
       this.error = null;

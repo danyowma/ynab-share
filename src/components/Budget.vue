@@ -1,10 +1,13 @@
 <template>
   <div>
-    {{this.budget.name}}
-    <a href="#" @click="selectDateRange(getThisMonth())">This Month</a>
-    <a href="#" @click="selectDateRange(getLatest3Months())">Latest 3 Months</a>
-    <a href="#" @click="selectDateRange(getThisYear())">This Year</a>
-    <a href="#" @click="selectDateRange(getLastYear())">Last Year</a>
+    <button @click="this.clearBudget" class="select-budget-button">&lt; Select another budget</button>
+    <div class="budget-name">{{this.budget.name}}</div>
+    <div class="dates">
+      <div class="date-button-container"><button @click="selectDateRange(getThisMonth())" class="date-button">This Month</button></div>
+      <div class="date-button-container"><button @click="selectDateRange(getLatest3Months())" class="date-button">Latest 3 Months</button></div>
+      <div class="date-button-container"><button @click="selectDateRange(getThisYear())" class="date-button">This Year</button></div>
+      <div class="date-button-container"><button @click="selectDateRange(getLastYear())" class="date-button">Last Year</button></div>
+    </div>
     <div v-if="!Object.keys(mappedBudget).length">
       Not enough data
     </div>
@@ -12,13 +15,17 @@
     <div v-else>
       <div>Share: <input type="text" :value="budgetUrl" /></div>
       <div v-for="categoryGroupId in Object.keys(mappedBudget)" v-bind:key="categoryGroupId">
-          <span>{{mappedBudget[categoryGroupId].name}}</span>
-          <span>{{convertMilliUnitsToCurrencyAmount(mappedBudget[categoryGroupId].budgeted).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2})}}</span>
-          <span>{{(mappedBudget[categoryGroupId].budgeted / totalBudgeted * 100).toFixed(2)}}%</span>
+          <div class="category-group">
+            <span class="category-group-name">{{mappedBudget[categoryGroupId].name}}</span>
+            <span class="category-group-amount">{{convertMilliUnitsToCurrencyAmount(mappedBudget[categoryGroupId].budgeted).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2})}}</span>
+            <span class="category-group-percentage">{{(mappedBudget[categoryGroupId].budgeted / totalBudgeted * 100).toFixed(2)}}%</span>
+          </div>
           <div v-for="category in mappedBudget[categoryGroupId].categories" v-bind:key="Object.keys(category)[0]">
-              <span>{{category[Object.keys(category)[0]].name}}</span>
-              <span>{{convertMilliUnitsToCurrencyAmount(category[Object.keys(category)[0]].budgeted).toFixed(2).toLocaleString()}}</span>
-              <span>{{(category[Object.keys(category)[0]].budgeted / totalBudgeted * 100).toFixed(2)}}%</span>
+              <div class="category">
+                <span class="category-name">{{category[Object.keys(category)[0]].name}}</span>
+                <span class="category-amount">{{convertMilliUnitsToCurrencyAmount(category[Object.keys(category)[0]].budgeted).toFixed(2).toLocaleString()}}</span>
+                <span class="category-percentage">{{(category[Object.keys(category)[0]].budgeted / totalBudgeted * 100).toFixed(2)}}%</span>
+              </div>
           </div>
         </div>
       </div>
@@ -50,7 +57,7 @@ const dateRangeNames = {
 };
 
 export default {
-  props: ["budget"],
+  props: ["budget", "clearBudget"],
   data() {
     return {
       dateRange: this.getThisMonth(),
@@ -117,13 +124,19 @@ export default {
         return mappedBudget;
       }
 
+      const internalMasterCategory = categoryGroups.find(
+        x => x.name === "Internal Master Category"
+      );
+
       for (let i = 0; i < categoryGroups.length; i++) {
         const categoryGroup = categoryGroups[i];
-        mappedBudget[categoryGroup.id] = {
-          name: categoryGroup.name,
-          categories: [],
-          budgeted: 0
-        };
+        if (categoryGroup.id !== internalMasterCategory.id) {
+          mappedBudget[categoryGroup.id] = {
+            name: categoryGroup.name,
+            categories: [],
+            budgeted: 0
+          };
+        }
       }
 
       const start =
@@ -137,6 +150,9 @@ export default {
             const category = month.categories.find(
               x => x.id === categories[j].id
             );
+            if (category.category_group_id === internalMasterCategory.id) {
+              continue;
+            }
             const existingCategoryIndex = mappedBudget[
               category.category_group_id
             ].categories.findIndex(x => Object.keys(x)[0] === category.id);
@@ -199,3 +215,85 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.budget-name {
+  padding: 0 20px 12px;
+  font: 700 20px Helvetica, Arial, sans-serif;
+}
+
+.select-budget-button {
+  padding: 0;
+  margin: 20px;
+  border: none;
+  font-size: 12px;
+  color: #009cc2;
+  cursor: pointer;
+}
+
+.select-budget-button:focus {
+  outline: none;
+}
+
+.dates {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.date-button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+  height: 32px;
+}
+
+.date-button {
+  padding: 8px;
+  border: none;
+  border-radius: 12px;
+  background: white;
+  font-size: 12px;
+  color: #009cc2;
+  cursor: pointer;
+}
+
+.date-button:focus {
+  outline: none;
+}
+
+.category-group {
+  display: flex;
+  align-items: center;
+  height: 40px;
+  padding: 0 20px;
+  border-top: 1px solid #dee3e8;
+  background: #e5f5f9;
+  text-align: right;
+}
+
+.category {
+  display: flex;
+  align-items: center;
+  height: 40px;
+  padding: 0 20px;
+  border-top: 1px solid #dee3e8;
+  text-align: right;
+}
+
+.category-group-name,
+.category-name {
+  width: 200px;
+  text-align: left;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.category-group-amount,
+.category-group-percentage,
+.category-amount,
+.category-percentage {
+  flex: 1;
+}
+</style>
