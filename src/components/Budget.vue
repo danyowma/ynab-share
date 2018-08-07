@@ -2,6 +2,10 @@
   <div>
     <button @click="this.clearBudget" class="select-budget-button">&lt; Select another budget</button>
     <div class="budget-name">{{this.budget.name}}</div>
+    <div v-if="Object.keys(mappedBudget).length" class="share">
+      <div>Copy url to share:</div>
+      <input type="text" :value="budgetUrl" @click="selectText" class="share-input" />
+    </div>
     <div class="dates">
       <div class="date-button-container"><button @click="selectDateRange(getThisMonth())" class="date-button">This Month</button></div>
       <div class="date-button-container"><button @click="selectDateRange(getLatest3Months())" class="date-button">Latest 3 Months</button></div>
@@ -13,7 +17,6 @@
     </div>
 
     <div v-else>
-      <div>Share: <input type="text" :value="budgetUrl" @click="selectText" /></div>
       <div v-for="categoryGroupId in Object.keys(mappedBudget)" v-bind:key="categoryGroupId">
           <div class="category-group">
             <span class="category-group-name">{{mappedBudget[categoryGroupId].name}}</span>
@@ -223,6 +226,16 @@ export default {
 .budget-name {
   padding: 0 20px 12px;
   font: 700 20px Helvetica, Arial, sans-serif;
+}
+
+.share {
+  padding: 0 20px;
+}
+
+.share-input {
+  width: 100%;
+  padding: 4px;
+  margin-top: 4px;
 }
 
 .select-budget-button {
