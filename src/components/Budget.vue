@@ -24,13 +24,11 @@
       <div v-for="categoryGroupId in Object.keys(mappedBudget)" v-bind:key="categoryGroupId">
           <div class="category-group">
             <span class="category-group-name">{{mappedBudget[categoryGroupId].name}}</span>
-            <span class="category-group-amount">{{convertMilliUnitsToCurrencyAmount(mappedBudget[categoryGroupId].budgeted).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2})}}</span>
             <span v-if="includePercentages" class="category-group-percentage">{{(mappedBudget[categoryGroupId].budgeted / totalBudgeted * 100).toFixed(2)}}%</span>
           </div>
           <div v-for="category in mappedBudget[categoryGroupId].categories" v-bind:key="Object.keys(category)[0]">
               <div class="category">
                 <span class="category-name">{{category[Object.keys(category)[0]].name}}</span>
-                <span class="category-amount">{{convertMilliUnitsToCurrencyAmount(category[Object.keys(category)[0]].budgeted).toFixed(2).toLocaleString()}}</span>
                 <span v-if="includePercentages" class="category-percentage">{{(category[Object.keys(category)[0]].budgeted / totalBudgeted * 100).toFixed(2)}}%</span>
               </div>
           </div>
@@ -52,7 +50,6 @@ import {
   areRangesOverlapping,
   isSameDay
 } from "date-fns";
-import { utils } from "ynab";
 import config from "../config";
 import lzString from "lz-string";
 
@@ -73,7 +70,6 @@ export default {
     };
   },
   methods: {
-    convertMilliUnitsToCurrencyAmount: utils.convertMilliUnitsToCurrencyAmount,
     selectDateRange(dateRange) {
       this.dateRange = dateRange;
     },
@@ -340,9 +336,7 @@ export default {
   white-space: nowrap;
 }
 
-.category-group-amount,
 .category-group-percentage,
-.category-amount,
 .category-percentage {
   flex: 1;
 }
