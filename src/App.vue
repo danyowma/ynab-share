@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="logo">YNAB Share<span class="period">.</span></div>
-    <div v-if="loading">Loading...</div>
+    <div v-if="loading" class="loading"><Loading /></div>
     <div v-if="error">
       <h1>Oops!</h1>
       <p>{{error}}</p>
@@ -23,6 +23,7 @@ import Landing from "./components/Landing.vue";
 import Budgets from "./components/Budgets.vue";
 import Budget from "./components/Budget.vue";
 import SharedBudget from "./components/SharedBudget.vue";
+import Loading from "./components/Loading.vue";
 import lzString from "lz-string";
 
 export default {
@@ -150,7 +151,8 @@ export default {
     Landing,
     Budgets,
     Budget,
-    SharedBudget
+    SharedBudget,
+    Loading
   }
 };
 </script>
@@ -158,6 +160,14 @@ export default {
 <style scoped>
 .container {
   height: 100%;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: calc(100% - 66px);
 }
 
 .logo {
