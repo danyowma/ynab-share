@@ -7,7 +7,7 @@
       <p>{{error}}</p>
       <button @click="resetToken">Try Again &gt;</button>
     </div>
-    <SharedBudget v-if="sharedBudget && sharedBudget.length" :budget="sharedBudget" :clearSharedBudget="clearSharedBudget" />
+    <SharedBudget v-if="sharedBudget && sharedBudget.length" :budget="sharedBudget" :includePercentages="this.includePercentages" :clearSharedBudget="clearSharedBudget" />
     <Landing v-else-if="!ynab.token" :authorizeWithYNAB="authorizeWithYNAB" />
     <Budgets v-else-if="!budgetId && !loading" :budgets="budgets" :selectBudget="selectBudget" />
     <div v-else-if="!loading">
@@ -40,15 +40,21 @@ export default {
       budgets: [],
       transactions: [],
       budget: null,
-      sharedBudget: null
+      sharedBudget: null,
+      includePercentages: null
     };
   },
   created() {
-    let querystring = new URLSearchParams(window.location.search.substring(1));
+    const querystring = new URLSearchParams(
+      window.location.search.substring(1)
+    );
     const budget = querystring.get("budget");
+    const includePercentages = querystring.get("includePercentages");
+
     if (budget) {
       const sharedBudget = lzString.decompressFromEncodedURIComponent(budget);
       this.sharedBudget = JSON.parse(sharedBudget);
+      this.includePercentages = includePercentages === "false" ? false : true;
     } else {
       this.ynab.token = this.findYNABToken();
       if (this.ynab.token) {

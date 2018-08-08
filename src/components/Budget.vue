@@ -12,6 +12,10 @@
       <div class="date-button-container"><button @click="selectDateRange(getThisYear())" class="date-button">This Year</button></div>
       <div class="date-button-container"><button @click="selectDateRange(getLastYear())" class="date-button">Last Year</button></div>
     </div>
+    <div class="include-percentages">
+      <input type="checkbox" id="percentages" v-model="includePercentages" class="include-percentages-checkbox" />
+      <label for="percentages" class="include-percentages-label">Include percentages</label>
+    </div>
     <div v-if="!Object.keys(mappedBudget).length">
       Not enough data
     </div>
@@ -21,13 +25,13 @@
           <div class="category-group">
             <span class="category-group-name">{{mappedBudget[categoryGroupId].name}}</span>
             <span class="category-group-amount">{{convertMilliUnitsToCurrencyAmount(mappedBudget[categoryGroupId].budgeted).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2})}}</span>
-            <span class="category-group-percentage">{{(mappedBudget[categoryGroupId].budgeted / totalBudgeted * 100).toFixed(2)}}%</span>
+            <span v-if="includePercentages" class="category-group-percentage">{{(mappedBudget[categoryGroupId].budgeted / totalBudgeted * 100).toFixed(2)}}%</span>
           </div>
           <div v-for="category in mappedBudget[categoryGroupId].categories" v-bind:key="Object.keys(category)[0]">
               <div class="category">
                 <span class="category-name">{{category[Object.keys(category)[0]].name}}</span>
                 <span class="category-amount">{{convertMilliUnitsToCurrencyAmount(category[Object.keys(category)[0]].budgeted).toFixed(2).toLocaleString()}}</span>
-                <span class="category-percentage">{{(category[Object.keys(category)[0]].budgeted / totalBudgeted * 100).toFixed(2)}}%</span>
+                <span v-if="includePercentages" class="category-percentage">{{(category[Object.keys(category)[0]].budgeted / totalBudgeted * 100).toFixed(2)}}%</span>
               </div>
           </div>
         </div>
@@ -64,7 +68,8 @@ export default {
   data() {
     return {
       dateRange: this.getThisMonth(),
-      totalBudgeted: 0
+      totalBudgeted: 0,
+      includePercentages: true
     };
   },
   methods: {
@@ -194,29 +199,43 @@ export default {
       for (let categoryGroup of Object.values({ ...this.mappedBudget })) {
         let categories = [];
         for (let category of categoryGroup.categories) {
-          categories.push({
-            name: category[Object.keys(category)[0]].name,
-            budgeted: (
+          let categoryData = {
+            name: category[Object.keys(category)[0]].name
+          };
+
+          if (this.includePercentages) {
+            categoryData.budgeted = (
               category[Object.keys(category)[0]].budgeted /
               this.totalBudgeted *
               100
-            ).toFixed(2)
-          });
+            ).toFixed(2);
+          }
+          categories.push(categoryData);
         }
-        budget.push({
+
+        let categoryGroupData = {
           name: categoryGroup.name,
-          budgeted: (categoryGroup.budgeted / this.totalBudgeted * 100).toFixed(
-            2
-          ),
           categories
-        });
+        };
+
+        if (this.includePercentages) {
+          categoryGroupData.budgeted = (
+            categoryGroup.budgeted /
+            this.totalBudgeted *
+            100
+          ).toFixed(2);
+        }
+
+        budget.push(categoryGroupData);
       }
 
       const lzEncodedBudget = lzString.compressToEncodedURIComponent(
         JSON.stringify(budget)
       );
 
-      return `${config.redirectUri}?budget=${lzEncodedBudget}`;
+      return `${config.redirectUri}?budget=${lzEncodedBudget}${
+        !this.includePercentages ? "&includePercentages=false" : ""
+      }`;
     }
   }
 };
@@ -230,6 +249,7 @@ export default {
 
 .share {
   padding: 0 20px;
+  font-size: 12px;
 }
 
 .share-input {
@@ -238,9 +258,13 @@ export default {
   margin-top: 4px;
 }
 
+.share-input:focus {
+  outline: none;
+}
+
 .select-budget-button {
   padding: 0;
-  margin: 20px;
+  margin: 10px 20px 20px;
   border: none;
   font-size: 12px;
   color: #009cc2;
@@ -276,6 +300,16 @@ export default {
 
 .date-button:focus {
   outline: none;
+}
+
+.include-percentages {
+  margin: 10px 20px;
+  cursor: pointer;
+}
+
+.include-percentages-checkbox,
+.include-percentages-label {
+  cursor: pointer;
 }
 
 .category-group {

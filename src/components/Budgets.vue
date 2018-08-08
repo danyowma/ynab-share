@@ -36,7 +36,7 @@ export default {
   display: block;
   width: 200px;
   height: 200px;
-  margin: 0 16px 16px 0;
+  margin: 0 auto 16px;
   border: 1px solid #dfe4e9;
 }
 

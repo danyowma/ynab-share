@@ -3,10 +3,10 @@
     <button @click="clearSharedBudget">Share your own budget!</button>
     <div v-for="categoryGroup in budget" v-bind:key="categoryGroup.name">
       <span>{{categoryGroup.name}}</span>
-      <span>{{categoryGroup.budgeted}}%</span>
+      <span v-if="includePercentages">{{categoryGroup.budgeted}}%</span>
       <div v-for="category in categoryGroup.categories" :key="`${categoryGroup.name}-${category.name}`">
           <span>{{category.name}}</span>
-          <span>{{category.budgeted}}%</span>
+          <span v-if="includePercentages">{{category.budgeted}}%</span>
       </div>
     </div>
   </div>
@@ -14,6 +14,6 @@
 
 <script>
 export default {
-  props: ["budget", "clearSharedBudget"]
+  props: ["budget", "includePercentages", "clearSharedBudget"]
 };
 </script>
