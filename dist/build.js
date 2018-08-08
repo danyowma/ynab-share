@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "/dist/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 70);
+/******/ 	return __webpack_require__(__webpack_require__.s = 69);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -591,7 +591,7 @@ function toComment(sourceMap) {
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (immutable) */ __webpack_exports__["default"] = addStylesClient;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__listToStyles__ = __webpack_require__(78);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__listToStyles__ = __webpack_require__(77);
 /*
   MIT License http://www.opensource.org/licenses/mit-license.php
   Author Tobias Koppers @sokra
@@ -1429,7 +1429,7 @@ module.exports = compareDesc
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
-var differenceInCalendarMonths = __webpack_require__(41)
+var differenceInCalendarMonths = __webpack_require__(40)
 var compareAsc = __webpack_require__(10)
 
 /**
@@ -1648,11 +1648,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _ynab = __webpack_require__(27);
+var _ynab = __webpack_require__(80);
 
 var ynab = _interopRequireWildcard(_ynab);
 
-var _config = __webpack_require__(29);
+var _config = __webpack_require__(28);
 
 var _config2 = _interopRequireDefault(_config);
 
@@ -1676,7 +1676,7 @@ var _Loading = __webpack_require__(208);
 
 var _Loading2 = _interopRequireDefault(_Loading);
 
-var _lzString = __webpack_require__(68);
+var _lzString = __webpack_require__(67);
 
 var _lzString2 = _interopRequireDefault(_lzString);
 
@@ -1818,156 +1818,6 @@ exports.default = {
 
 /***/ }),
 /* 27 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__configuration__ = __webpack_require__(81);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__api__ = __webpack_require__(28);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils__ = __webpack_require__(91);
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "COLLECTION_FORMATS", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["k"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "BaseAPI", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["f"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "RequiredError", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["C"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "Account", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["a"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "SaveTransaction", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["D"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "ScheduledTransactionSummary", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["F"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "TransactionSummary", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["L"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "HybridTransaction", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["p"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "ScheduledTransactionDetail", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["E"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "TransactionDetail", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["K"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "AccountsApiFetchParamCreator", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["d"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "AccountsApiFp", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["e"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "AccountsApiFactory", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["c"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "AccountsApi", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["b"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "BudgetsApiFetchParamCreator", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["i"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "BudgetsApiFp", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["j"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "BudgetsApiFactory", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["h"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "BudgetsApi", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["g"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "CategoriesApiFetchParamCreator", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["n"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "CategoriesApiFp", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["o"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "CategoriesApiFactory", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["m"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "CategoriesApi", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["l"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "MonthsApiFetchParamCreator", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["s"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "MonthsApiFp", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["t"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "MonthsApiFactory", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["r"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "MonthsApi", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["q"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "PayeeLocationsApiFetchParamCreator", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["w"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "PayeeLocationsApiFp", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["x"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "PayeeLocationsApiFactory", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["v"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "PayeeLocationsApi", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["u"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "PayeesApiFetchParamCreator", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["A"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "PayeesApiFp", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["B"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "PayeesApiFactory", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["z"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "PayeesApi", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["y"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "ScheduledTransactionsApiFetchParamCreator", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["I"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "ScheduledTransactionsApiFp", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["J"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "ScheduledTransactionsApiFactory", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["H"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "ScheduledTransactionsApi", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["G"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "TransactionsApiFetchParamCreator", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["O"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "TransactionsApiFp", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["P"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "TransactionsApiFactory", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["N"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "TransactionsApi", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["M"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "UserApiFetchParamCreator", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["S"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "UserApiFp", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["T"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "UserApiFactory", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["R"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "UserApi", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["Q"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "utils", function() { return __WEBPACK_IMPORTED_MODULE_2__utils__["a"]; });
-
-
-
-
-
-/**
- * The YNAB API client
- */
-class api {
-    /**
-     *
-     * @param accessToken The access token used for authentication
-     * @param endpointUrl The API endpoint URL (Optional)
-     */
-    constructor(accessToken, endpointUrl = "https://api.youneedabudget.com/v1") {
-        this._configuration = new __WEBPACK_IMPORTED_MODULE_0__configuration__["a" /* Configuration */](accessToken, endpointUrl);
-    }
-    /**
-     * /budgets endpoints interface
-     */
-    get budgets() {
-        if (!this._budgets) {
-            this._budgets = new __WEBPACK_IMPORTED_MODULE_1__api__["g" /* BudgetsApi */](this._configuration);
-        }
-        return this._budgets;
-    }
-    /**
-     * /budgets/{budget_id}/accounts endpoints interface
-     */
-    get accounts() {
-        if (!this._accounts) {
-            this._accounts = new __WEBPACK_IMPORTED_MODULE_1__api__["b" /* AccountsApi */](this._configuration);
-        }
-        return this._accounts;
-    }
-    /**
-     * /budgets/{budget_id}/categories endpoints interface
-     */
-    get categories() {
-        if (!this._categories) {
-            this._categories = new __WEBPACK_IMPORTED_MODULE_1__api__["l" /* CategoriesApi */](this._configuration);
-        }
-        return this._categories;
-    }
-    /**
-     * /budgets/{budget_id}/months endpoints interface
-     */
-    get months() {
-        if (!this._months) {
-            this._months = new __WEBPACK_IMPORTED_MODULE_1__api__["q" /* MonthsApi */](this._configuration);
-        }
-        return this._months;
-    }
-    /**
-     * /budgets/{budget_id}/payees endpoints interface
-     */
-    get payees() {
-        if (!this._payees) {
-            this._payees = new __WEBPACK_IMPORTED_MODULE_1__api__["y" /* PayeesApi */](this._configuration);
-        }
-        return this._payees;
-    }
-    /**
-     * /budgets/{budget_id}/payee_locations endpoints interface
-     */
-    get payeeLocations() {
-        if (!this._payeeLocations) {
-            this._payeeLocations = new __WEBPACK_IMPORTED_MODULE_1__api__["u" /* PayeeLocationsApi */](this._configuration);
-        }
-        return this._payeeLocations;
-    }
-    /**
-     * /budgets/{budget_id}/transactions endpoints interface
-     */
-    get transactions() {
-        if (!this._transactions) {
-            this._transactions = new __WEBPACK_IMPORTED_MODULE_1__api__["M" /* TransactionsApi */](this._configuration);
-        }
-        return this._transactions;
-    }
-    /**
-     * /budgets/{budget_id}/scheduled_transactions endpoints interface
-     */
-    get scheduledTransactions() {
-        if (!this._scheduledTransactions) {
-            this._scheduledTransactions = new __WEBPACK_IMPORTED_MODULE_1__api__["G" /* ScheduledTransactionsApi */](this._configuration);
-        }
-        return this._scheduledTransactions;
-    }
-}
-/* harmony export (immutable) */ __webpack_exports__["api"] = api;
-
-
-
-/***/ }),
-/* 28 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4654,7 +4504,7 @@ class UserApi extends BaseAPI {
 
 
 /***/ }),
-/* 29 */
+/* 28 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4669,7 +4519,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /***/ }),
-/* 30 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4696,7 +4546,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 31 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4722,7 +4572,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 32 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4736,21 +4586,17 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 var _dateFns = __webpack_require__(103);
 
-var _ynab = __webpack_require__(27);
-
-var _config = __webpack_require__(29);
+var _config = __webpack_require__(28);
 
 var _config2 = _interopRequireDefault(_config);
 
-var _lzString = __webpack_require__(68);
+var _lzString = __webpack_require__(67);
 
 var _lzString2 = _interopRequireDefault(_lzString);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; } //
-//
-//
 //
 //
 //
@@ -4808,7 +4654,6 @@ exports.default = {
   },
 
   methods: {
-    convertMilliUnitsToCurrencyAmount: _ynab.utils.convertMilliUnitsToCurrencyAmount,
     selectDateRange: function selectDateRange(dateRange) {
       this.dateRange = dateRange;
     },
@@ -5000,7 +4845,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 33 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var addMilliseconds = __webpack_require__(8)
@@ -5032,11 +4877,11 @@ module.exports = addHours
 
 
 /***/ }),
-/* 34 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var getISOYear = __webpack_require__(1)
-var setISOYear = __webpack_require__(35)
+var setISOYear = __webpack_require__(34)
 
 /**
  * @category ISO Week-Numbering Year Helpers
@@ -5065,7 +4910,7 @@ module.exports = addISOYears
 
 
 /***/ }),
-/* 35 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
@@ -5107,7 +4952,7 @@ module.exports = setISOYear
 
 
 /***/ }),
-/* 36 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var addMilliseconds = __webpack_require__(8)
@@ -5139,7 +4984,7 @@ module.exports = addMinutes
 
 
 /***/ }),
-/* 37 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var addMonths = __webpack_require__(14)
@@ -5170,7 +5015,7 @@ module.exports = addQuarters
 
 
 /***/ }),
-/* 38 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var addMilliseconds = __webpack_require__(8)
@@ -5200,7 +5045,7 @@ module.exports = addSeconds
 
 
 /***/ }),
-/* 39 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var addMonths = __webpack_require__(14)
@@ -5230,7 +5075,7 @@ module.exports = addYears
 
 
 /***/ }),
-/* 40 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var getISOYear = __webpack_require__(1)
@@ -5264,7 +5109,7 @@ module.exports = differenceInCalendarISOYears
 
 
 /***/ }),
-/* 41 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
@@ -5302,7 +5147,7 @@ module.exports = differenceInCalendarMonths
 
 
 /***/ }),
-/* 42 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
@@ -5332,7 +5177,7 @@ module.exports = getQuarter
 
 
 /***/ }),
-/* 43 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
@@ -5367,7 +5212,7 @@ module.exports = differenceInCalendarYears
 
 
 /***/ }),
-/* 44 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
@@ -5412,10 +5257,10 @@ module.exports = differenceInDays
 
 
 /***/ }),
-/* 45 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var addISOYears = __webpack_require__(34)
+var addISOYears = __webpack_require__(33)
 
 /**
  * @category ISO Week-Numbering Year Helpers
@@ -5444,7 +5289,7 @@ module.exports = subISOYears
 
 
 /***/ }),
-/* 46 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var compareDesc = __webpack_require__(19)
@@ -5653,7 +5498,7 @@ module.exports = distanceInWords
 
 
 /***/ }),
-/* 47 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
@@ -5697,7 +5542,7 @@ module.exports = endOfWeek
 
 
 /***/ }),
-/* 48 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
@@ -5730,11 +5575,11 @@ module.exports = endOfMonth
 
 
 /***/ }),
-/* 49 */
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
-var startOfYear = __webpack_require__(50)
+var startOfYear = __webpack_require__(49)
 var differenceInCalendarDays = __webpack_require__(13)
 
 /**
@@ -5763,7 +5608,7 @@ module.exports = getDayOfYear
 
 
 /***/ }),
-/* 50 */
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
@@ -5796,7 +5641,7 @@ module.exports = startOfYear
 
 
 /***/ }),
-/* 51 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isDate = __webpack_require__(16)
@@ -5837,7 +5682,7 @@ module.exports = isValid
 
 
 /***/ }),
-/* 52 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
@@ -5867,7 +5712,7 @@ module.exports = isLeapYear
 
 
 /***/ }),
-/* 53 */
+/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
@@ -5905,10 +5750,10 @@ module.exports = getISODay
 
 
 /***/ }),
-/* 54 */
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var startOfHour = __webpack_require__(55)
+var startOfHour = __webpack_require__(54)
 
 /**
  * @category Hour Helpers
@@ -5940,7 +5785,7 @@ module.exports = isSameHour
 
 
 /***/ }),
-/* 55 */
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
@@ -5971,7 +5816,7 @@ module.exports = startOfHour
 
 
 /***/ }),
-/* 56 */
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isSameWeek = __webpack_require__(25)
@@ -6005,7 +5850,7 @@ module.exports = isSameISOWeek
 
 
 /***/ }),
-/* 57 */
+/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var startOfISOYear = __webpack_require__(9)
@@ -6042,10 +5887,10 @@ module.exports = isSameISOYear
 
 
 /***/ }),
-/* 58 */
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var startOfMinute = __webpack_require__(59)
+var startOfMinute = __webpack_require__(58)
 
 /**
  * @category Minute Helpers
@@ -6078,7 +5923,7 @@ module.exports = isSameMinute
 
 
 /***/ }),
-/* 59 */
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
@@ -6109,7 +5954,7 @@ module.exports = startOfMinute
 
 
 /***/ }),
-/* 60 */
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
@@ -6144,10 +5989,10 @@ module.exports = isSameMonth
 
 
 /***/ }),
-/* 61 */
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var startOfQuarter = __webpack_require__(62)
+var startOfQuarter = __webpack_require__(61)
 
 /**
  * @category Quarter Helpers
@@ -6179,7 +6024,7 @@ module.exports = isSameQuarter
 
 
 /***/ }),
-/* 62 */
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
@@ -6213,10 +6058,10 @@ module.exports = startOfQuarter
 
 
 /***/ }),
-/* 63 */
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var startOfSecond = __webpack_require__(64)
+var startOfSecond = __webpack_require__(63)
 
 /**
  * @category Second Helpers
@@ -6249,7 +6094,7 @@ module.exports = isSameSecond
 
 
 /***/ }),
-/* 64 */
+/* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
@@ -6280,7 +6125,7 @@ module.exports = startOfSecond
 
 
 /***/ }),
-/* 65 */
+/* 64 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
@@ -6314,7 +6159,7 @@ module.exports = isSameYear
 
 
 /***/ }),
-/* 66 */
+/* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
@@ -6358,7 +6203,7 @@ module.exports = lastDayOfWeek
 
 
 /***/ }),
-/* 67 */
+/* 66 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
@@ -6400,7 +6245,7 @@ module.exports = setMonth
 
 
 /***/ }),
-/* 68 */
+/* 67 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_RESULT__;// Copyright (c) 2013 Pieroxy <pieroxy@pieroxy.net>
@@ -6908,7 +6753,7 @@ if (true) {
 
 
 /***/ }),
-/* 69 */
+/* 68 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6937,13 +6782,13 @@ exports.default = {
 };
 
 /***/ }),
-/* 70 */
+/* 69 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(71);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__App_vue__ = __webpack_require__(75);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(70);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__App_vue__ = __webpack_require__(74);
 
 
 
@@ -6954,7 +6799,7 @@ new __WEBPACK_IMPORTED_MODULE_0_vue__["a" /* default */]({
 
 
 /***/ }),
-/* 71 */
+/* 70 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -14966,10 +14811,10 @@ if (inBrowser) {
 
 /* harmony default export */ __webpack_exports__["a"] = (Vue);
 
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(11), __webpack_require__(72).setImmediate))
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(11), __webpack_require__(71).setImmediate))
 
 /***/ }),
-/* 72 */
+/* 71 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {var scope = (typeof global !== "undefined" && global) ||
@@ -15025,7 +14870,7 @@ exports._unrefActive = exports.active = function(item) {
 };
 
 // setimmediate attaches itself to the global object
-__webpack_require__(73);
+__webpack_require__(72);
 // On some exotic environments, it's not clear which object `setimmediate` was
 // able to install onto.  Search each possibility in the same order as the
 // `setimmediate` library.
@@ -15039,7 +14884,7 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11)))
 
 /***/ }),
-/* 73 */
+/* 72 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, process) {(function (global, undefined) {
@@ -15229,10 +15074,10 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
     attachTo.clearImmediate = clearImmediate;
 }(typeof self === "undefined" ? typeof global === "undefined" ? this : global : self));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11), __webpack_require__(74)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11), __webpack_require__(73)))
 
 /***/ }),
-/* 74 */
+/* 73 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -15422,7 +15267,7 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 75 */
+/* 74 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -15432,8 +15277,8 @@ process.umask = function() { return 0; };
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_a362e0a2_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_App_vue__ = __webpack_require__(212);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__ = __webpack_require__(6);
 function injectStyle (context) {
-  __webpack_require__(76)
-  __webpack_require__(79)
+  __webpack_require__(75)
+  __webpack_require__(78)
 }
 /* script */
 
@@ -15463,13 +15308,13 @@ var Component = Object(__WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_
 
 
 /***/ }),
-/* 76 */
+/* 75 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(77);
+var content = __webpack_require__(76);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -15477,7 +15322,7 @@ var add = __webpack_require__(5).default
 var update = add("65227dd2", content, true, {});
 
 /***/ }),
-/* 77 */
+/* 76 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(4)(false);
@@ -15491,7 +15336,7 @@ exports.push([module.i, ".container[data-v-a362e0a2]{height:100%}.loading[data-v
 
 
 /***/ }),
-/* 78 */
+/* 77 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -15526,13 +15371,13 @@ function listToStyles (parentId, list) {
 
 
 /***/ }),
-/* 79 */
+/* 78 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(80);
+var content = __webpack_require__(79);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -15540,7 +15385,7 @@ var add = __webpack_require__(5).default
 var update = add("709b2c27", content, true, {});
 
 /***/ }),
-/* 80 */
+/* 79 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(4)(false);
@@ -15551,6 +15396,156 @@ exports = module.exports = __webpack_require__(4)(false);
 exports.push([module.i, "*{box-sizing:border-box}body,html{height:100%;margin:0}", ""]);
 
 // exports
+
+
+/***/ }),
+/* 80 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__configuration__ = __webpack_require__(81);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__api__ = __webpack_require__(27);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils__ = __webpack_require__(91);
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "COLLECTION_FORMATS", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["k"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "BaseAPI", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["f"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "RequiredError", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["C"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "Account", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["a"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "SaveTransaction", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["D"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "ScheduledTransactionSummary", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["F"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "TransactionSummary", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["L"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "HybridTransaction", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["p"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "ScheduledTransactionDetail", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["E"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "TransactionDetail", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["K"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "AccountsApiFetchParamCreator", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["d"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "AccountsApiFp", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["e"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "AccountsApiFactory", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["c"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "AccountsApi", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["b"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "BudgetsApiFetchParamCreator", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["i"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "BudgetsApiFp", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["j"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "BudgetsApiFactory", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["h"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "BudgetsApi", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["g"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "CategoriesApiFetchParamCreator", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["n"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "CategoriesApiFp", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["o"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "CategoriesApiFactory", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["m"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "CategoriesApi", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["l"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "MonthsApiFetchParamCreator", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["s"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "MonthsApiFp", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["t"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "MonthsApiFactory", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["r"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "MonthsApi", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["q"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "PayeeLocationsApiFetchParamCreator", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["w"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "PayeeLocationsApiFp", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["x"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "PayeeLocationsApiFactory", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["v"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "PayeeLocationsApi", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["u"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "PayeesApiFetchParamCreator", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["A"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "PayeesApiFp", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["B"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "PayeesApiFactory", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["z"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "PayeesApi", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["y"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "ScheduledTransactionsApiFetchParamCreator", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["I"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "ScheduledTransactionsApiFp", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["J"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "ScheduledTransactionsApiFactory", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["H"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "ScheduledTransactionsApi", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["G"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "TransactionsApiFetchParamCreator", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["O"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "TransactionsApiFp", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["P"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "TransactionsApiFactory", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["N"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "TransactionsApi", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["M"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "UserApiFetchParamCreator", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["S"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "UserApiFp", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["T"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "UserApiFactory", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["R"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "UserApi", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["Q"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "utils", function() { return __WEBPACK_IMPORTED_MODULE_2__utils__["a"]; });
+
+
+
+
+
+/**
+ * The YNAB API client
+ */
+class api {
+    /**
+     *
+     * @param accessToken The access token used for authentication
+     * @param endpointUrl The API endpoint URL (Optional)
+     */
+    constructor(accessToken, endpointUrl = "https://api.youneedabudget.com/v1") {
+        this._configuration = new __WEBPACK_IMPORTED_MODULE_0__configuration__["a" /* Configuration */](accessToken, endpointUrl);
+    }
+    /**
+     * /budgets endpoints interface
+     */
+    get budgets() {
+        if (!this._budgets) {
+            this._budgets = new __WEBPACK_IMPORTED_MODULE_1__api__["g" /* BudgetsApi */](this._configuration);
+        }
+        return this._budgets;
+    }
+    /**
+     * /budgets/{budget_id}/accounts endpoints interface
+     */
+    get accounts() {
+        if (!this._accounts) {
+            this._accounts = new __WEBPACK_IMPORTED_MODULE_1__api__["b" /* AccountsApi */](this._configuration);
+        }
+        return this._accounts;
+    }
+    /**
+     * /budgets/{budget_id}/categories endpoints interface
+     */
+    get categories() {
+        if (!this._categories) {
+            this._categories = new __WEBPACK_IMPORTED_MODULE_1__api__["l" /* CategoriesApi */](this._configuration);
+        }
+        return this._categories;
+    }
+    /**
+     * /budgets/{budget_id}/months endpoints interface
+     */
+    get months() {
+        if (!this._months) {
+            this._months = new __WEBPACK_IMPORTED_MODULE_1__api__["q" /* MonthsApi */](this._configuration);
+        }
+        return this._months;
+    }
+    /**
+     * /budgets/{budget_id}/payees endpoints interface
+     */
+    get payees() {
+        if (!this._payees) {
+            this._payees = new __WEBPACK_IMPORTED_MODULE_1__api__["y" /* PayeesApi */](this._configuration);
+        }
+        return this._payees;
+    }
+    /**
+     * /budgets/{budget_id}/payee_locations endpoints interface
+     */
+    get payeeLocations() {
+        if (!this._payeeLocations) {
+            this._payeeLocations = new __WEBPACK_IMPORTED_MODULE_1__api__["u" /* PayeeLocationsApi */](this._configuration);
+        }
+        return this._payeeLocations;
+    }
+    /**
+     * /budgets/{budget_id}/transactions endpoints interface
+     */
+    get transactions() {
+        if (!this._transactions) {
+            this._transactions = new __WEBPACK_IMPORTED_MODULE_1__api__["M" /* TransactionsApi */](this._configuration);
+        }
+        return this._transactions;
+    }
+    /**
+     * /budgets/{budget_id}/scheduled_transactions endpoints interface
+     */
+    get scheduledTransactions() {
+        if (!this._scheduledTransactions) {
+            this._scheduledTransactions = new __WEBPACK_IMPORTED_MODULE_1__api__["G" /* ScheduledTransactionsApi */](this._configuration);
+        }
+        return this._scheduledTransactions;
+    }
+}
+/* harmony export (immutable) */ __webpack_exports__["api"] = api;
+
 
 
 /***/ }),
@@ -17635,7 +17630,7 @@ module.exports = self.fetch.bind(self);
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Landing_vue__ = __webpack_require__(30);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Landing_vue__ = __webpack_require__(29);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Landing_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Landing_vue__);
 /* harmony namespace reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Landing_vue__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Landing_vue__[key]; }) }(__WEBPACK_IMPORT_KEY__));
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_4317a2d0_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Landing_vue__ = __webpack_require__(95);
@@ -17715,7 +17710,7 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Budgets_vue__ = __webpack_require__(31);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Budgets_vue__ = __webpack_require__(30);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Budgets_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Budgets_vue__);
 /* harmony namespace reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Budgets_vue__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Budgets_vue__[key]; }) }(__WEBPACK_IMPORT_KEY__));
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_23ab8ed9_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Budgets_vue__ = __webpack_require__(99);
@@ -17795,10 +17790,10 @@ var staticRenderFns = []
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Budget_vue__ = __webpack_require__(32);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Budget_vue__ = __webpack_require__(31);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Budget_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Budget_vue__);
 /* harmony namespace reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Budget_vue__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Budget_vue__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_a4b1ad3a_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Budget_vue__ = __webpack_require__(205);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_2d07a947_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Budget_vue__ = __webpack_require__(205);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__ = __webpack_require__(6);
 function injectStyle (context) {
   __webpack_require__(101)
@@ -17813,14 +17808,14 @@ var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = "data-v-a4b1ad3a"
+var __vue_scopeId__ = "data-v-2d07a947"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 
 var Component = Object(__WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__["a" /* default */])(
   __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Budget_vue___default.a,
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_a4b1ad3a_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Budget_vue__["a" /* render */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_a4b1ad3a_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Budget_vue__["b" /* staticRenderFns */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_2d07a947_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Budget_vue__["a" /* render */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_2d07a947_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Budget_vue__["b" /* staticRenderFns */],
   __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
@@ -17842,7 +17837,7 @@ if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
 var add = __webpack_require__(5).default
-var update = add("53e127b5", content, true, {});
+var update = add("006bdcb6", content, true, {});
 
 /***/ }),
 /* 102 */
@@ -17853,7 +17848,7 @@ exports = module.exports = __webpack_require__(4)(false);
 
 
 // module
-exports.push([module.i, ".budget-name[data-v-a4b1ad3a]{padding:0 20px 12px;font:700 20px Helvetica,Arial,sans-serif}.share[data-v-a4b1ad3a]{padding:0 20px;font-size:12px}.share-input[data-v-a4b1ad3a]{width:100%;padding:4px;margin-top:4px}.share-input[data-v-a4b1ad3a]:focus{outline:none}.select-budget-button[data-v-a4b1ad3a]{padding:0;margin:10px 20px 20px;border:none;font-size:12px;color:#009cc2;cursor:pointer}.select-budget-button[data-v-a4b1ad3a]:focus{outline:none}.dates[data-v-a4b1ad3a]{display:flex;flex-wrap:wrap}.date-button-container[data-v-a4b1ad3a]{display:flex;justify-content:center;align-items:center;width:50%;height:32px}.date-button[data-v-a4b1ad3a]{padding:8px;border:none;border-radius:12px;background:#fff;font-size:12px;color:#009cc2;cursor:pointer}.date-button[data-v-a4b1ad3a]:focus{outline:none}.include-percentages[data-v-a4b1ad3a]{margin:10px 20px;cursor:pointer}.include-percentages-checkbox[data-v-a4b1ad3a],.include-percentages-label[data-v-a4b1ad3a]{cursor:pointer}.category-group[data-v-a4b1ad3a]{background:#e5f5f9}.category-group[data-v-a4b1ad3a],.category[data-v-a4b1ad3a]{display:flex;align-items:center;height:40px;padding:0 20px;border-top:1px solid #dee3e8;text-align:right}.category-group-name[data-v-a4b1ad3a],.category-name[data-v-a4b1ad3a]{width:200px;text-align:left;text-overflow:ellipsis;overflow:hidden;white-space:nowrap}.category-amount[data-v-a4b1ad3a],.category-group-amount[data-v-a4b1ad3a],.category-group-percentage[data-v-a4b1ad3a],.category-percentage[data-v-a4b1ad3a]{flex:1}", ""]);
+exports.push([module.i, ".budget-name[data-v-2d07a947]{padding:0 20px 12px;font:700 20px Helvetica,Arial,sans-serif}.share[data-v-2d07a947]{padding:0 20px;font-size:12px}.share-input[data-v-2d07a947]{width:100%;padding:4px;margin-top:4px}.share-input[data-v-2d07a947]:focus{outline:none}.select-budget-button[data-v-2d07a947]{padding:0;margin:10px 20px 20px;border:none;font-size:12px;color:#009cc2;cursor:pointer}.select-budget-button[data-v-2d07a947]:focus{outline:none}.dates[data-v-2d07a947]{display:flex;flex-wrap:wrap}.date-button-container[data-v-2d07a947]{display:flex;justify-content:center;align-items:center;width:50%;height:32px}.date-button[data-v-2d07a947]{padding:8px;border:none;border-radius:12px;background:#fff;font-size:12px;color:#009cc2;cursor:pointer}.date-button[data-v-2d07a947]:focus{outline:none}.include-percentages[data-v-2d07a947]{margin:10px 20px;cursor:pointer}.include-percentages-checkbox[data-v-2d07a947],.include-percentages-label[data-v-2d07a947]{cursor:pointer}.category-group[data-v-2d07a947]{background:#e5f5f9}.category-group[data-v-2d07a947],.category[data-v-2d07a947]{display:flex;align-items:center;height:40px;padding:0 20px;border-top:1px solid #dee3e8;text-align:right}.category-group-name[data-v-2d07a947],.category-name[data-v-2d07a947]{width:200px;text-align:left;text-overflow:ellipsis;overflow:hidden;white-space:nowrap}.category-group-percentage[data-v-2d07a947],.category-percentage[data-v-2d07a947]{flex:1}", ""]);
 
 // exports
 
@@ -17864,15 +17859,15 @@ exports.push([module.i, ".budget-name[data-v-a4b1ad3a]{padding:0 20px 12px;font:
 
 module.exports = {
   addDays: __webpack_require__(7),
-  addHours: __webpack_require__(33),
-  addISOYears: __webpack_require__(34),
+  addHours: __webpack_require__(32),
+  addISOYears: __webpack_require__(33),
   addMilliseconds: __webpack_require__(8),
-  addMinutes: __webpack_require__(36),
+  addMinutes: __webpack_require__(35),
   addMonths: __webpack_require__(14),
-  addQuarters: __webpack_require__(37),
-  addSeconds: __webpack_require__(38),
+  addQuarters: __webpack_require__(36),
+  addSeconds: __webpack_require__(37),
   addWeeks: __webpack_require__(18),
-  addYears: __webpack_require__(39),
+  addYears: __webpack_require__(38),
   areRangesOverlapping: __webpack_require__(104),
   closestIndexTo: __webpack_require__(105),
   closestTo: __webpack_require__(106),
@@ -17880,12 +17875,12 @@ module.exports = {
   compareDesc: __webpack_require__(19),
   differenceInCalendarDays: __webpack_require__(13),
   differenceInCalendarISOWeeks: __webpack_require__(107),
-  differenceInCalendarISOYears: __webpack_require__(40),
-  differenceInCalendarMonths: __webpack_require__(41),
+  differenceInCalendarISOYears: __webpack_require__(39),
+  differenceInCalendarMonths: __webpack_require__(40),
   differenceInCalendarQuarters: __webpack_require__(108),
   differenceInCalendarWeeks: __webpack_require__(109),
-  differenceInCalendarYears: __webpack_require__(43),
-  differenceInDays: __webpack_require__(44),
+  differenceInCalendarYears: __webpack_require__(42),
+  differenceInDays: __webpack_require__(43),
   differenceInHours: __webpack_require__(110),
   differenceInISOYears: __webpack_require__(111),
   differenceInMilliseconds: __webpack_require__(15),
@@ -17895,7 +17890,7 @@ module.exports = {
   differenceInSeconds: __webpack_require__(21),
   differenceInWeeks: __webpack_require__(114),
   differenceInYears: __webpack_require__(115),
-  distanceInWords: __webpack_require__(46),
+  distanceInWords: __webpack_require__(45),
   distanceInWordsStrict: __webpack_require__(119),
   distanceInWordsToNow: __webpack_require__(120),
   eachDay: __webpack_require__(121),
@@ -17904,22 +17899,22 @@ module.exports = {
   endOfISOWeek: __webpack_require__(123),
   endOfISOYear: __webpack_require__(124),
   endOfMinute: __webpack_require__(125),
-  endOfMonth: __webpack_require__(48),
+  endOfMonth: __webpack_require__(47),
   endOfQuarter: __webpack_require__(126),
   endOfSecond: __webpack_require__(127),
   endOfToday: __webpack_require__(128),
   endOfTomorrow: __webpack_require__(129),
-  endOfWeek: __webpack_require__(47),
+  endOfWeek: __webpack_require__(46),
   endOfYear: __webpack_require__(130),
   endOfYesterday: __webpack_require__(131),
   format: __webpack_require__(132),
   getDate: __webpack_require__(133),
   getDay: __webpack_require__(134),
-  getDayOfYear: __webpack_require__(49),
+  getDayOfYear: __webpack_require__(48),
   getDaysInMonth: __webpack_require__(17),
   getDaysInYear: __webpack_require__(135),
   getHours: __webpack_require__(136),
-  getISODay: __webpack_require__(53),
+  getISODay: __webpack_require__(52),
   getISOWeek: __webpack_require__(24),
   getISOWeeksInYear: __webpack_require__(137),
   getISOYear: __webpack_require__(1),
@@ -17927,7 +17922,7 @@ module.exports = {
   getMinutes: __webpack_require__(139),
   getMonth: __webpack_require__(140),
   getOverlappingDaysInRanges: __webpack_require__(141),
-  getQuarter: __webpack_require__(42),
+  getQuarter: __webpack_require__(41),
   getSeconds: __webpack_require__(142),
   getTime: __webpack_require__(143),
   getYear: __webpack_require__(144),
@@ -17939,19 +17934,19 @@ module.exports = {
   isFriday: __webpack_require__(149),
   isFuture: __webpack_require__(150),
   isLastDayOfMonth: __webpack_require__(151),
-  isLeapYear: __webpack_require__(52),
+  isLeapYear: __webpack_require__(51),
   isMonday: __webpack_require__(152),
   isPast: __webpack_require__(153),
   isSameDay: __webpack_require__(154),
-  isSameHour: __webpack_require__(54),
-  isSameISOWeek: __webpack_require__(56),
-  isSameISOYear: __webpack_require__(57),
-  isSameMinute: __webpack_require__(58),
-  isSameMonth: __webpack_require__(60),
-  isSameQuarter: __webpack_require__(61),
-  isSameSecond: __webpack_require__(63),
+  isSameHour: __webpack_require__(53),
+  isSameISOWeek: __webpack_require__(55),
+  isSameISOYear: __webpack_require__(56),
+  isSameMinute: __webpack_require__(57),
+  isSameMonth: __webpack_require__(59),
+  isSameQuarter: __webpack_require__(60),
+  isSameSecond: __webpack_require__(62),
   isSameWeek: __webpack_require__(25),
-  isSameYear: __webpack_require__(65),
+  isSameYear: __webpack_require__(64),
   isSaturday: __webpack_require__(155),
   isSunday: __webpack_require__(156),
   isThisHour: __webpack_require__(157),
@@ -17967,7 +17962,7 @@ module.exports = {
   isToday: __webpack_require__(167),
   isTomorrow: __webpack_require__(168),
   isTuesday: __webpack_require__(169),
-  isValid: __webpack_require__(51),
+  isValid: __webpack_require__(50),
   isWednesday: __webpack_require__(170),
   isWeekend: __webpack_require__(171),
   isWithinRange: __webpack_require__(172),
@@ -17976,7 +17971,7 @@ module.exports = {
   lastDayOfISOYear: __webpack_require__(175),
   lastDayOfMonth: __webpack_require__(176),
   lastDayOfQuarter: __webpack_require__(177),
-  lastDayOfWeek: __webpack_require__(66),
+  lastDayOfWeek: __webpack_require__(65),
   lastDayOfYear: __webpack_require__(178),
   max: __webpack_require__(179),
   min: __webpack_require__(180),
@@ -17987,29 +17982,29 @@ module.exports = {
   setHours: __webpack_require__(184),
   setISODay: __webpack_require__(185),
   setISOWeek: __webpack_require__(186),
-  setISOYear: __webpack_require__(35),
+  setISOYear: __webpack_require__(34),
   setMilliseconds: __webpack_require__(187),
   setMinutes: __webpack_require__(188),
-  setMonth: __webpack_require__(67),
+  setMonth: __webpack_require__(66),
   setQuarter: __webpack_require__(189),
   setSeconds: __webpack_require__(190),
   setYear: __webpack_require__(191),
   startOfDay: __webpack_require__(3),
-  startOfHour: __webpack_require__(55),
+  startOfHour: __webpack_require__(54),
   startOfISOWeek: __webpack_require__(2),
   startOfISOYear: __webpack_require__(9),
-  startOfMinute: __webpack_require__(59),
+  startOfMinute: __webpack_require__(58),
   startOfMonth: __webpack_require__(192),
-  startOfQuarter: __webpack_require__(62),
-  startOfSecond: __webpack_require__(64),
+  startOfQuarter: __webpack_require__(61),
+  startOfSecond: __webpack_require__(63),
   startOfToday: __webpack_require__(193),
   startOfTomorrow: __webpack_require__(194),
   startOfWeek: __webpack_require__(12),
-  startOfYear: __webpack_require__(50),
+  startOfYear: __webpack_require__(49),
   startOfYesterday: __webpack_require__(195),
   subDays: __webpack_require__(196),
   subHours: __webpack_require__(197),
-  subISOYears: __webpack_require__(45),
+  subISOYears: __webpack_require__(44),
   subMilliseconds: __webpack_require__(198),
   subMinutes: __webpack_require__(199),
   subMonths: __webpack_require__(200),
@@ -18230,7 +18225,7 @@ module.exports = differenceInCalendarISOWeeks
 /* 108 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var getQuarter = __webpack_require__(42)
+var getQuarter = __webpack_require__(41)
 var parse = __webpack_require__(0)
 
 /**
@@ -18363,9 +18358,9 @@ module.exports = differenceInHours
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
-var differenceInCalendarISOYears = __webpack_require__(40)
+var differenceInCalendarISOYears = __webpack_require__(39)
 var compareAsc = __webpack_require__(10)
-var subISOYears = __webpack_require__(45)
+var subISOYears = __webpack_require__(44)
 
 /**
  * @category ISO Week-Numbering Year Helpers
@@ -18478,7 +18473,7 @@ module.exports = differenceInQuarters
 /* 114 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var differenceInDays = __webpack_require__(44)
+var differenceInDays = __webpack_require__(43)
 
 /**
  * @category Week Helpers
@@ -18512,7 +18507,7 @@ module.exports = differenceInWeeks
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
-var differenceInCalendarYears = __webpack_require__(43)
+var differenceInCalendarYears = __webpack_require__(42)
 var compareAsc = __webpack_require__(10)
 
 /**
@@ -18970,7 +18965,7 @@ module.exports = distanceInWordsStrict
 /* 120 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var distanceInWords = __webpack_require__(46)
+var distanceInWords = __webpack_require__(45)
 
 /**
  * @category Common Helpers
@@ -19152,7 +19147,7 @@ module.exports = endOfHour
 /* 123 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var endOfWeek = __webpack_require__(47)
+var endOfWeek = __webpack_require__(46)
 
 /**
  * @category ISO Week Helpers
@@ -19444,11 +19439,11 @@ module.exports = endOfYesterday
 /* 132 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var getDayOfYear = __webpack_require__(49)
+var getDayOfYear = __webpack_require__(48)
 var getISOWeek = __webpack_require__(24)
 var getISOYear = __webpack_require__(1)
 var parse = __webpack_require__(0)
-var isValid = __webpack_require__(51)
+var isValid = __webpack_require__(50)
 var enLocale = __webpack_require__(22)
 
 /**
@@ -19838,7 +19833,7 @@ module.exports = getDay
 /* 135 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isLeapYear = __webpack_require__(52)
+var isLeapYear = __webpack_require__(51)
 
 /**
  * @category Year Helpers
@@ -20365,7 +20360,7 @@ module.exports = isFuture
 
 var parse = __webpack_require__(0)
 var endOfDay = __webpack_require__(23)
-var endOfMonth = __webpack_require__(48)
+var endOfMonth = __webpack_require__(47)
 
 /**
  * @category Month Helpers
@@ -20541,7 +20536,7 @@ module.exports = isSunday
 /* 157 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isSameHour = __webpack_require__(54)
+var isSameHour = __webpack_require__(53)
 
 /**
  * @category Hour Helpers
@@ -20570,7 +20565,7 @@ module.exports = isThisHour
 /* 158 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isSameISOWeek = __webpack_require__(56)
+var isSameISOWeek = __webpack_require__(55)
 
 /**
  * @category ISO Week Helpers
@@ -20600,7 +20595,7 @@ module.exports = isThisISOWeek
 /* 159 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isSameISOYear = __webpack_require__(57)
+var isSameISOYear = __webpack_require__(56)
 
 /**
  * @category ISO Week-Numbering Year Helpers
@@ -20631,7 +20626,7 @@ module.exports = isThisISOYear
 /* 160 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isSameMinute = __webpack_require__(58)
+var isSameMinute = __webpack_require__(57)
 
 /**
  * @category Minute Helpers
@@ -20660,7 +20655,7 @@ module.exports = isThisMinute
 /* 161 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isSameMonth = __webpack_require__(60)
+var isSameMonth = __webpack_require__(59)
 
 /**
  * @category Month Helpers
@@ -20688,7 +20683,7 @@ module.exports = isThisMonth
 /* 162 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isSameQuarter = __webpack_require__(61)
+var isSameQuarter = __webpack_require__(60)
 
 /**
  * @category Quarter Helpers
@@ -20716,7 +20711,7 @@ module.exports = isThisQuarter
 /* 163 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isSameSecond = __webpack_require__(63)
+var isSameSecond = __webpack_require__(62)
 
 /**
  * @category Second Helpers
@@ -20781,7 +20776,7 @@ module.exports = isThisWeek
 /* 165 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isSameYear = __webpack_require__(65)
+var isSameYear = __webpack_require__(64)
 
 /**
  * @category Year Helpers
@@ -21059,7 +21054,7 @@ module.exports = isYesterday
 /* 174 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var lastDayOfWeek = __webpack_require__(66)
+var lastDayOfWeek = __webpack_require__(65)
 
 /**
  * @category ISO Week Helpers
@@ -21450,7 +21445,7 @@ module.exports = setHours
 
 var parse = __webpack_require__(0)
 var addDays = __webpack_require__(7)
-var getISODay = __webpack_require__(53)
+var getISODay = __webpack_require__(52)
 
 /**
  * @category Weekday Helpers
@@ -21586,7 +21581,7 @@ module.exports = setMinutes
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
-var setMonth = __webpack_require__(67)
+var setMonth = __webpack_require__(66)
 
 /**
  * @category Quarter Helpers
@@ -21838,7 +21833,7 @@ module.exports = subDays
 /* 197 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var addHours = __webpack_require__(33)
+var addHours = __webpack_require__(32)
 
 /**
  * @category Hour Helpers
@@ -21898,7 +21893,7 @@ module.exports = subMilliseconds
 /* 199 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var addMinutes = __webpack_require__(36)
+var addMinutes = __webpack_require__(35)
 
 /**
  * @category Minute Helpers
@@ -21958,7 +21953,7 @@ module.exports = subMonths
 /* 201 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var addQuarters = __webpack_require__(37)
+var addQuarters = __webpack_require__(36)
 
 /**
  * @category Quarter Helpers
@@ -21988,7 +21983,7 @@ module.exports = subQuarters
 /* 202 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var addSeconds = __webpack_require__(38)
+var addSeconds = __webpack_require__(37)
 
 /**
  * @category Second Helpers
@@ -22048,7 +22043,7 @@ module.exports = subWeeks
 /* 204 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var addYears = __webpack_require__(39)
+var addYears = __webpack_require__(38)
 
 /**
  * @category Year Helpers
@@ -22081,7 +22076,7 @@ module.exports = subYears
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return render; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return staticRenderFns; });
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('button',{staticClass:"select-budget-button",on:{"click":this.clearBudget}},[_vm._v("< Select another budget")]),_vm._v(" "),_c('div',{staticClass:"budget-name"},[_vm._v(_vm._s(this.budget.name))]),_vm._v(" "),(Object.keys(_vm.mappedBudget).length)?_c('div',{staticClass:"share"},[_c('div',[_vm._v("Copy url to share:")]),_vm._v(" "),_c('input',{staticClass:"share-input",attrs:{"type":"text"},domProps:{"value":_vm.budgetUrl},on:{"click":_vm.selectText}})]):_vm._e(),_vm._v(" "),_c('div',{staticClass:"dates"},[_c('div',{staticClass:"date-button-container"},[_c('button',{staticClass:"date-button",on:{"click":function($event){_vm.selectDateRange(_vm.getThisMonth())}}},[_vm._v("This Month")])]),_vm._v(" "),_c('div',{staticClass:"date-button-container"},[_c('button',{staticClass:"date-button",on:{"click":function($event){_vm.selectDateRange(_vm.getLatest3Months())}}},[_vm._v("Latest 3 Months")])]),_vm._v(" "),_c('div',{staticClass:"date-button-container"},[_c('button',{staticClass:"date-button",on:{"click":function($event){_vm.selectDateRange(_vm.getThisYear())}}},[_vm._v("This Year")])]),_vm._v(" "),_c('div',{staticClass:"date-button-container"},[_c('button',{staticClass:"date-button",on:{"click":function($event){_vm.selectDateRange(_vm.getLastYear())}}},[_vm._v("Last Year")])])]),_vm._v(" "),_c('div',{staticClass:"include-percentages"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.includePercentages),expression:"includePercentages"}],staticClass:"include-percentages-checkbox",attrs:{"type":"checkbox","id":"percentages"},domProps:{"checked":Array.isArray(_vm.includePercentages)?_vm._i(_vm.includePercentages,null)>-1:(_vm.includePercentages)},on:{"change":function($event){var $$a=_vm.includePercentages,$$el=$event.target,$$c=$$el.checked?(true):(false);if(Array.isArray($$a)){var $$v=null,$$i=_vm._i($$a,$$v);if($$el.checked){$$i<0&&(_vm.includePercentages=$$a.concat([$$v]))}else{$$i>-1&&(_vm.includePercentages=$$a.slice(0,$$i).concat($$a.slice($$i+1)))}}else{_vm.includePercentages=$$c}}}}),_vm._v(" "),_c('label',{staticClass:"include-percentages-label",attrs:{"for":"percentages"}},[_vm._v("Include percentages")])]),_vm._v(" "),(!Object.keys(_vm.mappedBudget).length)?_c('div',[_vm._v("\n    Not enough data\n  ")]):_c('div',_vm._l((Object.keys(_vm.mappedBudget)),function(categoryGroupId){return _c('div',{key:categoryGroupId},[_c('div',{staticClass:"category-group"},[_c('span',{staticClass:"category-group-name"},[_vm._v(_vm._s(_vm.mappedBudget[categoryGroupId].name))]),_vm._v(" "),_c('span',{staticClass:"category-group-amount"},[_vm._v(_vm._s(_vm.convertMilliUnitsToCurrencyAmount(_vm.mappedBudget[categoryGroupId].budgeted).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2})))]),_vm._v(" "),(_vm.includePercentages)?_c('span',{staticClass:"category-group-percentage"},[_vm._v(_vm._s((_vm.mappedBudget[categoryGroupId].budgeted / _vm.totalBudgeted * 100).toFixed(2))+"%")]):_vm._e()]),_vm._v(" "),_vm._l((_vm.mappedBudget[categoryGroupId].categories),function(category){return _c('div',{key:Object.keys(category)[0]},[_c('div',{staticClass:"category"},[_c('span',{staticClass:"category-name"},[_vm._v(_vm._s(category[Object.keys(category)[0]].name))]),_vm._v(" "),_c('span',{staticClass:"category-amount"},[_vm._v(_vm._s(_vm.convertMilliUnitsToCurrencyAmount(category[Object.keys(category)[0]].budgeted).toFixed(2).toLocaleString()))]),_vm._v(" "),(_vm.includePercentages)?_c('span',{staticClass:"category-percentage"},[_vm._v(_vm._s((category[Object.keys(category)[0]].budgeted / _vm.totalBudgeted * 100).toFixed(2))+"%")]):_vm._e()])])})],2)}))])}
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('button',{staticClass:"select-budget-button",on:{"click":this.clearBudget}},[_vm._v("< Select another budget")]),_vm._v(" "),_c('div',{staticClass:"budget-name"},[_vm._v(_vm._s(this.budget.name))]),_vm._v(" "),(Object.keys(_vm.mappedBudget).length)?_c('div',{staticClass:"share"},[_c('div',[_vm._v("Copy url to share:")]),_vm._v(" "),_c('input',{staticClass:"share-input",attrs:{"type":"text"},domProps:{"value":_vm.budgetUrl},on:{"click":_vm.selectText}})]):_vm._e(),_vm._v(" "),_c('div',{staticClass:"dates"},[_c('div',{staticClass:"date-button-container"},[_c('button',{staticClass:"date-button",on:{"click":function($event){_vm.selectDateRange(_vm.getThisMonth())}}},[_vm._v("This Month")])]),_vm._v(" "),_c('div',{staticClass:"date-button-container"},[_c('button',{staticClass:"date-button",on:{"click":function($event){_vm.selectDateRange(_vm.getLatest3Months())}}},[_vm._v("Latest 3 Months")])]),_vm._v(" "),_c('div',{staticClass:"date-button-container"},[_c('button',{staticClass:"date-button",on:{"click":function($event){_vm.selectDateRange(_vm.getThisYear())}}},[_vm._v("This Year")])]),_vm._v(" "),_c('div',{staticClass:"date-button-container"},[_c('button',{staticClass:"date-button",on:{"click":function($event){_vm.selectDateRange(_vm.getLastYear())}}},[_vm._v("Last Year")])])]),_vm._v(" "),_c('div',{staticClass:"include-percentages"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.includePercentages),expression:"includePercentages"}],staticClass:"include-percentages-checkbox",attrs:{"type":"checkbox","id":"percentages"},domProps:{"checked":Array.isArray(_vm.includePercentages)?_vm._i(_vm.includePercentages,null)>-1:(_vm.includePercentages)},on:{"change":function($event){var $$a=_vm.includePercentages,$$el=$event.target,$$c=$$el.checked?(true):(false);if(Array.isArray($$a)){var $$v=null,$$i=_vm._i($$a,$$v);if($$el.checked){$$i<0&&(_vm.includePercentages=$$a.concat([$$v]))}else{$$i>-1&&(_vm.includePercentages=$$a.slice(0,$$i).concat($$a.slice($$i+1)))}}else{_vm.includePercentages=$$c}}}}),_vm._v(" "),_c('label',{staticClass:"include-percentages-label",attrs:{"for":"percentages"}},[_vm._v("Include percentages")])]),_vm._v(" "),(!Object.keys(_vm.mappedBudget).length)?_c('div',[_vm._v("\n    Not enough data\n  ")]):_c('div',_vm._l((Object.keys(_vm.mappedBudget)),function(categoryGroupId){return _c('div',{key:categoryGroupId},[_c('div',{staticClass:"category-group"},[_c('span',{staticClass:"category-group-name"},[_vm._v(_vm._s(_vm.mappedBudget[categoryGroupId].name))]),_vm._v(" "),(_vm.includePercentages)?_c('span',{staticClass:"category-group-percentage"},[_vm._v(_vm._s((_vm.mappedBudget[categoryGroupId].budgeted / _vm.totalBudgeted * 100).toFixed(2))+"%")]):_vm._e()]),_vm._v(" "),_vm._l((_vm.mappedBudget[categoryGroupId].categories),function(category){return _c('div',{key:Object.keys(category)[0]},[_c('div',{staticClass:"category"},[_c('span',{staticClass:"category-name"},[_vm._v(_vm._s(category[Object.keys(category)[0]].name))]),_vm._v(" "),(_vm.includePercentages)?_c('span',{staticClass:"category-percentage"},[_vm._v(_vm._s((category[Object.keys(category)[0]].budgeted / _vm.totalBudgeted * 100).toFixed(2))+"%")]):_vm._e()])])})],2)}))])}
 var staticRenderFns = []
 
 
@@ -22091,7 +22086,7 @@ var staticRenderFns = []
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_SharedBudget_vue__ = __webpack_require__(69);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_SharedBudget_vue__ = __webpack_require__(68);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_SharedBudget_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_SharedBudget_vue__);
 /* harmony namespace reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_SharedBudget_vue__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_SharedBudget_vue__[key]; }) }(__WEBPACK_IMPORT_KEY__));
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_c82f2024_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_SharedBudget_vue__ = __webpack_require__(207);
