@@ -349,12 +349,12 @@ export default {
 }
 
 @media (min-width: 450px) {
-  .select-budget-button,
   .budget-name,
   .share {
     padding-left: 0;
   }
 
+  .select-budget-button,
   .include-percentages {
     margin-left: 0;
   }
