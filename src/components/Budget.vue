@@ -2,7 +2,7 @@
   <div class="container">
     <button @click="this.clearBudget" class="select-budget-button">&lt; Select another budget</button>
     <div class="budget-name">{{this.budget.name}}</div>
-    <div v-if="Object.keys(mappedBudget).length" class="share">
+    <div class="share">
       <div>Copy url to share:</div>
       <input type="text" :value="budgetUrl" @click="selectText" class="share-input" />
     </div>
