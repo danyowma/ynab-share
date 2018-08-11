@@ -391,119 +391,6 @@ module.exports = parse
 
 /***/ }),
 /* 1 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var parse = __webpack_require__(0)
-var startOfISOWeek = __webpack_require__(2)
-
-/**
- * @category ISO Week-Numbering Year Helpers
- * @summary Get the ISO week-numbering year of the given date.
- *
- * @description
- * Get the ISO week-numbering year of the given date,
- * which always starts 3 days before the year's first Thursday.
- *
- * ISO week-numbering year: http://en.wikipedia.org/wiki/ISO_week_date
- *
- * @param {Date|String|Number} date - the given date
- * @returns {Number} the ISO week-numbering year
- *
- * @example
- * // Which ISO-week numbering year is 2 January 2005?
- * var result = getISOYear(new Date(2005, 0, 2))
- * //=> 2004
- */
-function getISOYear (dirtyDate) {
-  var date = parse(dirtyDate)
-  var year = date.getFullYear()
-
-  var fourthOfJanuaryOfNextYear = new Date(0)
-  fourthOfJanuaryOfNextYear.setFullYear(year + 1, 0, 4)
-  fourthOfJanuaryOfNextYear.setHours(0, 0, 0, 0)
-  var startOfNextYear = startOfISOWeek(fourthOfJanuaryOfNextYear)
-
-  var fourthOfJanuaryOfThisYear = new Date(0)
-  fourthOfJanuaryOfThisYear.setFullYear(year, 0, 4)
-  fourthOfJanuaryOfThisYear.setHours(0, 0, 0, 0)
-  var startOfThisYear = startOfISOWeek(fourthOfJanuaryOfThisYear)
-
-  if (date.getTime() >= startOfNextYear.getTime()) {
-    return year + 1
-  } else if (date.getTime() >= startOfThisYear.getTime()) {
-    return year
-  } else {
-    return year - 1
-  }
-}
-
-module.exports = getISOYear
-
-
-/***/ }),
-/* 2 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var startOfWeek = __webpack_require__(12)
-
-/**
- * @category ISO Week Helpers
- * @summary Return the start of an ISO week for the given date.
- *
- * @description
- * Return the start of an ISO week for the given date.
- * The result will be in the local timezone.
- *
- * ISO week-numbering year: http://en.wikipedia.org/wiki/ISO_week_date
- *
- * @param {Date|String|Number} date - the original date
- * @returns {Date} the start of an ISO week
- *
- * @example
- * // The start of an ISO week for 2 September 2014 11:55:00:
- * var result = startOfISOWeek(new Date(2014, 8, 2, 11, 55, 0))
- * //=> Mon Sep 01 2014 00:00:00
- */
-function startOfISOWeek (dirtyDate) {
-  return startOfWeek(dirtyDate, {weekStartsOn: 1})
-}
-
-module.exports = startOfISOWeek
-
-
-/***/ }),
-/* 3 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var parse = __webpack_require__(0)
-
-/**
- * @category Day Helpers
- * @summary Return the start of a day for the given date.
- *
- * @description
- * Return the start of a day for the given date.
- * The result will be in the local timezone.
- *
- * @param {Date|String|Number} date - the original date
- * @returns {Date} the start of a day
- *
- * @example
- * // The start of a day for 2 September 2014 11:55:00:
- * var result = startOfDay(new Date(2014, 8, 2, 11, 55, 0))
- * //=> Tue Sep 02 2014 00:00:00
- */
-function startOfDay (dirtyDate) {
-  var date = parse(dirtyDate)
-  date.setHours(0, 0, 0, 0)
-  return date
-}
-
-module.exports = startOfDay
-
-
-/***/ }),
-/* 4 */
 /***/ (function(module, exports) {
 
 /*
@@ -585,7 +472,7 @@ function toComment(sourceMap) {
 
 
 /***/ }),
-/* 5 */
+/* 2 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -817,6 +704,119 @@ function applyToTag (styleElement, obj) {
 
 
 /***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var parse = __webpack_require__(0)
+var startOfISOWeek = __webpack_require__(4)
+
+/**
+ * @category ISO Week-Numbering Year Helpers
+ * @summary Get the ISO week-numbering year of the given date.
+ *
+ * @description
+ * Get the ISO week-numbering year of the given date,
+ * which always starts 3 days before the year's first Thursday.
+ *
+ * ISO week-numbering year: http://en.wikipedia.org/wiki/ISO_week_date
+ *
+ * @param {Date|String|Number} date - the given date
+ * @returns {Number} the ISO week-numbering year
+ *
+ * @example
+ * // Which ISO-week numbering year is 2 January 2005?
+ * var result = getISOYear(new Date(2005, 0, 2))
+ * //=> 2004
+ */
+function getISOYear (dirtyDate) {
+  var date = parse(dirtyDate)
+  var year = date.getFullYear()
+
+  var fourthOfJanuaryOfNextYear = new Date(0)
+  fourthOfJanuaryOfNextYear.setFullYear(year + 1, 0, 4)
+  fourthOfJanuaryOfNextYear.setHours(0, 0, 0, 0)
+  var startOfNextYear = startOfISOWeek(fourthOfJanuaryOfNextYear)
+
+  var fourthOfJanuaryOfThisYear = new Date(0)
+  fourthOfJanuaryOfThisYear.setFullYear(year, 0, 4)
+  fourthOfJanuaryOfThisYear.setHours(0, 0, 0, 0)
+  var startOfThisYear = startOfISOWeek(fourthOfJanuaryOfThisYear)
+
+  if (date.getTime() >= startOfNextYear.getTime()) {
+    return year + 1
+  } else if (date.getTime() >= startOfThisYear.getTime()) {
+    return year
+  } else {
+    return year - 1
+  }
+}
+
+module.exports = getISOYear
+
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var startOfWeek = __webpack_require__(12)
+
+/**
+ * @category ISO Week Helpers
+ * @summary Return the start of an ISO week for the given date.
+ *
+ * @description
+ * Return the start of an ISO week for the given date.
+ * The result will be in the local timezone.
+ *
+ * ISO week-numbering year: http://en.wikipedia.org/wiki/ISO_week_date
+ *
+ * @param {Date|String|Number} date - the original date
+ * @returns {Date} the start of an ISO week
+ *
+ * @example
+ * // The start of an ISO week for 2 September 2014 11:55:00:
+ * var result = startOfISOWeek(new Date(2014, 8, 2, 11, 55, 0))
+ * //=> Mon Sep 01 2014 00:00:00
+ */
+function startOfISOWeek (dirtyDate) {
+  return startOfWeek(dirtyDate, {weekStartsOn: 1})
+}
+
+module.exports = startOfISOWeek
+
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var parse = __webpack_require__(0)
+
+/**
+ * @category Day Helpers
+ * @summary Return the start of a day for the given date.
+ *
+ * @description
+ * Return the start of a day for the given date.
+ * The result will be in the local timezone.
+ *
+ * @param {Date|String|Number} date - the original date
+ * @returns {Date} the start of a day
+ *
+ * @example
+ * // The start of a day for 2 September 2014 11:55:00:
+ * var result = startOfDay(new Date(2014, 8, 2, 11, 55, 0))
+ * //=> Tue Sep 02 2014 00:00:00
+ */
+function startOfDay (dirtyDate) {
+  var date = parse(dirtyDate)
+  date.setHours(0, 0, 0, 0)
+  return date
+}
+
+module.exports = startOfDay
+
+
+/***/ }),
 /* 6 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -992,8 +992,8 @@ module.exports = addMilliseconds
 /* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var getISOYear = __webpack_require__(1)
-var startOfISOWeek = __webpack_require__(2)
+var getISOYear = __webpack_require__(3)
+var startOfISOWeek = __webpack_require__(4)
 
 /**
  * @category ISO Week-Numbering Year Helpers
@@ -1158,7 +1158,7 @@ module.exports = startOfWeek
 /* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var startOfDay = __webpack_require__(3)
+var startOfDay = __webpack_require__(5)
 
 var MILLISECONDS_IN_MINUTE = 60000
 var MILLISECONDS_IN_DAY = 86400000
@@ -1555,7 +1555,7 @@ module.exports = endOfDay
 /***/ (function(module, exports, __webpack_require__) {
 
 var parse = __webpack_require__(0)
-var startOfISOWeek = __webpack_require__(2)
+var startOfISOWeek = __webpack_require__(4)
 var startOfISOYear = __webpack_require__(9)
 
 var MILLISECONDS_IN_WEEK = 604800000
@@ -1672,7 +1672,7 @@ var _SharedBudget = __webpack_require__(206);
 
 var _SharedBudget2 = _interopRequireDefault(_SharedBudget);
 
-var _Loading = __webpack_require__(208);
+var _Loading = __webpack_require__(210);
 
 var _Loading2 = _interopRequireDefault(_Loading);
 
@@ -4880,7 +4880,7 @@ module.exports = addHours
 /* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var getISOYear = __webpack_require__(1)
+var getISOYear = __webpack_require__(3)
 var setISOYear = __webpack_require__(34)
 
 /**
@@ -5078,7 +5078,7 @@ module.exports = addYears
 /* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var getISOYear = __webpack_require__(1)
+var getISOYear = __webpack_require__(3)
 
 /**
  * @category ISO Week-Numbering Year Helpers
@@ -6762,6 +6762,10 @@ if (true) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+//
+//
+//
+//
 //
 //
 //
@@ -15274,7 +15278,7 @@ process.umask = function() { return 0; };
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_App_vue__ = __webpack_require__(26);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_App_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_App_vue__);
 /* unused harmony namespace reexport */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_a362e0a2_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_App_vue__ = __webpack_require__(212);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_a362e0a2_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_App_vue__ = __webpack_require__(214);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__ = __webpack_require__(6);
 function injectStyle (context) {
   __webpack_require__(75)
@@ -15318,14 +15322,14 @@ var content = __webpack_require__(76);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var add = __webpack_require__(5).default
+var add = __webpack_require__(2).default
 var update = add("65227dd2", content, true, {});
 
 /***/ }),
 /* 76 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(4)(false);
+exports = module.exports = __webpack_require__(1)(false);
 // imports
 
 
@@ -15381,14 +15385,14 @@ var content = __webpack_require__(79);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var add = __webpack_require__(5).default
+var add = __webpack_require__(2).default
 var update = add("709b2c27", content, true, {});
 
 /***/ }),
 /* 79 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(4)(false);
+exports = module.exports = __webpack_require__(1)(false);
 // imports
 
 
@@ -17676,14 +17680,14 @@ var content = __webpack_require__(94);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var add = __webpack_require__(5).default
+var add = __webpack_require__(2).default
 var update = add("74659c32", content, true, {});
 
 /***/ }),
 /* 94 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(4)(false);
+exports = module.exports = __webpack_require__(1)(false);
 // imports
 
 
@@ -17713,7 +17717,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Budgets_vue__ = __webpack_require__(30);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Budgets_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Budgets_vue__);
 /* harmony namespace reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Budgets_vue__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Budgets_vue__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_23ab8ed9_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Budgets_vue__ = __webpack_require__(99);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_55681aea_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Budgets_vue__ = __webpack_require__(99);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__ = __webpack_require__(6);
 function injectStyle (context) {
   __webpack_require__(97)
@@ -17728,14 +17732,14 @@ var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = "data-v-23ab8ed9"
+var __vue_scopeId__ = "data-v-55681aea"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 
 var Component = Object(__WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__["a" /* default */])(
   __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Budgets_vue___default.a,
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_23ab8ed9_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Budgets_vue__["a" /* render */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_23ab8ed9_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Budgets_vue__["b" /* staticRenderFns */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_55681aea_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Budgets_vue__["a" /* render */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_55681aea_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Budgets_vue__["b" /* staticRenderFns */],
   __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
@@ -17756,19 +17760,19 @@ var content = __webpack_require__(98);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var add = __webpack_require__(5).default
-var update = add("6a2a0c14", content, true, {});
+var add = __webpack_require__(2).default
+var update = add("02314ffe", content, true, {});
 
 /***/ }),
 /* 98 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(4)(false);
+exports = module.exports = __webpack_require__(1)(false);
 // imports
 
 
 // module
-exports.push([module.i, ".container[data-v-23ab8ed9]{padding:0 20px 20px}.heading[data-v-23ab8ed9]{padding:20px 0;margin:0;font-size:20px}.budgets[data-v-23ab8ed9]{display:flex;justify-content:flex-start;flex-wrap:wrap}.budget[data-v-23ab8ed9]{display:block;width:200px;height:200px;margin:0 auto 16px;border:1px solid #dfe4e9}.budget-name[data-v-23ab8ed9]{width:100%;height:100%;padding:8px;border:none;font-size:16px;cursor:pointer}", ""]);
+exports.push([module.i, ".container[data-v-55681aea]{padding:0 20px 20px}.heading[data-v-55681aea]{padding:20px 0;margin:0;font-size:20px}.budgets[data-v-55681aea]{display:flex;justify-content:flex-start;flex-wrap:wrap}.budget[data-v-55681aea]{display:block;width:200px;height:200px;margin:0 20px 20px 0;border:1px solid #dfe4e9}.budget-name[data-v-55681aea]{width:100%;height:100%;padding:8px;border:none;font-size:16px;cursor:pointer}", ""]);
 
 // exports
 
@@ -17793,7 +17797,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Budget_vue__ = __webpack_require__(31);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Budget_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Budget_vue__);
 /* harmony namespace reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Budget_vue__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Budget_vue__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_2d07a947_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Budget_vue__ = __webpack_require__(205);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_3c1c0e77_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Budget_vue__ = __webpack_require__(205);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__ = __webpack_require__(6);
 function injectStyle (context) {
   __webpack_require__(101)
@@ -17808,14 +17812,14 @@ var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = "data-v-2d07a947"
+var __vue_scopeId__ = "data-v-3c1c0e77"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 
 var Component = Object(__WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__["a" /* default */])(
   __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Budget_vue___default.a,
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_2d07a947_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Budget_vue__["a" /* render */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_2d07a947_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Budget_vue__["b" /* staticRenderFns */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_3c1c0e77_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Budget_vue__["a" /* render */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_3c1c0e77_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Budget_vue__["b" /* staticRenderFns */],
   __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
@@ -17836,19 +17840,19 @@ var content = __webpack_require__(102);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var add = __webpack_require__(5).default
-var update = add("006bdcb6", content, true, {});
+var add = __webpack_require__(2).default
+var update = add("95f3478e", content, true, {});
 
 /***/ }),
 /* 102 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(4)(false);
+exports = module.exports = __webpack_require__(1)(false);
 // imports
 
 
 // module
-exports.push([module.i, ".budget-name[data-v-2d07a947]{padding:0 20px 12px;font:700 20px Helvetica,Arial,sans-serif}.share[data-v-2d07a947]{padding:0 20px;font-size:12px}.share-input[data-v-2d07a947]{width:100%;padding:4px;margin-top:4px}.share-input[data-v-2d07a947]:focus{outline:none}.select-budget-button[data-v-2d07a947]{padding:0;margin:10px 20px 20px;border:none;font-size:12px;color:#009cc2;cursor:pointer}.select-budget-button[data-v-2d07a947]:focus{outline:none}.dates[data-v-2d07a947]{display:flex;flex-wrap:wrap}.date-button-container[data-v-2d07a947]{display:flex;justify-content:center;align-items:center;width:50%;height:32px}.date-button[data-v-2d07a947]{padding:8px;border:none;border-radius:12px;background:#fff;font-size:12px;color:#009cc2;cursor:pointer}.date-button[data-v-2d07a947]:focus{outline:none}.include-percentages[data-v-2d07a947]{margin:10px 20px;cursor:pointer}.include-percentages-checkbox[data-v-2d07a947],.include-percentages-label[data-v-2d07a947]{cursor:pointer}.category-group[data-v-2d07a947]{background:#e5f5f9}.category-group[data-v-2d07a947],.category[data-v-2d07a947]{display:flex;align-items:center;height:40px;padding:0 20px;border-top:1px solid #dee3e8;text-align:right}.category-group-name[data-v-2d07a947],.category-name[data-v-2d07a947]{width:200px;text-align:left;text-overflow:ellipsis;overflow:hidden;white-space:nowrap}.category-group-percentage[data-v-2d07a947],.category-percentage[data-v-2d07a947]{flex:1}", ""]);
+exports.push([module.i, ".container[data-v-3c1c0e77]{max-width:500px;margin:0 auto}.budget-name[data-v-3c1c0e77]{padding:0 20px 12px;font:700 20px Helvetica,Arial,sans-serif}.share[data-v-3c1c0e77]{padding:0 20px;font-size:12px}.share-input[data-v-3c1c0e77]{width:100%;padding:4px;margin-top:4px}.share-input[data-v-3c1c0e77]:focus{outline:none}.select-budget-button[data-v-3c1c0e77]{padding:0;margin:10px 20px 20px;border:none;font-size:12px;color:#009cc2;cursor:pointer}.select-budget-button[data-v-3c1c0e77]:focus{outline:none}.dates[data-v-3c1c0e77]{display:flex;flex-wrap:wrap;margin-top:12px}.date-button-container[data-v-3c1c0e77]{display:flex;justify-content:center;align-items:center;width:50%;height:32px}.date-button[data-v-3c1c0e77]{padding:8px;border:none;border-radius:12px;background:#fff;font-size:12px;color:#009cc2;cursor:pointer}.date-button[data-v-3c1c0e77]:focus{outline:none}.include-percentages[data-v-3c1c0e77]{display:inline-block;margin:10px 20px;cursor:pointer}.include-percentages-checkbox[data-v-3c1c0e77],.include-percentages-label[data-v-3c1c0e77]{cursor:pointer}.category-group[data-v-3c1c0e77]{background:#e5f5f9}.category-group[data-v-3c1c0e77],.category[data-v-3c1c0e77]{display:flex;align-items:center;height:40px;padding:0 20px;border-top:1px solid #dee3e8;text-align:right}.category-group-name[data-v-3c1c0e77],.category-name[data-v-3c1c0e77]{width:75%;text-align:left;text-overflow:ellipsis;overflow:hidden;white-space:nowrap}.category-group-percentage[data-v-3c1c0e77],.category-percentage[data-v-3c1c0e77]{flex:1}@media (min-width:450px){.budget-name[data-v-3c1c0e77],.select-budget-button[data-v-3c1c0e77],.share[data-v-3c1c0e77]{padding-left:0}.include-percentages[data-v-3c1c0e77]{margin-left:0}.dates[data-v-3c1c0e77]{flex-wrap:nowrap}.date-button-container[data-v-3c1c0e77]{width:auto;height:auto;margin-right:20px}.date-button[data-v-3c1c0e77]{padding:0}}", ""]);
 
 // exports
 
@@ -17917,7 +17921,7 @@ module.exports = {
   getISODay: __webpack_require__(52),
   getISOWeek: __webpack_require__(24),
   getISOWeeksInYear: __webpack_require__(137),
-  getISOYear: __webpack_require__(1),
+  getISOYear: __webpack_require__(3),
   getMilliseconds: __webpack_require__(138),
   getMinutes: __webpack_require__(139),
   getMonth: __webpack_require__(140),
@@ -17989,9 +17993,9 @@ module.exports = {
   setQuarter: __webpack_require__(189),
   setSeconds: __webpack_require__(190),
   setYear: __webpack_require__(191),
-  startOfDay: __webpack_require__(3),
+  startOfDay: __webpack_require__(5),
   startOfHour: __webpack_require__(54),
-  startOfISOWeek: __webpack_require__(2),
+  startOfISOWeek: __webpack_require__(4),
   startOfISOYear: __webpack_require__(9),
   startOfMinute: __webpack_require__(58),
   startOfMonth: __webpack_require__(192),
@@ -18177,7 +18181,7 @@ module.exports = closestTo
 /* 107 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var startOfISOWeek = __webpack_require__(2)
+var startOfISOWeek = __webpack_require__(4)
 
 var MILLISECONDS_IN_MINUTE = 60000
 var MILLISECONDS_IN_WEEK = 604800000
@@ -19178,8 +19182,8 @@ module.exports = endOfISOWeek
 /* 124 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var getISOYear = __webpack_require__(1)
-var startOfISOWeek = __webpack_require__(2)
+var getISOYear = __webpack_require__(3)
+var startOfISOWeek = __webpack_require__(4)
 
 /**
  * @category ISO Week-Numbering Year Helpers
@@ -19441,7 +19445,7 @@ module.exports = endOfYesterday
 
 var getDayOfYear = __webpack_require__(48)
 var getISOWeek = __webpack_require__(24)
-var getISOYear = __webpack_require__(1)
+var getISOYear = __webpack_require__(3)
 var parse = __webpack_require__(0)
 var isValid = __webpack_require__(50)
 var enLocale = __webpack_require__(22)
@@ -20445,7 +20449,7 @@ module.exports = isPast
 /* 154 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var startOfDay = __webpack_require__(3)
+var startOfDay = __webpack_require__(5)
 
 /**
  * @category Day Helpers
@@ -20832,7 +20836,7 @@ module.exports = isThursday
 /* 167 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var startOfDay = __webpack_require__(3)
+var startOfDay = __webpack_require__(5)
 
 /**
  * @category Day Helpers
@@ -20860,7 +20864,7 @@ module.exports = isToday
 /* 168 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var startOfDay = __webpack_require__(3)
+var startOfDay = __webpack_require__(5)
 
 /**
  * @category Day Helpers
@@ -21024,7 +21028,7 @@ module.exports = isWithinRange
 /* 173 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var startOfDay = __webpack_require__(3)
+var startOfDay = __webpack_require__(5)
 
 /**
  * @category Day Helpers
@@ -21085,8 +21089,8 @@ module.exports = lastDayOfISOWeek
 /* 175 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var getISOYear = __webpack_require__(1)
-var startOfISOWeek = __webpack_require__(2)
+var getISOYear = __webpack_require__(3)
+var startOfISOWeek = __webpack_require__(4)
 
 /**
  * @category ISO Week-Numbering Year Helpers
@@ -21710,7 +21714,7 @@ module.exports = startOfMonth
 /* 193 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var startOfDay = __webpack_require__(3)
+var startOfDay = __webpack_require__(5)
 
 /**
  * @category Day Helpers
@@ -22076,7 +22080,7 @@ module.exports = subYears
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return render; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return staticRenderFns; });
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('button',{staticClass:"select-budget-button",on:{"click":this.clearBudget}},[_vm._v("< Select another budget")]),_vm._v(" "),_c('div',{staticClass:"budget-name"},[_vm._v(_vm._s(this.budget.name))]),_vm._v(" "),(Object.keys(_vm.mappedBudget).length)?_c('div',{staticClass:"share"},[_c('div',[_vm._v("Copy url to share:")]),_vm._v(" "),_c('input',{staticClass:"share-input",attrs:{"type":"text"},domProps:{"value":_vm.budgetUrl},on:{"click":_vm.selectText}})]):_vm._e(),_vm._v(" "),_c('div',{staticClass:"dates"},[_c('div',{staticClass:"date-button-container"},[_c('button',{staticClass:"date-button",on:{"click":function($event){_vm.selectDateRange(_vm.getThisMonth())}}},[_vm._v("This Month")])]),_vm._v(" "),_c('div',{staticClass:"date-button-container"},[_c('button',{staticClass:"date-button",on:{"click":function($event){_vm.selectDateRange(_vm.getLatest3Months())}}},[_vm._v("Latest 3 Months")])]),_vm._v(" "),_c('div',{staticClass:"date-button-container"},[_c('button',{staticClass:"date-button",on:{"click":function($event){_vm.selectDateRange(_vm.getThisYear())}}},[_vm._v("This Year")])]),_vm._v(" "),_c('div',{staticClass:"date-button-container"},[_c('button',{staticClass:"date-button",on:{"click":function($event){_vm.selectDateRange(_vm.getLastYear())}}},[_vm._v("Last Year")])])]),_vm._v(" "),_c('div',{staticClass:"include-percentages"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.includePercentages),expression:"includePercentages"}],staticClass:"include-percentages-checkbox",attrs:{"type":"checkbox","id":"percentages"},domProps:{"checked":Array.isArray(_vm.includePercentages)?_vm._i(_vm.includePercentages,null)>-1:(_vm.includePercentages)},on:{"change":function($event){var $$a=_vm.includePercentages,$$el=$event.target,$$c=$$el.checked?(true):(false);if(Array.isArray($$a)){var $$v=null,$$i=_vm._i($$a,$$v);if($$el.checked){$$i<0&&(_vm.includePercentages=$$a.concat([$$v]))}else{$$i>-1&&(_vm.includePercentages=$$a.slice(0,$$i).concat($$a.slice($$i+1)))}}else{_vm.includePercentages=$$c}}}}),_vm._v(" "),_c('label',{staticClass:"include-percentages-label",attrs:{"for":"percentages"}},[_vm._v("Include percentages")])]),_vm._v(" "),(!Object.keys(_vm.mappedBudget).length)?_c('div',[_vm._v("\n    Not enough data\n  ")]):_c('div',_vm._l((Object.keys(_vm.mappedBudget)),function(categoryGroupId){return _c('div',{key:categoryGroupId},[_c('div',{staticClass:"category-group"},[_c('span',{staticClass:"category-group-name"},[_vm._v(_vm._s(_vm.mappedBudget[categoryGroupId].name))]),_vm._v(" "),(_vm.includePercentages)?_c('span',{staticClass:"category-group-percentage"},[_vm._v(_vm._s((_vm.mappedBudget[categoryGroupId].budgeted / _vm.totalBudgeted * 100).toFixed(2))+"%")]):_vm._e()]),_vm._v(" "),_vm._l((_vm.mappedBudget[categoryGroupId].categories),function(category){return _c('div',{key:Object.keys(category)[0]},[_c('div',{staticClass:"category"},[_c('span',{staticClass:"category-name"},[_vm._v(_vm._s(category[Object.keys(category)[0]].name))]),_vm._v(" "),(_vm.includePercentages)?_c('span',{staticClass:"category-percentage"},[_vm._v(_vm._s((category[Object.keys(category)[0]].budgeted / _vm.totalBudgeted * 100).toFixed(2))+"%")]):_vm._e()])])})],2)}))])}
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"container"},[_c('button',{staticClass:"select-budget-button",on:{"click":this.clearBudget}},[_vm._v("< Select another budget")]),_vm._v(" "),_c('div',{staticClass:"budget-name"},[_vm._v(_vm._s(this.budget.name))]),_vm._v(" "),_c('div',{staticClass:"share"},[_c('div',[_vm._v("Copy url to share:")]),_vm._v(" "),_c('input',{staticClass:"share-input",attrs:{"type":"text"},domProps:{"value":_vm.budgetUrl},on:{"click":_vm.selectText}})]),_vm._v(" "),_c('div',{staticClass:"dates"},[_c('div',{staticClass:"date-button-container"},[_c('button',{staticClass:"date-button",on:{"click":function($event){_vm.selectDateRange(_vm.getThisMonth())}}},[_vm._v("This Month")])]),_vm._v(" "),_c('div',{staticClass:"date-button-container"},[_c('button',{staticClass:"date-button",on:{"click":function($event){_vm.selectDateRange(_vm.getLatest3Months())}}},[_vm._v("Latest 3 Months")])]),_vm._v(" "),_c('div',{staticClass:"date-button-container"},[_c('button',{staticClass:"date-button",on:{"click":function($event){_vm.selectDateRange(_vm.getThisYear())}}},[_vm._v("This Year")])]),_vm._v(" "),_c('div',{staticClass:"date-button-container"},[_c('button',{staticClass:"date-button",on:{"click":function($event){_vm.selectDateRange(_vm.getLastYear())}}},[_vm._v("Last Year")])])]),_vm._v(" "),_c('div',{staticClass:"include-percentages"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.includePercentages),expression:"includePercentages"}],staticClass:"include-percentages-checkbox",attrs:{"type":"checkbox","id":"percentages"},domProps:{"checked":Array.isArray(_vm.includePercentages)?_vm._i(_vm.includePercentages,null)>-1:(_vm.includePercentages)},on:{"change":function($event){var $$a=_vm.includePercentages,$$el=$event.target,$$c=$$el.checked?(true):(false);if(Array.isArray($$a)){var $$v=null,$$i=_vm._i($$a,$$v);if($$el.checked){$$i<0&&(_vm.includePercentages=$$a.concat([$$v]))}else{$$i>-1&&(_vm.includePercentages=$$a.slice(0,$$i).concat($$a.slice($$i+1)))}}else{_vm.includePercentages=$$c}}}}),_vm._v(" "),_c('label',{staticClass:"include-percentages-label",attrs:{"for":"percentages"}},[_vm._v("Include percentages")])]),_vm._v(" "),(!Object.keys(_vm.mappedBudget).length)?_c('div',[_vm._v("\n    There is not enough data. Please select a different date range.\n  ")]):_c('div',_vm._l((Object.keys(_vm.mappedBudget)),function(categoryGroupId){return _c('div',{key:categoryGroupId},[_c('div',{staticClass:"category-group"},[_c('span',{staticClass:"category-group-name"},[_vm._v(_vm._s(_vm.mappedBudget[categoryGroupId].name))]),_vm._v(" "),(_vm.includePercentages)?_c('span',{staticClass:"category-group-percentage"},[_vm._v(_vm._s((_vm.mappedBudget[categoryGroupId].budgeted / _vm.totalBudgeted * 100).toFixed(2))+"%")]):_vm._e()]),_vm._v(" "),_vm._l((_vm.mappedBudget[categoryGroupId].categories),function(category){return _c('div',{key:Object.keys(category)[0]},[_c('div',{staticClass:"category"},[_c('span',{staticClass:"category-name"},[_vm._v(_vm._s(category[Object.keys(category)[0]].name))]),_vm._v(" "),(_vm.includePercentages)?_c('span',{staticClass:"category-percentage"},[_vm._v(_vm._s((category[Object.keys(category)[0]].budgeted / _vm.totalBudgeted * 100).toFixed(2))+"%")]):_vm._e()])])})],2)}))])}
 var staticRenderFns = []
 
 
@@ -22089,8 +22093,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_SharedBudget_vue__ = __webpack_require__(68);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_SharedBudget_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_SharedBudget_vue__);
 /* harmony namespace reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_SharedBudget_vue__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_SharedBudget_vue__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_c82f2024_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_SharedBudget_vue__ = __webpack_require__(207);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_66b1f2f0_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_SharedBudget_vue__ = __webpack_require__(209);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__ = __webpack_require__(6);
+function injectStyle (context) {
+  __webpack_require__(207)
+}
 /* script */
 
 
@@ -22099,16 +22106,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
-var __vue_styles__ = null
+var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = null
+var __vue_scopeId__ = "data-v-66b1f2f0"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 
 var Component = Object(__WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__["a" /* default */])(
   __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_SharedBudget_vue___default.a,
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_c82f2024_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_SharedBudget_vue__["a" /* render */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_c82f2024_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_SharedBudget_vue__["b" /* staticRenderFns */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_66b1f2f0_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_SharedBudget_vue__["a" /* render */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_66b1f2f0_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_SharedBudget_vue__["b" /* staticRenderFns */],
   __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
@@ -22120,25 +22127,53 @@ var Component = Object(__WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_
 
 /***/ }),
 /* 207 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(208);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var add = __webpack_require__(2).default
+var update = add("04dca7f1", content, true, {});
+
+/***/ }),
+/* 208 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)(false);
+// imports
+
+
+// module
+exports.push([module.i, ".container[data-v-66b1f2f0]{max-width:500px;margin:0 auto}.category-group[data-v-66b1f2f0]{background:#e5f5f9}.category-group[data-v-66b1f2f0],.category[data-v-66b1f2f0]{display:flex;align-items:center;height:40px;padding:0 20px;border-top:1px solid #dee3e8;text-align:right}.category-group-name[data-v-66b1f2f0],.category-name[data-v-66b1f2f0]{width:75%;text-align:left;text-overflow:ellipsis;overflow:hidden;white-space:nowrap}.category-group-percentage[data-v-66b1f2f0],.category-percentage[data-v-66b1f2f0]{flex:1}", ""]);
+
+// exports
+
+
+/***/ }),
+/* 209 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return render; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return staticRenderFns; });
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('button',{on:{"click":_vm.clearSharedBudget}},[_vm._v("Share your own budget!")]),_vm._v(" "),_vm._l((_vm.budget),function(categoryGroup){return _c('div',{key:categoryGroup.name},[_c('span',[_vm._v(_vm._s(categoryGroup.name))]),_vm._v(" "),(_vm.includePercentages)?_c('span',[_vm._v(_vm._s(categoryGroup.budgeted)+"%")]):_vm._e(),_vm._v(" "),_vm._l((categoryGroup.categories),function(category){return _c('div',{key:((categoryGroup.name) + "-" + (category.name))},[_c('span',[_vm._v(_vm._s(category.name))]),_vm._v(" "),(_vm.includePercentages)?_c('span',[_vm._v(_vm._s(category.budgeted)+"%")]):_vm._e()])})],2)})],2)}
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"container"},[_c('button',{on:{"click":_vm.clearSharedBudget}},[_vm._v("Share your own budget!")]),_vm._v(" "),_vm._l((_vm.budget),function(categoryGroup){return _c('div',{key:categoryGroup.name},[_c('div',{staticClass:"category-group"},[_c('span',{staticClass:"category-group-name"},[_vm._v(_vm._s(categoryGroup.name))]),_vm._v(" "),(_vm.includePercentages)?_c('span',{staticClass:"category-group-percentage"},[_vm._v(_vm._s(categoryGroup.budgeted)+"%")]):_vm._e()]),_vm._v(" "),_vm._l((categoryGroup.categories),function(category){return _c('div',{key:((categoryGroup.name) + "-" + (category.name))},[_c('div',{staticClass:"category"},[_c('span',{staticClass:"category-name"},[_vm._v(_vm._s(category.name))]),_vm._v(" "),(_vm.includePercentages)?_c('span',{staticClass:"category-percentage"},[_vm._v(_vm._s(category.budgeted)+"%")]):_vm._e()])])})],2)})],2)}
 var staticRenderFns = []
 
 
 /***/ }),
-/* 208 */
+/* 210 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_template_compiler_index_id_data_v_9008267a_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Loading_vue__ = __webpack_require__(211);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_template_compiler_index_id_data_v_9008267a_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Loading_vue__ = __webpack_require__(213);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_runtime_component_normalizer__ = __webpack_require__(6);
 function injectStyle (context) {
-  __webpack_require__(209)
+  __webpack_require__(211)
 }
 /* script */
 var __vue_script__ = null
@@ -22167,24 +22202,24 @@ var Component = Object(__WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_
 
 
 /***/ }),
-/* 209 */
+/* 211 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(210);
+var content = __webpack_require__(212);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var add = __webpack_require__(5).default
+var add = __webpack_require__(2).default
 var update = add("e7dc04c6", content, true, {});
 
 /***/ }),
-/* 210 */
+/* 212 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(4)(false);
+exports = module.exports = __webpack_require__(1)(false);
 // imports
 
 
@@ -22195,7 +22230,7 @@ exports.push([module.i, ".lds-dual-ring[data-v-9008267a]{display:inline-block;wi
 
 
 /***/ }),
-/* 211 */
+/* 213 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -22206,7 +22241,7 @@ var staticRenderFns = []
 
 
 /***/ }),
-/* 212 */
+/* 214 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
