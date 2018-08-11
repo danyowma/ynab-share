@@ -17,7 +17,7 @@
       <label for="percentages" class="include-percentages-label">Include percentages</label>
     </div>
     <div v-if="!Object.keys(mappedBudget).length">
-      Not enough data
+      There is not enough data. Please select a different date range.
     </div>
 
     <div v-else>
