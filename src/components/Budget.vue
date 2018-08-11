@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <button @click="this.clearBudget" class="select-budget-button">&lt; Select another budget</button>
     <div class="budget-name">{{this.budget.name}}</div>
     <div v-if="Object.keys(mappedBudget).length" class="share">
@@ -238,6 +238,11 @@ export default {
 </script>
 
 <style scoped>
+.container {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
 .budget-name {
   padding: 0 20px 12px;
   font: 700 20px Helvetica, Arial, sans-serif;
@@ -274,6 +279,7 @@ export default {
 .dates {
   display: flex;
   flex-wrap: wrap;
+  margin-top: 12px;
 }
 
 .date-button-container {
@@ -299,6 +305,7 @@ export default {
 }
 
 .include-percentages {
+  display: inline-block;
   margin: 10px 20px;
   cursor: pointer;
 }
@@ -329,7 +336,7 @@ export default {
 
 .category-group-name,
 .category-name {
-  width: 200px;
+  width: 75%;
   text-align: left;
   text-overflow: ellipsis;
   overflow: hidden;
@@ -339,5 +346,31 @@ export default {
 .category-group-percentage,
 .category-percentage {
   flex: 1;
+}
+
+@media (min-width: 450px) {
+  .select-budget-button,
+  .budget-name,
+  .share {
+    padding-left: 0;
+  }
+
+  .include-percentages {
+    margin-left: 0;
+  }
+
+  .dates {
+    flex-wrap: nowrap;
+  }
+
+  .date-button-container {
+    width: auto;
+    height: auto;
+    margin-right: 20px;
+  }
+
+  .date-button {
+    padding: 0;
+  }
 }
 </style>
