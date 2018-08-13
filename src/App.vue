@@ -79,11 +79,10 @@ export default {
         .getBudgets()
         .then(res => {
           this.budgets = res.data.budgets;
+          this.loading = false;
         })
         .catch(err => {
           this.error = err.error.detail;
-        })
-        .finally(() => {
           this.loading = false;
         });
     },
@@ -96,11 +95,10 @@ export default {
         .getBudgetById(id)
         .then(res => {
           this.budget = res.data.budget;
+          this.loading = false;
         })
         .catch(err => {
           this.error = err.error.detail;
-        })
-        .finally(() => {
           this.loading = false;
         });
     },
