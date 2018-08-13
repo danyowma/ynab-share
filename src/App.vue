@@ -96,7 +96,6 @@ export default {
         .getBudgetById(id)
         .then(res => {
           this.budget = res.data.budget;
-          console.log("budget", this.budget);
         })
         .catch(err => {
           this.error = err.error.detail;
