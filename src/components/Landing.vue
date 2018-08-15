@@ -3,7 +3,7 @@
       <div>
         <div class="hero-header">Let's talk budgets</div>
         <div class="hero-description">
-          Show your friends that budgets aren't scary. Geek out over categories with other YNABers. We'll hide the amounts to make it less awkward.
+          Share your budget with friends. Geek out with other YNABers. The amounts are hidden to make it less awkward.
         </div>
       </div>
       <button @click="authorizeWithYNAB" class="button">Sign in with YNAB</button>
@@ -22,7 +22,7 @@ export default {
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-  height: calc(100% - 64px);
+  height: 100%;
   padding: 54px 20px;
   background: #85c3e9;
   color: white;
@@ -43,7 +43,6 @@ export default {
   align-items: center;
   width: 75%;
   margin: 0 auto;
-  padding: 0 24px 24px;
   font: 400 24px Helvetica, Arial, sans-serif;
   line-height: 1.5em;
 }
@@ -67,5 +66,11 @@ export default {
 
 .button:focus {
   outline: none;
+}
+
+@media (min-width: 500px) {
+  .hero {
+    height: calc(100% - 64px);
+  }
 }
 </style>
