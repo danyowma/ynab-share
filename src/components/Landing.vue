@@ -1,7 +1,7 @@
 <template>
     <div class="hero">
       <div>
-        <div class="hero-header">Let's talk budgets</div>
+        <div class="hero-header">Let&rsquo;s talk budgets</div>
         <div class="hero-description">
           Share your budget with friends. Geek out with other YNABers. The amounts are hidden to make it less awkward.
         </div>
