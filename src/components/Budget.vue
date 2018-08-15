@@ -267,6 +267,7 @@ export default {
   padding: 0;
   margin: 10px 20px 20px;
   border: none;
+  background: white;
   font-size: 12px;
   color: #009cc2;
   cursor: pointer;
