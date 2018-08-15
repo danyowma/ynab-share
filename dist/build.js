@@ -1778,7 +1778,7 @@ exports.default = {
     },
     authorizeWithYNAB: function authorizeWithYNAB(e) {
       e.preventDefault();
-      var uri = "https://app.youneedabudget.com/oauth/authorize?client_id=" + this.ynab.clientId + "&redirect_uri=" + encodeURIComponent(this.ynab.redirectUri) + "&response_type=token";
+      var uri = "https://app.youneedabudget.com/oauth/authorize?client_id=" + this.ynab.clientId + "&redirect_uri=" + this.ynab.redirectUri + "&response_type=token";
       location.replace(uri);
     },
     findYNABToken: function findYNABToken() {
@@ -15279,7 +15279,7 @@ process.umask = function() { return 0; };
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_App_vue__ = __webpack_require__(26);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_App_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_App_vue__);
 /* unused harmony namespace reexport */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_ec78cea4_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_App_vue__ = __webpack_require__(214);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_6b580324_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_App_vue__ = __webpack_require__(214);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__ = __webpack_require__(6);
 function injectStyle (context) {
   __webpack_require__(75)
@@ -15295,14 +15295,14 @@ var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = "data-v-ec78cea4"
+var __vue_scopeId__ = "data-v-6b580324"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 
 var Component = Object(__WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__["a" /* default */])(
   __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_App_vue___default.a,
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_ec78cea4_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_App_vue__["a" /* render */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_ec78cea4_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_App_vue__["b" /* staticRenderFns */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_6b580324_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_App_vue__["a" /* render */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_6b580324_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_App_vue__["b" /* staticRenderFns */],
   __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
@@ -15324,7 +15324,7 @@ if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
 var add = __webpack_require__(2).default
-var update = add("626b9248", content, true, {});
+var update = add("4bc68d1c", content, true, {});
 
 /***/ }),
 /* 76 */
@@ -15335,7 +15335,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, ".container[data-v-ec78cea4]{height:100%}.loading[data-v-ec78cea4]{display:flex;justify-content:center;align-items:center;width:100%;height:calc(100% - 66px)}.logo[data-v-ec78cea4]{padding:12px 20px;border-bottom:1px solid #dfe4e9;color:#12323d;font:900 40px Helvetica,Arial,sans-serif;line-height:1em}.period[data-v-ec78cea4]{color:#85c3e9}", ""]);
+exports.push([module.i, ".container[data-v-6b580324]{height:100%}.loading[data-v-6b580324]{display:flex;justify-content:center;align-items:center;width:100%;height:calc(100% - 66px)}.logo[data-v-6b580324]{padding:12px 20px;border-bottom:1px solid #dfe4e9;color:#12323d;font:900 40px Helvetica,Arial,sans-serif;line-height:1em}.period[data-v-6b580324]{color:#85c3e9}", ""]);
 
 // exports
 

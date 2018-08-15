@@ -106,9 +106,7 @@ export default {
       e.preventDefault();
       const uri = `https://app.youneedabudget.com/oauth/authorize?client_id=${
         this.ynab.clientId
-      }&redirect_uri=${encodeURIComponent(
-        this.ynab.redirectUri
-      )}&response_type=token`;
+      }&redirect_uri=${this.ynab.redirectUri}&response_type=token`;
       location.replace(uri);
     },
     findYNABToken() {
