@@ -4635,21 +4635,23 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 
-var dateRangeNames = {
-  thisMonth: "thisMonth",
-  latest3Months: "latest3Months",
-  thisYear: "thisYear",
-  lastYear: "lastYear"
-};
-
 exports.default = {
   props: ["budget", "clearBudget"],
   data: function data() {
     return {
-      dateRange: this.getThisMonth(),
+      dateRange: null,
       totalBudgeted: 0,
-      includePercentages: true
+      includePercentages: true,
+      dateRangeNames: {
+        thisMonth: "thisMonth",
+        latest3Months: "latest3Months",
+        thisYear: "thisYear",
+        lastYear: "lastYear"
+      }
     };
+  },
+  created: function created() {
+    this.dateRange = this.getThisMonth();
   },
 
   methods: {
@@ -4662,7 +4664,7 @@ exports.default = {
     getThisMonth: function getThisMonth() {
       var startDate = this.formatAsYnabDate((0, _dateFns.startOfMonth)(new Date()));
       return {
-        name: dateRangeNames.thisMonth,
+        name: this.dateRangeNames.thisMonth,
         startDate: startDate,
         endDate: startDate
       };
@@ -4671,7 +4673,7 @@ exports.default = {
       var endDate = this.formatAsYnabDate((0, _dateFns.startOfMonth)(new Date()));
       var startDate = this.formatAsYnabDate((0, _dateFns.addMonths)(endDate, -2));
       return {
-        name: dateRangeNames.latest3Months,
+        name: this.dateRangeNames.latest3Months,
         startDate: startDate,
         endDate: endDate
       };
@@ -4679,12 +4681,12 @@ exports.default = {
     getThisYear: function getThisYear() {
       var startDate = this.formatAsYnabDate((0, _dateFns.startOfYear)(new Date()));
       var endDate = this.formatAsYnabDate((0, _dateFns.startOfMonth)((0, _dateFns.endOfYear)(new Date())));
-      return { name: dateRangeNames.thisYear, startDate: startDate, endDate: endDate };
+      return { name: this.dateRangeNames.thisYear, startDate: startDate, endDate: endDate };
     },
     getLastYear: function getLastYear() {
       var startDate = this.formatAsYnabDate((0, _dateFns.startOfYear)((0, _dateFns.addYears)(new Date(), -1)));
       var endDate = this.formatAsYnabDate((0, _dateFns.startOfMonth)((0, _dateFns.endOfYear)(startDate)));
-      return { name: dateRangeNames.lastYear, startDate: startDate, endDate: endDate };
+      return { name: this.dateRangeNames.lastYear, startDate: startDate, endDate: endDate };
     },
     selectText: function selectText(e) {
       e.target.setSelectionRange(0, e.target.value.length);
@@ -17796,7 +17798,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Budget_vue__ = __webpack_require__(31);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Budget_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Budget_vue__);
 /* harmony namespace reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Budget_vue__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Budget_vue__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_d19ea59e_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Budget_vue__ = __webpack_require__(205);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_237a9922_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Budget_vue__ = __webpack_require__(205);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__ = __webpack_require__(6);
 function injectStyle (context) {
   __webpack_require__(101)
@@ -17811,14 +17813,14 @@ var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = "data-v-d19ea59e"
+var __vue_scopeId__ = "data-v-237a9922"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 
 var Component = Object(__WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__["a" /* default */])(
   __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Budget_vue___default.a,
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_d19ea59e_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Budget_vue__["a" /* render */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_d19ea59e_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Budget_vue__["b" /* staticRenderFns */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_237a9922_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Budget_vue__["a" /* render */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_237a9922_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Budget_vue__["b" /* staticRenderFns */],
   __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
@@ -17840,7 +17842,7 @@ if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
 var add = __webpack_require__(2).default
-var update = add("892c1dca", content, true, {});
+var update = add("3ee28a6d", content, true, {});
 
 /***/ }),
 /* 102 */
@@ -17851,7 +17853,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, ".container[data-v-d19ea59e]{max-width:500px;margin:0 auto}.budget-name[data-v-d19ea59e]{padding:0 20px 12px;font:700 20px Helvetica,Arial,sans-serif}.share[data-v-d19ea59e]{padding:0 20px;font-size:12px}.share-input[data-v-d19ea59e]{width:100%;padding:4px;margin-top:4px}.share-input[data-v-d19ea59e]:focus{outline:none}.select-budget-button[data-v-d19ea59e]{padding:0;margin:10px 20px 20px;border:none;font-size:12px;color:#009cc2;cursor:pointer}.select-budget-button[data-v-d19ea59e]:focus{outline:none}.dates[data-v-d19ea59e]{display:flex;flex-wrap:wrap;margin-top:12px}.date-button-container[data-v-d19ea59e]{display:flex;justify-content:center;align-items:center;width:50%;height:32px}.date-button[data-v-d19ea59e]{padding:8px;border:none;border-radius:12px;background:#fff;font-size:12px;color:#009cc2;cursor:pointer}.date-button[data-v-d19ea59e]:focus{outline:none}.include-percentages[data-v-d19ea59e]{display:inline-block;margin:10px 20px;cursor:pointer}.include-percentages-checkbox[data-v-d19ea59e],.include-percentages-label[data-v-d19ea59e]{cursor:pointer}.category-group[data-v-d19ea59e]{background:#e5f5f9}.category-group[data-v-d19ea59e],.category[data-v-d19ea59e]{display:flex;align-items:center;height:40px;padding:0 20px;border-top:1px solid #dee3e8;text-align:right}.category-group-name[data-v-d19ea59e],.category-name[data-v-d19ea59e]{width:75%;text-align:left;text-overflow:ellipsis;overflow:hidden;white-space:nowrap}.category-group-percentage[data-v-d19ea59e],.category-percentage[data-v-d19ea59e]{flex:1}@media (min-width:450px){.budget-name[data-v-d19ea59e],.share[data-v-d19ea59e]{padding-left:0}.include-percentages[data-v-d19ea59e],.select-budget-button[data-v-d19ea59e]{margin-left:0}.dates[data-v-d19ea59e]{flex-wrap:nowrap}.date-button-container[data-v-d19ea59e]{width:auto;height:auto;margin-right:20px}.date-button[data-v-d19ea59e]{padding:0}}", ""]);
+exports.push([module.i, ".container[data-v-237a9922]{max-width:500px;margin:0 auto}.budget-name[data-v-237a9922]{padding:0 20px 12px;font:700 20px Helvetica,Arial,sans-serif}.share[data-v-237a9922]{padding:0 20px;font-size:12px}.share-input[data-v-237a9922]{width:100%;padding:4px;margin-top:4px}.share-input[data-v-237a9922]:focus{outline:none}.select-budget-button[data-v-237a9922]{padding:0;margin:10px 20px 20px;border:none;background:#fff;font-size:12px;color:#009cc2;cursor:pointer}.select-budget-button[data-v-237a9922]:focus{outline:none}.dates[data-v-237a9922]{display:flex;flex-wrap:wrap;margin-top:12px}.date-button-container[data-v-237a9922]{display:flex;justify-content:center;align-items:center;width:50%;height:32px}.date-button[data-v-237a9922]{padding:8px;border:none;border-radius:12px;background:#fff;font-size:12px;color:#009cc2;cursor:pointer}.date-button[data-v-237a9922]:focus{outline:none}.active-date-button[data-v-237a9922]{padding:2px 10px;background:#009cc2;color:#fff}.include-percentages[data-v-237a9922]{display:inline-block;margin:10px 20px;cursor:pointer}.include-percentages-checkbox[data-v-237a9922],.include-percentages-label[data-v-237a9922]{cursor:pointer}.category-group[data-v-237a9922]{background:#e5f5f9}.category-group[data-v-237a9922],.category[data-v-237a9922]{display:flex;align-items:center;height:40px;padding:0 20px;border-top:1px solid #dee3e8;text-align:right}.category-group-name[data-v-237a9922],.category-name[data-v-237a9922]{width:75%;text-align:left;text-overflow:ellipsis;overflow:hidden;white-space:nowrap}.category-group-percentage[data-v-237a9922],.category-percentage[data-v-237a9922]{flex:1}@media (min-width:450px){.budget-name[data-v-237a9922],.share[data-v-237a9922]{padding-left:0}.include-percentages[data-v-237a9922],.select-budget-button[data-v-237a9922]{margin-left:0}.dates[data-v-237a9922]{flex-wrap:nowrap}.date-button-container[data-v-237a9922]{width:auto;height:auto;margin-right:20px}}", ""]);
 
 // exports
 
@@ -22079,7 +22081,7 @@ module.exports = subYears
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return render; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return staticRenderFns; });
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"container"},[_c('button',{staticClass:"select-budget-button",on:{"click":this.clearBudget}},[_vm._v("< Select another budget")]),_vm._v(" "),_c('div',{staticClass:"budget-name"},[_vm._v(_vm._s(this.budget.name))]),_vm._v(" "),_c('div',{staticClass:"share"},[_c('div',[_vm._v("Copy url to share:")]),_vm._v(" "),_c('input',{staticClass:"share-input",attrs:{"type":"text"},domProps:{"value":_vm.budgetUrl},on:{"click":_vm.selectText}})]),_vm._v(" "),_c('div',{staticClass:"dates"},[_c('div',{staticClass:"date-button-container"},[_c('button',{staticClass:"date-button",on:{"click":function($event){_vm.selectDateRange(_vm.getThisMonth())}}},[_vm._v("This Month")])]),_vm._v(" "),_c('div',{staticClass:"date-button-container"},[_c('button',{staticClass:"date-button",on:{"click":function($event){_vm.selectDateRange(_vm.getLatest3Months())}}},[_vm._v("Latest 3 Months")])]),_vm._v(" "),_c('div',{staticClass:"date-button-container"},[_c('button',{staticClass:"date-button",on:{"click":function($event){_vm.selectDateRange(_vm.getThisYear())}}},[_vm._v("This Year")])]),_vm._v(" "),_c('div',{staticClass:"date-button-container"},[_c('button',{staticClass:"date-button",on:{"click":function($event){_vm.selectDateRange(_vm.getLastYear())}}},[_vm._v("Last Year")])])]),_vm._v(" "),_c('div',{staticClass:"include-percentages"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.includePercentages),expression:"includePercentages"}],staticClass:"include-percentages-checkbox",attrs:{"type":"checkbox","id":"percentages"},domProps:{"checked":Array.isArray(_vm.includePercentages)?_vm._i(_vm.includePercentages,null)>-1:(_vm.includePercentages)},on:{"change":function($event){var $$a=_vm.includePercentages,$$el=$event.target,$$c=$$el.checked?(true):(false);if(Array.isArray($$a)){var $$v=null,$$i=_vm._i($$a,$$v);if($$el.checked){$$i<0&&(_vm.includePercentages=$$a.concat([$$v]))}else{$$i>-1&&(_vm.includePercentages=$$a.slice(0,$$i).concat($$a.slice($$i+1)))}}else{_vm.includePercentages=$$c}}}}),_vm._v(" "),_c('label',{staticClass:"include-percentages-label",attrs:{"for":"percentages"}},[_vm._v("Include percentages")])]),_vm._v(" "),(!Object.keys(_vm.mappedBudget).length)?_c('div',[_vm._v("\n    There is not enough data. Please select a different date range.\n  ")]):_c('div',_vm._l((Object.keys(_vm.mappedBudget)),function(categoryGroupId){return _c('div',{key:categoryGroupId},[_c('div',{staticClass:"category-group"},[_c('span',{staticClass:"category-group-name"},[_vm._v(_vm._s(_vm.mappedBudget[categoryGroupId].name))]),_vm._v(" "),(_vm.includePercentages)?_c('span',{staticClass:"category-group-percentage"},[_vm._v(_vm._s((_vm.mappedBudget[categoryGroupId].budgeted / _vm.totalBudgeted * 100).toFixed(2))+"%")]):_vm._e()]),_vm._v(" "),_vm._l((_vm.mappedBudget[categoryGroupId].categories),function(category){return _c('div',{key:Object.keys(category)[0]},[_c('div',{staticClass:"category"},[_c('span',{staticClass:"category-name"},[_vm._v(_vm._s(category[Object.keys(category)[0]].name))]),_vm._v(" "),(_vm.includePercentages)?_c('span',{staticClass:"category-percentage"},[_vm._v(_vm._s((category[Object.keys(category)[0]].budgeted / _vm.totalBudgeted * 100).toFixed(2))+"%")]):_vm._e()])])})],2)}))])}
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"container"},[_c('button',{staticClass:"select-budget-button",on:{"click":this.clearBudget}},[_vm._v("< Select another budget")]),_vm._v(" "),_c('div',{staticClass:"budget-name"},[_vm._v(_vm._s(this.budget.name))]),_vm._v(" "),_c('div',{staticClass:"share"},[_c('div',[_vm._v("Copy url to share:")]),_vm._v(" "),_c('input',{staticClass:"share-input",attrs:{"type":"text"},domProps:{"value":_vm.budgetUrl},on:{"click":_vm.selectText}})]),_vm._v(" "),_c('div',{staticClass:"dates"},[_c('div',{staticClass:"date-button-container"},[_c('button',{staticClass:"date-button",class:{ 'active-date-button': this.dateRange.name === this.dateRangeNames.thisMonth },on:{"click":function($event){_vm.selectDateRange(_vm.getThisMonth())}}},[_vm._v("This Month")])]),_vm._v(" "),_c('div',{staticClass:"date-button-container"},[_c('button',{staticClass:"date-button",class:{ 'active-date-button': this.dateRange.name === this.dateRangeNames.latest3Months },on:{"click":function($event){_vm.selectDateRange(_vm.getLatest3Months())}}},[_vm._v("Latest 3 Months")])]),_vm._v(" "),_c('div',{staticClass:"date-button-container"},[_c('button',{staticClass:"date-button",class:{ 'active-date-button': this.dateRange.name === this.dateRangeNames.thisYear },on:{"click":function($event){_vm.selectDateRange(_vm.getThisYear())}}},[_vm._v("This Year")])]),_vm._v(" "),_c('div',{staticClass:"date-button-container"},[_c('button',{staticClass:"date-button",class:{ 'active-date-button': this.dateRange.name === this.dateRangeNames.lastYear },on:{"click":function($event){_vm.selectDateRange(_vm.getLastYear())}}},[_vm._v("Last Year")])])]),_vm._v(" "),_c('div',{staticClass:"include-percentages"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.includePercentages),expression:"includePercentages"}],staticClass:"include-percentages-checkbox",attrs:{"type":"checkbox","id":"percentages"},domProps:{"checked":Array.isArray(_vm.includePercentages)?_vm._i(_vm.includePercentages,null)>-1:(_vm.includePercentages)},on:{"change":function($event){var $$a=_vm.includePercentages,$$el=$event.target,$$c=$$el.checked?(true):(false);if(Array.isArray($$a)){var $$v=null,$$i=_vm._i($$a,$$v);if($$el.checked){$$i<0&&(_vm.includePercentages=$$a.concat([$$v]))}else{$$i>-1&&(_vm.includePercentages=$$a.slice(0,$$i).concat($$a.slice($$i+1)))}}else{_vm.includePercentages=$$c}}}}),_vm._v(" "),_c('label',{staticClass:"include-percentages-label",attrs:{"for":"percentages"}},[_vm._v("Include percentages")])]),_vm._v(" "),(!Object.keys(_vm.mappedBudget).length)?_c('div',[_vm._v("\n    There is not enough data. Please select a different date range.\n  ")]):_c('div',_vm._l((Object.keys(_vm.mappedBudget)),function(categoryGroupId){return _c('div',{key:categoryGroupId},[_c('div',{staticClass:"category-group"},[_c('span',{staticClass:"category-group-name"},[_vm._v(_vm._s(_vm.mappedBudget[categoryGroupId].name))]),_vm._v(" "),(_vm.includePercentages)?_c('span',{staticClass:"category-group-percentage"},[_vm._v(_vm._s((_vm.mappedBudget[categoryGroupId].budgeted / _vm.totalBudgeted * 100).toFixed(2))+"%")]):_vm._e()]),_vm._v(" "),_vm._l((_vm.mappedBudget[categoryGroupId].categories),function(category){return _c('div',{key:Object.keys(category)[0]},[_c('div',{staticClass:"category"},[_c('span',{staticClass:"category-name"},[_vm._v(_vm._s(category[Object.keys(category)[0]].name))]),_vm._v(" "),(_vm.includePercentages)?_c('span',{staticClass:"category-percentage"},[_vm._v(_vm._s((category[Object.keys(category)[0]].budgeted / _vm.totalBudgeted * 100).toFixed(2))+"%")]):_vm._e()])])})],2)}))])}
 var staticRenderFns = []
 
 
