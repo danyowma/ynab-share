@@ -53,21 +53,23 @@ import {
 import config from "../config";
 import lzString from "lz-string";
 
-const dateRangeNames = {
-  thisMonth: "thisMonth",
-  latest3Months: "latest3Months",
-  thisYear: "thisYear",
-  lastYear: "lastYear"
-};
-
 export default {
   props: ["budget", "clearBudget"],
   data() {
     return {
-      dateRange: this.getThisMonth(),
+      dateRange: null,
       totalBudgeted: 0,
-      includePercentages: true
+      includePercentages: true,
+      dateRangeNames: {
+        thisMonth: "thisMonth",
+        latest3Months: "latest3Months",
+        thisYear: "thisYear",
+        lastYear: "lastYear"
+      }
     };
+  },
+  created() {
+    this.dateRange = this.getThisMonth();
   },
   methods: {
     selectDateRange(dateRange) {
@@ -79,7 +81,7 @@ export default {
     getThisMonth() {
       const startDate = this.formatAsYnabDate(startOfMonth(new Date()));
       return {
-        name: dateRangeNames.thisMonth,
+        name: this.dateRangeNames.thisMonth,
         startDate,
         endDate: startDate
       };
@@ -88,7 +90,7 @@ export default {
       const endDate = this.formatAsYnabDate(startOfMonth(new Date()));
       const startDate = this.formatAsYnabDate(addMonths(endDate, -2));
       return {
-        name: dateRangeNames.latest3Months,
+        name: this.dateRangeNames.latest3Months,
         startDate,
         endDate
       };
@@ -98,14 +100,14 @@ export default {
       const endDate = this.formatAsYnabDate(
         startOfMonth(endOfYear(new Date()))
       );
-      return { name: dateRangeNames.thisYear, startDate, endDate };
+      return { name: this.dateRangeNames.thisYear, startDate, endDate };
     },
     getLastYear() {
       const startDate = this.formatAsYnabDate(
         startOfYear(addYears(new Date(), -1))
       );
       const endDate = this.formatAsYnabDate(startOfMonth(endOfYear(startDate)));
-      return { name: dateRangeNames.lastYear, startDate, endDate };
+      return { name: this.dateRangeNames.lastYear, startDate, endDate };
     },
     selectText(e) {
       e.target.setSelectionRange(0, e.target.value.length);
