@@ -41,11 +41,16 @@ export default {
 }
 
 .budget-name {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 100%;
   height: 100%;
   padding: 8px;
   border: none;
-  font-size: 16px;
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
   cursor: pointer;
 }
 </style>
