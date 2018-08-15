@@ -7,10 +7,10 @@
       <input type="text" :value="budgetUrl" @click="selectText" class="share-input" />
     </div>
     <div class="dates">
-      <div class="date-button-container"><button @click="selectDateRange(getThisMonth())" class="date-button">This Month</button></div>
-      <div class="date-button-container"><button @click="selectDateRange(getLatest3Months())" class="date-button">Latest 3 Months</button></div>
-      <div class="date-button-container"><button @click="selectDateRange(getThisYear())" class="date-button">This Year</button></div>
-      <div class="date-button-container"><button @click="selectDateRange(getLastYear())" class="date-button">Last Year</button></div>
+      <div class="date-button-container"><button @click="selectDateRange(getThisMonth())" class="date-button" :class="{ 'active-date-button': this.dateRange.name === this.dateRangeNames.thisMonth }">This Month</button></div>
+      <div class="date-button-container"><button @click="selectDateRange(getLatest3Months())" class="date-button" :class="{ 'active-date-button': this.dateRange.name === this.dateRangeNames.latest3Months }">Latest 3 Months</button></div>
+      <div class="date-button-container"><button @click="selectDateRange(getThisYear())" class="date-button" :class="{ 'active-date-button': this.dateRange.name === this.dateRangeNames.thisYear }">This Year</button></div>
+      <div class="date-button-container"><button @click="selectDateRange(getLastYear())" class="date-button" :class="{ 'active-date-button': this.dateRange.name === this.dateRangeNames.lastYear }">Last Year</button></div>
     </div>
     <div class="include-percentages">
       <input type="checkbox" id="percentages" v-model="includePercentages" class="include-percentages-checkbox" />
@@ -307,6 +307,12 @@ export default {
   outline: none;
 }
 
+.active-date-button {
+  padding: 2px 10px;
+  background: #009cc2;
+  color: white;
+}
+
 .include-percentages {
   display: inline-block;
   margin: 10px 20px;
@@ -370,10 +376,6 @@ export default {
     width: auto;
     height: auto;
     margin-right: 20px;
-  }
-
-  .date-button {
-    padding: 0;
   }
 }
 </style>
